@@ -1,519 +1,1190 @@
+/* =========================================================
+   NUESTRO UNIVERSO
+   STYLE — GALAXIA CINEMATOGRÁFICA
+========================================================= */
+
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #020006;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-  position: fixed;
-  inset: 0;
-  color: white;
-  font-family: Georgia, "Times New Roman", serif;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none;
-  user-select: none;
+    background: #000106;
+    color: white;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 
-/* ==========================================
-   UNIVERSO
-========================================== */
+/* =========================================================
+   CANVAS
+========================================================= */
 
 #space {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    z-index: 0;
+
+    background:
+        #000106;
 }
 
 
-/* ==========================================
-   TEXTURA CINEMATOGRÁFICA
-========================================== */
+/* =========================================================
+   GRANO CINEMATOGRÁFICO
+========================================================= */
 
 .grain {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  opacity: .055;
+    position: fixed;
+    inset: -50%;
 
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    width: 200%;
+    height: 200%;
+
+    pointer-events: none;
+
+    z-index: 20;
+
+    opacity: 0.045;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+
+    animation:
+        grainMove 0.25s steps(2) infinite;
 }
+
+@keyframes grainMove {
+
+    0% {
+        transform:
+            translate(0, 0);
+    }
+
+    25% {
+        transform:
+            translate(-2%, 1%);
+    }
+
+    50% {
+        transform:
+            translate(1%, -2%);
+    }
+
+    75% {
+        transform:
+            translate(2%, 1%);
+    }
+
+    100% {
+        transform:
+            translate(0, 0);
+    }
+}
+
+
+/* =========================================================
+   VIÑETA
+========================================================= */
 
 .vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
+    position: fixed;
+    inset: 0;
 
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 38%,
-      rgba(0,0,0,.22) 65%,
-      rgba(0,0,0,.82) 100%
-    );
+    pointer-events: none;
+
+    z-index: 15;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 40%,
+            rgba(0, 0, 8, 0.12) 62%,
+            rgba(0, 0, 8, 0.52) 100%
+        );
 }
 
 
-/* ==========================================
+/* =========================================================
    INTRO
-========================================== */
+========================================================= */
 
 #intro {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
+    position: fixed;
+    inset: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    z-index: 50;
 
-  text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  overflow: hidden;
+    overflow: hidden;
 
-  background:
-    radial-gradient(
-      ellipse at 50% 48%,
-      rgba(137, 18, 105, .38),
-      transparent 40%
-    ),
-    linear-gradient(
-      145deg,
-      #020004,
-      #11000f 50%,
-      #030005
-    );
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(100, 40, 180, 0.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(40, 90, 220, 0.10),
+            transparent 35%
+        ),
+        #000106;
 
-  transition:
-    opacity 1.8s cubic-bezier(.65,0,.25,1),
-    transform 1.8s cubic-bezier(.65,0,.25,1),
-    filter 1.8s ease;
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease,
+        transform 1.8s cubic-bezier(.2,.7,.2,1);
 }
 
 #intro.hide {
-  opacity: 0;
-  transform: scale(1.16);
-  filter: blur(12px);
-  pointer-events: none;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        scale(1.12);
+
+    pointer-events: none;
 }
 
 
-/* ==========================================
-   NEBULOSA INTRO
-========================================== */
+/* =========================================================
+   NEBULOSA DE INTRO
+========================================================= */
 
 .intro-nebula {
-  position: absolute;
+    position: absolute;
 
-  width: 80vw;
-  height: 80vw;
+    width: 75vw;
+    height: 75vw;
 
-  max-width: 650px;
-  max-height: 650px;
+    max-width: 700px;
+    max-height: 700px;
 
-  border-radius: 50%;
+    border-radius: 50%;
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 65, 185, .17),
-      rgba(177, 35, 150, .08) 30%,
-      transparent 68%
-    );
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 80, 205, 0.10),
+            rgba(100, 60, 230, 0.06) 35%,
+            transparent 70%
+        );
 
-  filter: blur(45px);
+    filter:
+        blur(30px);
 
-  animation:
-    introPulse 6s ease-in-out infinite alternate;
+    animation:
+        introPulse 5s ease-in-out infinite;
 }
 
 @keyframes introPulse {
 
-  from {
-    transform: scale(.8) rotate(0deg);
-    opacity: .55;
-  }
+    0%,
+    100% {
+        transform:
+            scale(0.95);
+        opacity: 0.65;
+    }
 
-  to {
-    transform: scale(1.15) rotate(12deg);
-    opacity: 1;
-  }
+    50% {
+        transform:
+            scale(1.08);
+        opacity: 1;
+    }
 }
 
 
-/* ==========================================
+/* =========================================================
    CONTENIDO INTRO
-========================================== */
+========================================================= */
 
 .intro-content {
-  position: relative;
-  z-index: 2;
 
-  width: 90%;
-  max-width: 600px;
+    position: relative;
 
-  animation:
-    introAppear 2s cubic-bezier(.2,.8,.2,1) both;
+    z-index: 2;
+
+    width:
+        min(88vw, 650px);
+
+    text-align: center;
+
+    padding:
+        30px;
+
+    animation:
+        introContentIn 1.8s
+        cubic-bezier(.16,1,.3,1)
+        both;
 }
 
-@keyframes introAppear {
+@keyframes introContentIn {
 
-  from {
-    opacity: 0;
-    transform:
-      translateY(28px)
-      scale(.96);
-    filter: blur(8px);
-  }
+    from {
+        opacity: 0;
+        transform:
+            translateY(30px)
+            scale(.96);
+        filter:
+            blur(8px);
+    }
 
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-    filter: blur(0);
-  }
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+        filter:
+            blur(0);
+    }
 }
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
 
 .eyebrow {
-  margin-bottom: 22px;
 
-  font-family: Arial, sans-serif;
+    margin-bottom:
+        18px;
 
-  font-size:
-    clamp(9px, 2.5vw, 13px);
+    font-size:
+        clamp(
+            10px,
+            1.8vw,
+            13px
+        );
 
-  letter-spacing: .38em;
+    letter-spacing:
+        .34em;
 
-  color: rgba(255, 218, 244, .72);
+    font-weight:
+        500;
+
+    color:
+        rgba(
+            220,
+            205,
+            255,
+            .78
+        );
+
+    text-transform:
+        uppercase;
 }
 
-.intro-content h1 {
-  font-size:
-    clamp(50px, 15vw, 88px);
 
-  line-height: .86;
+/* =========================================================
+   TÍTULO INTRO
+========================================================= */
 
-  font-weight: 400;
+#intro h1 {
 
-  font-style: italic;
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  text-shadow:
-    0 0 12px rgba(255,170,230,.9),
-    0 0 35px rgba(255,50,180,.6),
-    0 0 90px rgba(255,30,170,.28);
+    font-weight:
+        400;
+
+    font-size:
+        clamp(
+            48px,
+            10vw,
+            92px
+        );
+
+    line-height:
+        .95;
+
+    letter-spacing:
+        -.035em;
+
+    color:
+        rgba(
+            255,
+            250,
+            255,
+            .96
+        );
+
+    text-shadow:
+        0 0 35px
+        rgba(
+            190,
+            110,
+            255,
+            .18
+        );
 }
 
-.intro-content h1 span {
-  display: block;
 
-  margin-top: 8px;
+#intro h1 span {
 
-  font-size: .78em;
+    display: block;
+
+    margin-top:
+        10px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #8da7ff,
+            #c18aff 35%,
+            #ff76cf 72%,
+            #ffd0ed
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+    text-shadow:
+        none;
 }
+
+
+/* =========================================================
+   TEXTO INTRO
+========================================================= */
 
 .intro-text {
-  margin-top: 30px;
 
-  font-family: Arial, sans-serif;
+    margin-top:
+        28px;
 
-  font-size:
-    clamp(10px, 2.8vw, 13px);
+    font-size:
+        clamp(
+            14px,
+            2.4vw,
+            18px
+        );
 
-  letter-spacing: .18em;
+    font-weight:
+        300;
 
-  color: rgba(255,235,248,.55);
+    letter-spacing:
+        .04em;
+
+    color:
+        rgba(
+            235,
+            230,
+            250,
+            .68
+        );
 }
 
 
-/* ==========================================
-   BOTÓN
-========================================== */
+/* =========================================================
+   BOTÓN ENTRAR
+========================================================= */
 
 #enter {
-  position: relative;
 
-  margin-top: 38px;
+    position: relative;
 
-  min-width: 185px;
+    margin-top:
+        42px;
 
-  padding: 16px 32px;
+    min-width:
+        190px;
 
-  border: 1px solid rgba(255,194,232,.8);
+    height:
+        58px;
 
-  border-radius: 999px;
+    padding:
+        0 28px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,80,190,.12),
-      rgba(255,255,255,.025)
-    );
+    border:
+        1px solid
+        rgba(
+            255,
+            180,
+            235,
+            .30
+        );
 
-  color: white;
+    border-radius:
+        999px;
 
-  font-family: Arial, sans-serif;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .035
+        );
 
-  font-size: 11px;
+    color:
+        white;
 
-  letter-spacing: .28em;
+    cursor:
+        pointer;
 
-  box-shadow:
-    0 0 18px rgba(255,60,180,.28),
-    inset 0 0 18px rgba(255,80,190,.06);
+    backdrop-filter:
+        blur(14px);
 
-  cursor: pointer;
+    -webkit-backdrop-filter:
+        blur(14px);
 
-  touch-action: manipulation;
+    box-shadow:
+        0 0 0 1px
+        rgba(
+            120,
+            100,
+            255,
+            .05
+        ),
+        0 10px 45px
+        rgba(
+            100,
+            50,
+            220,
+            .15
+        );
 
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    background .25s ease;
+    transition:
+        transform .4s ease,
+        background .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease;
 }
 
-#enter b {
-  margin-left: 7px;
-  font-size: 16px;
-  font-weight: 400;
-}
+#enter:hover {
 
-#enter::before {
-  content: "";
+    transform:
+        translateY(-3px);
 
-  position: absolute;
-  inset: -2px;
+    background:
+        rgba(
+            255,
+            130,
+            220,
+            .08
+        );
 
-  border-radius: inherit;
+    border-color:
+        rgba(
+            255,
+            190,
+            240,
+            .55
+        );
 
-  border: 1px solid rgba(255,100,205,.25);
-
-  filter: blur(4px);
-
-  animation:
-    buttonGlow 2.5s ease-in-out infinite;
-}
-
-@keyframes buttonGlow {
-
-  0%,100% {
-    opacity: .2;
-  }
-
-  50% {
-    opacity: .9;
-  }
+    box-shadow:
+        0 0 35px
+        rgba(
+            225,
+            80,
+            210,
+            .20
+        );
 }
 
 #enter:active {
-  transform: scale(.93);
 
-  background:
-    rgba(255,70,190,.22);
+    transform:
+        scale(.97);
+}
 
-  box-shadow:
-    0 0 45px rgba(255,60,190,.75);
+#enter span {
+
+    font-size:
+        12px;
+
+    letter-spacing:
+        .25em;
+
+    font-weight:
+        600;
+}
+
+#enter b {
+
+    margin-left:
+        14px;
+
+    font-size:
+        19px;
+
+    font-weight:
+        400;
+
+    color:
+        #ff9ddc;
+
+    text-shadow:
+        0 0 12px
+        rgba(
+            255,
+            110,
+            210,
+            .8
+        );
 }
 
 
-/* ==========================================
+/* =========================================================
    TÍTULO SUPERIOR
-========================================== */
+========================================================= */
 
 #topTitle {
-  position: fixed;
 
-  top:
-    calc(24px + env(safe-area-inset-top));
+    position: fixed;
 
-  left: 50%;
+    top:
+        28px;
 
-  transform: translateX(-50%);
+    left:
+        50%;
 
-  z-index: 15;
+    transform:
+        translate(-50%, -15px);
 
-  opacity: 0;
+    z-index:
+        30;
 
-  font-family: Arial, sans-serif;
+    pointer-events:
+        none;
 
-  font-size: 9px;
+    opacity:
+        0;
 
-  letter-spacing: .34em;
+    white-space:
+        nowrap;
 
-  color: rgba(255,220,244,.65);
+    font-size:
+        clamp(
+            9px,
+            1.7vw,
+            12px
+        );
 
-  text-shadow:
-    0 0 12px rgba(255,90,190,.6);
+    letter-spacing:
+        .34em;
 
-  transition:
-    opacity 1.5s ease;
+    font-weight:
+        500;
 
-  pointer-events: none;
+    color:
+        rgba(
+            245,
+            235,
+            255,
+            .72
+        );
+
+    text-shadow:
+        0 0 18px
+        rgba(
+            190,
+            100,
+            255,
+            .25
+        );
+
+    transition:
+        opacity 1.5s ease,
+        transform 1.5s
+        cubic-bezier(.16,1,.3,1);
 }
 
 #topTitle.show {
-  opacity: 1;
+
+    opacity:
+        1;
+
+    transform:
+        translate(-50%, 0);
 }
 
 
-/* ==========================================
-   MENSAJES
-========================================== */
+/* =========================================================
+   SISTEMA DAS FRASES
+========================================================= */
 
 #message {
-  position: fixed;
 
-  left: 50%;
-  top: 50%;
+    position: fixed;
 
-  z-index: 20;
+    left:
+        50%;
 
-  width:
-    min(88vw, 720px);
+    top:
+        50%;
 
-  transform:
-    translate(-50%, -50%)
-    scale(.97);
+    z-index:
+        35;
 
-  text-align: center;
+    width:
+        min(
+            82vw,
+            760px
+        );
 
-  opacity: 0;
+    transform:
+        translate(
+            -50%,
+            calc(-50% + 22px)
+        )
+        scale(.94);
 
-  filter: blur(12px);
+    opacity:
+        0;
 
-  pointer-events: none;
+    pointer-events:
+        none;
 
-  font-size:
-    clamp(22px, 6.4vw, 39px);
+    text-align:
+        center;
 
-  line-height: 1.3;
+    /*
+      MUY IMPORTANTE:
 
-  font-style: italic;
+      El texto nace en el centro
+      y parece formar parte de la luz.
+    */
 
-  color: #fff;
+    filter:
+        blur(8px);
 
-  text-shadow:
-    0 2px 12px rgba(0,0,0,.95),
-    0 0 14px rgba(255,160,225,.85),
-    0 0 40px rgba(255,55,180,.42);
+    transition:
+        opacity 1.1s
+        cubic-bezier(.16,1,.3,1),
 
-  transition:
-    opacity 1.15s cubic-bezier(.2,.7,.2,1),
-    filter 1.15s ease,
-    transform 1.15s cubic-bezier(.2,.7,.2,1);
+        transform 1.4s
+        cubic-bezier(.16,1,.3,1),
+
+        filter 1.1s ease;
 }
+
+
+/* =========================================================
+   FRASE VISIBLE
+========================================================= */
 
 #message.show {
-  opacity: 1;
 
-  filter: blur(0);
+    opacity:
+        1;
 
-  transform:
-    translate(-50%, -50%)
-    scale(1);
-}
+    transform:
+        translate(
+            -50%,
+            -50%
+        )
+        scale(1);
 
-#message.final {
-  font-size:
-    clamp(22px, 6.2vw, 38px);
-}
-
-#message .love {
-  display: block;
-
-  margin-top: 24px;
-
-  font-size: .95em;
-
-  color: #ffd9f2;
-
-  text-shadow:
-    0 0 15px #ff9bd5,
-    0 0 35px #ff42ae,
-    0 0 70px rgba(255,30,170,.45);
+    filter:
+        blur(0);
 }
 
 
-/* ==========================================
-   MÚSICA
-========================================== */
+/* =========================================================
+   TEXTO DE LA FRASE
+========================================================= */
+
+#message .text {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            22px,
+            4vw,
+            42px
+        );
+
+    line-height:
+        1.35;
+
+    font-weight:
+        400;
+
+    letter-spacing:
+        -.012em;
+
+    color:
+        rgba(
+            255,
+            248,
+            253,
+            .96
+        );
+
+    text-shadow:
+
+        0 0 8px
+        rgba(
+            255,
+            255,
+            255,
+            .55
+        ),
+
+        0 0 25px
+        rgba(
+            255,
+            100,
+            210,
+            .30
+        ),
+
+        0 0 60px
+        rgba(
+            125,
+            90,
+            255,
+            .18
+        );
+}
+
+
+/* =========================================================
+   BRILLO SUAVE ALREDEDOR DE LA FRASE
+========================================================= */
+
+#message::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    width:
+        55%;
+
+    height:
+        180%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(
+                255,
+                95,
+                210,
+                .11
+            ),
+            rgba(
+                90,
+                80,
+                230,
+                .06
+            ) 35%,
+            transparent 72%
+        );
+
+    filter:
+        blur(30px);
+
+    opacity:
+        0;
+
+    z-index:
+        -1;
+
+    transition:
+        opacity 1.5s ease;
+}
+
+#message.show::before {
+
+    opacity:
+        1;
+}
+
+
+/* =========================================================
+   CONTROL DE MÚSICA
+========================================================= */
 
 #musicControl {
-  position: fixed;
 
-  right: 18px;
+    position: fixed;
 
-  bottom:
-    calc(18px + env(safe-area-inset-bottom));
+    right:
+        22px;
 
-  z-index: 40;
+    bottom:
+        22px;
 
-  width: 44px;
-  height: 44px;
+    z-index:
+        40;
 
-  border-radius: 50%;
+    width:
+        44px;
 
-  border:
-    1px solid rgba(255,190,230,.4);
+    height:
+        44px;
 
-  background:
-    rgba(12,0,14,.45);
+    border:
+        1px solid
+        rgba(
+            255,
+            180,
+            235,
+            .25
+        );
 
-  color:
-    rgba(255,235,250,.8);
+    border-radius:
+        50%;
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+    background:
+        rgba(
+            5,
+            5,
+            20,
+            .40
+        );
 
-  font-size: 17px;
+    color:
+        rgba(
+            255,
+            225,
+            248,
+            .86
+        );
 
-  opacity: .7;
+    font-size:
+        15px;
 
-  cursor: pointer;
+    cursor:
+        pointer;
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            130,
+            80,
+            230,
+            .12
+        );
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+#musicControl:hover {
+
+    transform:
+        scale(1.08);
+
+    border-color:
+        rgba(
+            255,
+            170,
+            235,
+            .55
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(
+            255,
+            90,
+            210,
+            .22
+        );
+}
+
+#musicControl.playing {
+
+    color:
+        #ffc4ea;
+
+    box-shadow:
+        0 0 28px
+        rgba(
+            255,
+            100,
+            215,
+            .22
+        );
 }
 
 
-/* ==========================================
-   RESPONSIVE
-========================================== */
+/* =========================================================
+   RESPONSIVE — CELULAR
+========================================================= */
 
-@media (max-width: 480px) {
+@media (
+    max-width: 600px
+) {
 
-  .eyebrow {
-    letter-spacing: .28em;
-  }
+    #intro h1 {
 
-  .intro-content h1 {
-    font-size: clamp(48px, 15vw, 72px);
-  }
+        font-size:
+            clamp(
+                46px,
+                14vw,
+                70px
+            );
 
-  #message {
-    width: 88vw;
-  }
+    }
+
+
+    .intro-content {
+
+        padding:
+            20px;
+
+    }
+
+
+    .eyebrow {
+
+        letter-spacing:
+            .24em;
+
+    }
+
+
+    .intro-text {
+
+        margin-top:
+            22px;
+
+        font-size:
+            14px;
+
+    }
+
+
+    #enter {
+
+        margin-top:
+            34px;
+
+        min-width:
+            175px;
+
+        height:
+            54px;
+
+    }
+
+
+    #topTitle {
+
+        top:
+            22px;
+
+        letter-spacing:
+            .22em;
+
+    }
+
+
+    #message {
+
+        width:
+            84vw;
+
+    }
+
+
+    #message .text {
+
+        font-size:
+            clamp(
+                21px,
+                6.3vw,
+                31px
+            );
+
+        line-height:
+            1.38;
+
+    }
+
+
+    #musicControl {
+
+        right:
+            16px;
+
+        bottom:
+            16px;
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+    }
 
 }
 
-@media (max-height: 650px) {
 
-  .intro-content {
-    transform: scale(.84);
-  }
+/* =========================================================
+   PANTALLAS MUY PEQUEÑAS
+========================================================= */
 
-  #message {
-    top: 48%;
-  }
+@media (
+    max-height: 650px
+) {
+
+    #intro h1 {
+
+        font-size:
+            clamp(
+                42px,
+                11vw,
+                64px
+            );
+
+    }
+
+
+    .intro-text {
+
+        margin-top:
+            18px;
+
+    }
+
+
+    #enter {
+
+        margin-top:
+            25px;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESIBILIDAD
+========================================================= */
+
+button {
+
+    font-family:
+        inherit;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+}
+
+
+button:focus-visible {
+
+    outline:
+        2px solid
+        rgba(
+            255,
+            170,
+            230,
+            .7
+        );
+
+    outline-offset:
+        4px;
+
+}
+
+
+/* =========================================================
+   EVITAR SELECCIÓN
+========================================================= */
+
+body,
+canvas,
+#intro,
+#message,
+#topTitle {
+
+    user-select:
+        none;
+
+    -webkit-user-select:
+        none;
+
+}
+
+
+/* =========================================================
+   REDUCIR MOVIMIENTO
+========================================================= */
+
+@media (
+    prefers-reduced-motion: reduce
+) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+
+    }
 
 }
