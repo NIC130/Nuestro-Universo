@@ -2,3103 +2,3914 @@
 <html lang="es">
 
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
-    >
+<meta name="theme-color" content="#02010b">
 
-    <meta
-        name="theme-color"
-        content="#02010b"
-    >
+<title>Nuestro Universo ♡</title>
 
-    <title>Nuestro Universo ♡</title>
+<style>
 
-    <style>
+/* =====================================================
+   RESET
+===================================================== */
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-        body {
-            background: #010108;
-            color: white;
+body {
+    background: #010108;
+    color: white;
 
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-        }
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
 
-        button {
-            font-family: inherit;
-            -webkit-tap-highlight-color: transparent;
-        }
+button {
+    font-family: inherit;
+}
 
 
-        /* =====================================================
-           CANVAS
-        ===================================================== */
+/* =====================================================
+   CANVAS
+===================================================== */
 
-        #space {
-            position: fixed;
-            inset: 0;
+#space {
+    position: fixed;
+    inset: 0;
 
-            width: 100%;
-            height: 100%;
+    width: 100%;
+    height: 100%;
 
-            display: block;
+    display: block;
 
-            z-index: 0;
-        }
+    z-index: 0;
+}
 
 
-        /* =====================================================
-           GRANO
-        ===================================================== */
+/* =====================================================
+   GRANO
+===================================================== */
 
-        .grain {
-            position: fixed;
-            inset: -50%;
+.grain {
+    position: fixed;
+    inset: -50%;
 
-            width: 200%;
-            height: 200%;
+    width: 200%;
+    height: 200%;
 
-            z-index: 20;
-            pointer-events: none;
+    z-index: 20;
+    pointer-events: none;
 
-            opacity: .035;
+    opacity: .035;
 
-            background-image:
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
 
-            animation:
-                grainMove .25s steps(2) infinite;
-        }
+    animation:
+        grainMove .25s steps(2) infinite;
+}
 
-        @keyframes grainMove {
+@keyframes grainMove {
 
-            0% {
-                transform: translate(0,0);
-            }
+    0% {
+        transform: translate(0,0);
+    }
 
-            25% {
-                transform: translate(-2%,1%);
-            }
+    25% {
+        transform: translate(-2%,1%);
+    }
 
-            50% {
-                transform: translate(1%,-2%);
-            }
+    50% {
+        transform: translate(1%,-2%);
+    }
 
-            75% {
-                transform: translate(2%,1%);
-            }
+    75% {
+        transform: translate(2%,1%);
+    }
 
-            100% {
-                transform: translate(0,0);
-            }
+    100% {
+        transform: translate(0,0);
+    }
 
-        }
+}
 
 
-        /* =====================================================
-           VIÑETA
-        ===================================================== */
+/* =====================================================
+   VIÑETA
+===================================================== */
 
-        .vignette {
-            position: fixed;
-            inset: 0;
+.vignette {
+    position: fixed;
+    inset: 0;
 
-            z-index: 15;
-            pointer-events: none;
-
-            background:
-                radial-gradient(
-                    ellipse at center,
-                    transparent 38%,
-                    rgba(0,0,8,.16) 62%,
-                    rgba(0,0,8,.65) 100%
-                );
-        }
-
-
-        /* =====================================================
-           PORTADA
-        ===================================================== */
-
-        #intro {
-            position: fixed;
-            inset: 0;
+    z-index: 15;
+    pointer-events: none;
 
-            z-index: 50;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            overflow: hidden;
-
-            background:
-
-                radial-gradient(
-                    circle at 50% 52%,
-                    rgba(230,70,220,.17),
-                    transparent 27%
-                ),
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 38%,
+            rgba(0,0,8,.16) 62%,
+            rgba(0,0,8,.65) 100%
+        );
+}
+
 
-                radial-gradient(
-                    circle at 20% 25%,
-                    rgba(50,100,255,.13),
-                    transparent 32%
-                ),
+/* =====================================================
+   PORTADA
+===================================================== */
 
-                radial-gradient(
-                    circle at 82% 78%,
-                    rgba(255,60,190,.10),
-                    transparent 30%
-                ),
+#intro {
+    position: fixed;
+    inset: 0;
 
-                #02010b;
+    z-index: 50;
 
-            transition:
-                opacity 1.5s ease,
-                visibility 1.5s ease,
-                transform 1.8s
-                cubic-bezier(.16,1,.3,1);
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        #intro.hide {
-            opacity: 0;
-            visibility: hidden;
+    overflow: hidden;
 
-            transform:
-                scale(1.16);
+    background:
 
-            pointer-events: none;
-        }
+        radial-gradient(
+            circle at 50% 52%,
+            rgba(230,70,220,.17),
+            transparent 27%
+        ),
 
+        radial-gradient(
+            circle at 20% 25%,
+            rgba(50,100,255,.13),
+            transparent 32%
+        ),
 
-        /* =====================================================
-           ESTRELLAS PORTADA
-        ===================================================== */
+        radial-gradient(
+            circle at 82% 78%,
+            rgba(255,60,190,.10),
+            transparent 30%
+        ),
 
-        .intro-stars {
-            position: absolute;
-            inset: 0;
+        #02010b;
 
-            pointer-events: none;
-            opacity: .85;
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease,
+        transform 1.8s
+        cubic-bezier(.16,1,.3,1);
+}
 
-            background-image:
+#intro.hide {
+    opacity: 0;
+    visibility: hidden;
 
-                radial-gradient(
-                    circle,
-                    rgba(255,255,255,.95)
-                    0 1px,
-                    transparent 1.6px
-                ),
+    transform: scale(1.16);
 
-                radial-gradient(
-                    circle,
-                    rgba(160,170,255,.85)
-                    0 1px,
-                    transparent 1.6px
-                ),
+    pointer-events: none;
+}
 
-                radial-gradient(
-                    circle,
-                    rgba(255,120,220,.75)
-                    0 1px,
-                    transparent 1.6px
-                );
 
-            background-size:
-                90px 90px,
-                145px 145px,
-                210px 210px;
+/* =====================================================
+   ESTRELLAS PORTADA
+===================================================== */
 
-            background-position:
-                10px 20px,
-                60px 80px,
-                30px 50px;
+.intro-stars {
+    position: absolute;
+    inset: 0;
 
-            animation:
-                starDrift 24s linear infinite;
-        }
+    pointer-events: none;
+    opacity: .85;
 
-        @keyframes starDrift {
+    background-image:
 
-            from {
-                transform:
-                    translate3d(0,0,0);
-            }
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.95)
+            0 1px,
+            transparent 1.6px
+        ),
 
-            to {
-                transform:
-                    translate3d(-80px,60px,0);
-            }
+        radial-gradient(
+            circle,
+            rgba(160,170,255,.85)
+            0 1px,
+            transparent 1.6px
+        ),
 
-        }
+        radial-gradient(
+            circle,
+            rgba(255,120,220,.75)
+            0 1px,
+            transparent 1.6px
+        );
 
+    background-size:
+        90px 90px,
+        145px 145px,
+        210px 210px;
 
-        /* =====================================================
-           BRILLO CENTRAL
-        ===================================================== */
+    background-position:
+        10px 20px,
+        60px 80px,
+        30px 50px;
 
-        .intro-glow {
-            position: absolute;
+    animation:
+        starDrift 24s linear infinite;
+}
 
-            width:
-                min(80vw,800px);
+@keyframes starDrift {
 
-            height:
-                min(80vw,800px);
+    from {
+        transform:
+            translate3d(0,0,0);
+    }
 
-            border-radius: 50%;
+    to {
+        transform:
+            translate3d(-80px,60px,0);
+    }
 
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(255,80,215,.16),
-                    rgba(100,80,255,.08) 35%,
-                    transparent 70%
-                );
+}
 
-            filter: blur(35px);
 
-            animation:
-                introPulse 5s
-                ease-in-out
-                infinite;
-        }
+/* =====================================================
+   BRILLO CENTRAL
+===================================================== */
 
-        @keyframes introPulse {
+.intro-glow {
+    position: absolute;
 
-            0%,
-            100% {
-                transform: scale(.92);
-                opacity: .65;
-            }
+    width:
+        min(80vw,800px);
 
-            50% {
-                transform: scale(1.08);
-                opacity: 1;
-            }
+    height:
+        min(80vw,800px);
 
-        }
+    border-radius: 50%;
 
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,80,215,.16),
+            rgba(100,80,255,.08) 35%,
+            transparent 70%
+        );
 
-        /* =====================================================
-           ÓRBITAS
-        ===================================================== */
+    filter: blur(35px);
 
-        .orbit {
-            position: absolute;
+    animation:
+        introPulse 5s
+        ease-in-out
+        infinite;
+}
 
-            left: 50%;
-            top: 50%;
+@keyframes introPulse {
 
-            border:
-                1px solid
-                rgba(225,120,255,.22);
+    0%,
+    100% {
+        transform: scale(.92);
+        opacity: .65;
+    }
 
-            border-radius: 50%;
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
 
-            pointer-events: none;
-        }
+}
 
-        .orbit.one {
 
-            width:
-                min(78vw,850px);
+/* =====================================================
+   ÓRBITAS
+===================================================== */
 
-            height:
-                min(31vw,340px);
+.orbit {
+    position: absolute;
 
-            transform:
-                translate(-50%,-50%)
-                rotate(-13deg);
+    left: 50%;
+    top: 50%;
 
-            box-shadow:
-                0 0 25px
-                rgba(180,70,255,.10);
+    border:
+        1px solid
+        rgba(225,120,255,.22);
 
-            animation:
-                orbitOne 18s linear infinite;
-        }
+    border-radius: 50%;
 
-        .orbit.two {
+    pointer-events: none;
+}
 
-            width:
-                min(65vw,720px);
+.orbit.one {
 
-            height:
-                min(25vw,280px);
+    width:
+        min(78vw,850px);
 
-            transform:
-                translate(-50%,-50%)
-                rotate(21deg);
+    height:
+        min(31vw,340px);
 
-            opacity: .55;
+    transform:
+        translate(-50%,-50%)
+        rotate(-13deg);
 
-            animation:
-                orbitTwo 25s linear infinite;
-        }
+    box-shadow:
+        0 0 25px
+        rgba(180,70,255,.10);
 
-        @keyframes orbitOne {
+    animation:
+        orbitOne 18s linear infinite;
+}
 
-            from {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(-13deg);
-            }
+.orbit.two {
 
-            to {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(347deg);
-            }
+    width:
+        min(65vw,720px);
 
-        }
+    height:
+        min(25vw,280px);
 
-        @keyframes orbitTwo {
+    transform:
+        translate(-50%,-50%)
+        rotate(21deg);
 
-            from {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(21deg);
-            }
+    opacity: .55;
 
-            to {
-                transform:
-                    translate(-50%,-50%)
-                    rotate(-339deg);
-            }
+    animation:
+        orbitTwo 25s linear infinite;
+}
 
-        }
+@keyframes orbitOne {
 
+    from {
+        transform:
+            translate(-50%,-50%)
+            rotate(-13deg);
+    }
 
-        /* =====================================================
-           CONTENIDO PORTADA
-        ===================================================== */
+    to {
+        transform:
+            translate(-50%,-50%)
+            rotate(347deg);
+    }
 
-        .intro-content {
-            position: relative;
+}
 
-            z-index: 5;
+@keyframes orbitTwo {
 
-            width:
-                min(90vw,850px);
+    from {
+        transform:
+            translate(-50%,-50%)
+            rotate(21deg);
+    }
 
-            text-align: center;
+    to {
+        transform:
+            translate(-50%,-50%)
+            rotate(-339deg);
+    }
 
-            padding: 30px;
+}
 
-            animation:
-                introIn 1.8s
-                cubic-bezier(.16,1,.3,1)
-                both;
-        }
 
-        @keyframes introIn {
+/* =====================================================
+   CONTENIDO PORTADA
+===================================================== */
 
-            from {
+.intro-content {
+    position: relative;
 
-                opacity: 0;
+    z-index: 5;
 
-                transform:
-                    translateY(35px)
-                    scale(.94);
+    width:
+        min(90vw,850px);
 
-                filter:
-                    blur(12px);
-            }
+    text-align: center;
 
-            to {
+    padding: 30px;
 
-                opacity: 1;
+    animation:
+        introIn 1.8s
+        cubic-bezier(.16,1,.3,1)
+        both;
+}
 
-                transform:
-                    translateY(0)
-                    scale(1);
+@keyframes introIn {
 
-                filter:
-                    blur(0);
-            }
+    from {
 
-        }
+        opacity: 0;
 
+        transform:
+            translateY(35px)
+            scale(.94);
 
-        /* =====================================================
-           SÍMBOLO
-        ===================================================== */
+        filter:
+            blur(12px);
+    }
 
-        .intro-symbol {
+    to {
 
-            color: #e2d7ff;
+        opacity: 1;
 
-            font-size: 18px;
+        transform:
+            translateY(0)
+            scale(1);
 
-            text-shadow:
-                0 0 8px #a978ff,
-                0 0 25px #d04cff,
-                0 0 50px
-                rgba(255,70,210,.7);
+        filter:
+            blur(0);
+    }
 
-            animation:
-                symbolPulse 3s
-                ease-in-out
-                infinite;
-        }
+}
 
-        @keyframes symbolPulse {
 
-            0%,
-            100% {
-                transform: scale(.9);
-                opacity: .6;
-            }
+/* =====================================================
+   SÍMBOLO
+===================================================== */
 
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
+.intro-symbol {
 
-        }
+    color: #e2d7ff;
 
+    font-size: 18px;
 
-        /* =====================================================
-           EYEBROW
-        ===================================================== */
+    text-shadow:
+        0 0 8px #a978ff,
+        0 0 25px #d04cff,
+        0 0 50px
+        rgba(255,70,210,.7);
 
-        .eyebrow {
+    animation:
+        symbolPulse 3s
+        ease-in-out
+        infinite;
+}
 
-            margin-top: 18px;
-            margin-bottom: 18px;
+@keyframes symbolPulse {
 
-            font-size:
-                clamp(9px,1.6vw,12px);
+    0%,
+    100% {
+        transform: scale(.9);
+        opacity: .6;
+    }
 
-            letter-spacing: .42em;
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
 
-            color:
-                rgba(240,220,255,.78);
+}
 
-            text-shadow:
-                0 0 15px
-                rgba(190,100,255,.5);
-        }
 
+/* =====================================================
+   EYEBROW
+===================================================== */
 
-        /* =====================================================
-           TÍTULO
-        ===================================================== */
+.eyebrow {
 
-        .intro-title {
+    margin-top: 18px;
+    margin-bottom: 18px;
 
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
+    font-size:
+        clamp(9px,1.6vw,12px);
 
-            font-weight: 400;
+    letter-spacing: .42em;
 
-            font-size:
-                clamp(55px,10vw,105px);
+    color:
+        rgba(240,220,255,.78);
 
-            line-height: .88;
+    text-shadow:
+        0 0 15px
+        rgba(190,100,255,.5);
+}
 
-            letter-spacing: -.045em;
 
-            color: white;
+/* =====================================================
+   TÍTULO
+===================================================== */
 
-            text-shadow:
-                0 0 10px
-                rgba(255,255,255,.7),
+.intro-title {
 
-                0 0 35px
-                rgba(190,110,255,.55),
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-                0 0 75px
-                rgba(255,80,215,.25);
-        }
+    font-weight: 400;
 
-        .intro-title span {
+    font-size:
+        clamp(55px,10vw,105px);
 
-            display: block;
+    line-height: .88;
 
-            margin-top: 8px;
+    letter-spacing: -.045em;
 
-            font-style: italic;
+    color: white;
 
-            background:
-                linear-gradient(
-                    100deg,
-                    #91a9ff,
-                    #b58aff 28%,
-                    #e06eff 55%,
-                    #ff87d8 78%,
-                    #ffd4ef
-                );
+    text-shadow:
+        0 0 10px
+        rgba(255,255,255,.7),
 
-            -webkit-background-clip: text;
-            background-clip: text;
+        0 0 35px
+        rgba(190,110,255,.55),
 
-            color: transparent;
+        0 0 75px
+        rgba(255,80,215,.25);
+}
 
-            filter:
-                drop-shadow(
-                    0 0 14px
-                    rgba(255,100,220,.42)
-                );
-        }
+.intro-title span {
 
+    display: block;
 
-        /* =====================================================
-           CORAZÓN PORTADA
-        ===================================================== */
+    margin-top: 8px;
 
-        .intro-heart {
+    font-style: italic;
 
-            margin-top: 22px;
+    background:
+        linear-gradient(
+            100deg,
+            #91a9ff,
+            #b58aff 28%,
+            #e06eff 55%,
+            #ff87d8 78%,
+            #ffd4ef
+        );
 
-            font-family: Georgia, serif;
+    -webkit-background-clip: text;
+    background-clip: text;
 
-            font-size: 38px;
+    color: transparent;
 
-            color: #ffb6e8;
+    filter:
+        drop-shadow(
+            0 0 14px
+            rgba(255,100,220,.42)
+        );
+}
 
-            text-shadow:
-                0 0 6px white,
-                0 0 16px #ff76d2,
-                0 0 35px #ed45bd,
-                0 0 65px
-                rgba(255,50,190,.7);
 
-            animation:
-                heartPulse 2.8s
-                ease-in-out
-                infinite;
-        }
+/* =====================================================
+   CORAZÓN PORTADA
+===================================================== */
 
-        @keyframes heartPulse {
+.intro-heart {
 
-            0%,
-            100% {
-                transform: scale(.92);
-            }
+    margin-top: 22px;
 
-            50% {
-                transform: scale(1.08);
-            }
+    font-family: Georgia, serif;
 
-        }
+    font-size: 38px;
 
+    color: #ffb6e8;
 
-        /* =====================================================
-           LÍNEAS
-        ===================================================== */
+    text-shadow:
+        0 0 6px white,
+        0 0 16px #ff76d2,
+        0 0 35px #ed45bd,
+        0 0 65px
+        rgba(255,50,190,.7);
 
-        .intro-line {
+    animation:
+        heartPulse 2.8s
+        ease-in-out
+        infinite;
+}
 
-            display: flex;
+@keyframes heartPulse {
 
-            align-items: center;
-            justify-content: center;
+    0%,
+    100% {
+        transform: scale(.92);
+    }
 
-            gap: 12px;
+    50% {
+        transform: scale(1.08);
+    }
 
-            width:
-                min(360px,70vw);
+}
 
-            margin:
-                12px auto 20px;
-        }
 
-        .intro-line span {
+/* =====================================================
+   LÍNEAS
+===================================================== */
 
-            flex: 1;
+.intro-line {
 
-            height: 1px;
+    display: flex;
 
-            background:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    rgba(255,135,220,.65)
-                );
+    align-items: center;
+    justify-content: center;
 
-            box-shadow:
-                0 0 10px
-                rgba(255,100,220,.3);
-        }
+    gap: 12px;
 
-        .intro-line span:last-child {
+    width:
+        min(360px,70vw);
 
-            background:
-                linear-gradient(
-                    to left,
-                    transparent,
-                    rgba(255,135,220,.65)
-                );
-        }
+    margin:
+        12px auto 20px;
+}
 
-        .intro-line i {
+.intro-line span {
 
-            font-style: normal;
+    flex: 1;
 
-            color: #ffd7f2;
+    height: 1px;
 
-            font-size: 9px;
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(255,135,220,.65)
+        );
 
-            text-shadow:
-                0 0 12px #ff72d0;
-        }
+    box-shadow:
+        0 0 10px
+        rgba(255,100,220,.3);
+}
 
+.intro-line span:last-child {
 
-        /* =====================================================
-           TEXTO PORTADA
-        ===================================================== */
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            rgba(255,135,220,.65)
+        );
+}
 
-        #intro .intro-text {
+.intro-line i {
 
-            font-size:
-                clamp(13px,2vw,17px);
+    font-style: normal;
 
-            line-height: 1.8;
+    color: #ffd7f2;
 
-            letter-spacing: .16em;
+    font-size: 9px;
 
-            font-weight: 300;
+    text-shadow:
+        0 0 12px #ff72d0;
+}
 
-            color:
-                rgba(240,232,255,.68);
 
-            text-shadow:
-                0 0 18px
-                rgba(150,100,255,.25);
-        }
+/* =====================================================
+   TEXTO PORTADA
+===================================================== */
 
+#intro .intro-text {
 
-        /* =====================================================
-           BOTÓN
-        ===================================================== */
+    font-size:
+        clamp(13px,2vw,17px);
 
-        #enter {
+    line-height: 1.8;
 
-            position: relative;
+    letter-spacing: .16em;
 
-            margin-top: 38px;
+    font-weight: 300;
 
-            width: 220px;
-            height: 60px;
+    color:
+        rgba(240,232,255,.68);
 
-            border:
-                1px solid
-                rgba(255,150,230,.65);
+    text-shadow:
+        0 0 18px
+        rgba(150,100,255,.25);
+}
 
-            border-radius: 999px;
 
-            background:
-                linear-gradient(
-                    120deg,
-                    rgba(80,50,180,.20),
-                    rgba(255,70,200,.10)
-                );
+/* =====================================================
+   BOTÓN
+===================================================== */
 
-            color: white;
+#enter {
 
-            backdrop-filter:
-                blur(15px);
+    position: relative;
 
-            -webkit-backdrop-filter:
-                blur(15px);
+    margin-top: 38px;
 
-            box-shadow:
+    width: 220px;
+    height: 60px;
 
-                inset 0 0 20px
-                rgba(255,120,220,.08),
+    border:
+        1px solid
+        rgba(255,150,230,.65);
 
-                0 0 10px
-                rgba(255,100,220,.25),
+    border-radius: 999px;
 
-                0 0 35px
-                rgba(170,70,255,.20);
+    background:
+        linear-gradient(
+            120deg,
+            rgba(80,50,180,.20),
+            rgba(255,70,200,.10)
+        );
 
-            cursor: pointer;
+    color: white;
 
-            transition:
-                transform .4s ease,
-                box-shadow .4s ease,
-                background .4s ease;
-        }
+    backdrop-filter:
+        blur(15px);
 
-        #enter::before {
+    box-shadow:
 
-            content: "";
+        inset 0 0 20px
+        rgba(255,120,220,.08),
 
-            position: absolute;
+        0 0 10px
+        rgba(255,100,220,.25),
 
-            inset: -4px;
+        0 0 35px
+        rgba(170,70,255,.20);
 
-            border-radius: inherit;
+    cursor: pointer;
 
-            border:
-                1px solid
-                rgba(255,130,225,.18);
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease,
+        background .4s ease;
+}
 
-            filter: blur(3px);
+#enter:hover {
 
-            pointer-events: none;
-        }
+    transform:
+        translateY(-4px)
+        scale(1.025);
 
-        #enter:hover {
+    background:
+        linear-gradient(
+            120deg,
+            rgba(100,70,230,.28),
+            rgba(255,70,200,.18)
+        );
 
-            transform:
-                translateY(-4px)
-                scale(1.025);
+    box-shadow:
 
-            background:
-                linear-gradient(
-                    120deg,
-                    rgba(100,70,230,.28),
-                    rgba(255,70,200,.18)
-                );
+        0 0 15px
+        rgba(255,130,230,.45),
 
-            box-shadow:
+        0 0 55px
+        rgba(190,80,255,.30),
 
-                0 0 15px
-                rgba(255,130,230,.45),
+        inset 0 0 25px
+        rgba(255,150,230,.10);
+}
 
-                0 0 55px
-                rgba(190,80,255,.30),
+#enter:active {
+    transform: scale(.96);
+}
 
-                inset 0 0 25px
-                rgba(255,150,230,.10);
-        }
+#enter span {
 
-        #enter:active {
-            transform: scale(.96);
-        }
+    font-size: 12px;
 
-        #enter span {
+    letter-spacing: .38em;
 
-            font-size: 12px;
+    font-weight: 600;
+}
 
-            letter-spacing: .38em;
+#enter b {
 
-            font-weight: 600;
-        }
+    margin-left: 15px;
 
-        #enter b {
+    color: #ffb5e8;
 
-            margin-left: 15px;
+    text-shadow:
+        0 0 8px #ff69ce,
+        0 0 18px #ff69ce;
+}
 
-            color: #ffb5e8;
 
-            text-shadow:
-                0 0 8px #ff69ce,
-                0 0 18px #ff69ce;
-        }
+/* =====================================================
+   INDICADOR
+===================================================== */
 
+.intro-scroll {
 
-        /* =====================================================
-           INDICADOR
-        ===================================================== */
+    margin-top: 32px;
 
-        .intro-scroll {
+    display: flex;
 
-            margin-top: 32px;
+    flex-direction: column;
 
-            display: flex;
+    align-items: center;
 
-            flex-direction: column;
+    gap: 8px;
 
-            align-items: center;
+    opacity: .45;
+}
 
-            gap: 8px;
+.intro-scroll span {
 
-            opacity: .45;
-        }
+    width: 1px;
 
-        .intro-scroll span {
+    height: 28px;
 
-            width: 1px;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            #ffc4ed
+        );
 
-            height: 28px;
+    box-shadow:
+        0 0 8px #ff82d4;
 
-            background:
-                linear-gradient(
-                    to bottom,
-                    transparent,
-                    #ffc4ed
-                );
+    animation:
+        scrollPulse 2s
+        ease-in-out
+        infinite;
+}
 
-            box-shadow:
-                0 0 8px #ff82d4;
+.intro-scroll small {
 
-            animation:
-                scrollPulse 2s
-                ease-in-out
-                infinite;
-        }
+    font-size: 7px;
 
-        .intro-scroll small {
+    letter-spacing: .3em;
+}
 
-            font-size: 7px;
+@keyframes scrollPulse {
 
-            letter-spacing: .3em;
-        }
+    0%,
+    100% {
+        transform: scaleY(.6);
+        opacity: .4;
+    }
 
-        @keyframes scrollPulse {
+    50% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
 
-            0%,
-            100% {
-                transform: scaleY(.6);
-                opacity: .4;
-            }
+}
 
-            50% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
 
-        }
+/* =====================================================
+   TÍTULO SUPERIOR
+===================================================== */
 
+#topTitle {
 
-        /* =====================================================
-           TÍTULO SUPERIOR
-        ===================================================== */
+    position: fixed;
 
-        #topTitle {
+    top: 28px;
+    left: 50%;
 
-            position: fixed;
+    transform:
+        translate(-50%,-15px);
 
-            top: 28px;
-            left: 50%;
+    z-index: 30;
 
-            transform:
-                translate(-50%,-15px);
+    opacity: 0;
 
-            z-index: 30;
+    pointer-events: none;
 
-            opacity: 0;
+    white-space: nowrap;
 
-            pointer-events: none;
+    font-size:
+        clamp(9px,1.7vw,12px);
 
-            white-space: nowrap;
+    letter-spacing: .34em;
 
-            font-size:
-                clamp(9px,1.7vw,12px);
+    color:
+        rgba(245,235,255,.72);
 
-            letter-spacing: .34em;
+    text-shadow:
+        0 0 18px
+        rgba(190,100,255,.35);
 
-            color:
-                rgba(245,235,255,.72);
+    transition:
 
-            text-shadow:
-                0 0 18px
-                rgba(190,100,255,.35);
+        opacity 1.5s ease,
 
-            transition:
+        transform 1.5s
+        cubic-bezier(.16,1,.3,1);
+}
 
-                opacity 1.5s ease,
+#topTitle.show {
 
-                transform 1.5s
-                cubic-bezier(.16,1,.3,1);
-        }
+    opacity: 1;
 
-        #topTitle.show {
+    transform:
+        translate(-50%,0);
+}
 
-            opacity: 1;
 
-            transform:
-                translate(-50%,0);
-        }
+/* =====================================================
+   FRASES
+===================================================== */
 
+#message {
 
-        /* =====================================================
-           FRASES
-        ===================================================== */
+    position: fixed;
 
-        #message {
+    left: 50%;
+    top: 50%;
 
-            position: fixed;
+    z-index: 35;
 
-            left: 50%;
-            top: 50%;
+    width:
+        min(84vw,800px);
 
-            z-index: 35;
+    text-align: center;
 
-            width:
-                min(84vw,800px);
+    transform:
+        translate(-50%,-50%)
+        scale(.88);
 
-            text-align: center;
+    opacity: 0;
 
-            transform:
-                translate(-50%,-50%)
-                scale(.88);
+    pointer-events: none;
 
-            opacity: 0;
+    filter: blur(12px);
 
-            pointer-events: none;
+    transition:
 
-            filter: blur(12px);
+        opacity 1.2s
+        cubic-bezier(.16,1,.3,1),
 
-            transition:
+        transform 1.4s
+        cubic-bezier(.16,1,.3,1),
 
-                opacity 1.2s
-                cubic-bezier(.16,1,.3,1),
+        filter 1.2s ease;
+}
 
-                transform 1.4s
-                cubic-bezier(.16,1,.3,1),
+#message.show {
 
-                filter 1.2s ease;
-        }
+    opacity: 1;
 
-        #message.show {
+    transform:
+        translate(-50%,-50%)
+        scale(1);
 
-            opacity: 1;
+    filter: blur(0);
+}
 
-            transform:
-                translate(-50%,-50%)
-                scale(1);
+#message::before {
 
-            filter: blur(0);
-        }
+    content: "";
 
-        #message::before {
+    position: absolute;
 
-            content: "";
+    left: 50%;
+    top: 50%;
 
-            position: absolute;
+    width: 70%;
+    height: 180%;
 
-            left: 50%;
-            top: 50%;
+    transform:
+        translate(-50%,-50%);
 
-            width: 70%;
-            height: 180%;
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(255,90,215,.12),
+            rgba(90,80,230,.06) 38%,
+            transparent 72%
+        );
 
-            transform:
-                translate(-50%,-50%);
+    filter: blur(35px);
 
-            background:
-                radial-gradient(
-                    ellipse,
-                    rgba(255,90,215,.12),
-                    rgba(90,80,230,.06) 38%,
-                    transparent 72%
-                );
+    z-index: -1;
+}
 
-            filter: blur(35px);
+#message .text {
 
-            z-index: -1;
-        }
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-        #message .text {
+    font-size:
+        clamp(22px,4vw,43px);
 
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
+    line-height: 1.35;
 
-            font-size:
-                clamp(22px,4vw,43px);
+    font-weight: 400;
 
-            line-height: 1.35;
+    color:
+        rgba(255,248,253,.97);
 
-            font-weight: 400;
+    text-shadow:
 
-            color:
-                rgba(255,248,253,.97);
+        0 0 8px
+        rgba(255,255,255,.65),
 
-            text-shadow:
+        0 0 25px
+        rgba(255,100,210,.38),
 
-                0 0 8px
-                rgba(255,255,255,.65),
+        0 0 60px
+        rgba(125,90,255,.25);
+}
 
-                0 0 25px
-                rgba(255,100,210,.38),
 
-                0 0 60px
-                rgba(125,90,255,.25);
-        }
+/* =====================================================
+   MÚSICA
+===================================================== */
 
+#musicControl {
 
-        /* =====================================================
-           MÚSICA
-        ===================================================== */
+    position: fixed;
 
-        #musicControl {
+    right: 22px;
+    bottom: 22px;
 
-            position: fixed;
+    z-index: 40;
 
-            right: 22px;
-            bottom: 22px;
+    width: 44px;
+    height: 44px;
 
-            z-index: 40;
+    border:
+        1px solid
+        rgba(255,180,235,.28);
 
-            width: 44px;
-            height: 44px;
+    border-radius: 50%;
 
-            border:
-                1px solid
-                rgba(255,180,235,.28);
+    background:
+        rgba(5,5,20,.40);
 
-            border-radius: 50%;
+    color:
+        rgba(255,225,248,.9);
 
-            background:
-                rgba(5,5,20,.40);
+    font-size: 14px;
 
-            color:
-                rgba(255,225,248,.9);
+    cursor: pointer;
 
-            font-size: 14px;
+    backdrop-filter:
+        blur(12px);
 
-            cursor: pointer;
+    box-shadow:
+        0 0 25px
+        rgba(130,80,230,.15);
+}
 
-            backdrop-filter:
-                blur(12px);
+#musicControl.playing {
 
-            -webkit-backdrop-filter:
-                blur(12px);
+    color: #ffc4ea;
 
-            box-shadow:
-                0 0 25px
-                rgba(130,80,230,.15);
-        }
+    box-shadow:
+        0 0 30px
+        rgba(255,100,215,.28);
+}
 
-        #musicControl.playing {
 
-            color: #ffc4ea;
+/* =====================================================
+   CELULAR
+===================================================== */
 
-            box-shadow:
-                0 0 30px
-                rgba(255,100,215,.28);
-        }
+@media (max-width: 600px) {
 
+    .intro-title {
 
-        /* =====================================================
-           CELULAR
-        ===================================================== */
+        font-size:
+            clamp(
+                52px,
+                15vw,
+                78px
+            );
+    }
 
-        @media (max-width: 600px) {
+    #intro .intro-text {
 
-            .intro-title {
+        font-size: 12px;
 
-                font-size:
-                    clamp(
-                        52px,
-                        15vw,
-                        78px
-                    );
-            }
+        letter-spacing: .10em;
+    }
 
-            #intro .intro-text {
+    #enter {
 
-                font-size: 12px;
+        width: 195px;
 
-                letter-spacing: .10em;
-            }
+        height: 56px;
+    }
 
-            #enter {
+    #message {
 
-                width: 195px;
+        width: 86vw;
+    }
 
-                height: 56px;
-            }
+    #message .text {
 
-            #message {
+        font-size:
+            clamp(
+                21px,
+                6.3vw,
+                31px
+            );
+    }
 
-                width: 86vw;
-            }
+    #topTitle {
 
-            #message .text {
+        top: 21px;
 
-                font-size:
-                    clamp(
-                        21px,
-                        6.3vw,
-                        31px
-                    );
-            }
+        letter-spacing: .22em;
+    }
 
-            #topTitle {
+    #musicControl {
 
-                top: 21px;
+        right: 16px;
+        bottom: 16px;
 
-                letter-spacing: .22em;
-            }
+        width: 42px;
+        height: 42px;
+    }
 
-            #musicControl {
+}
 
-                right: 16px;
-                bottom: 16px;
-
-                width: 42px;
-                height: 42px;
-            }
-
-            .orbit.one {
-
-                width: 125vw;
-                height: 55vw;
-            }
-
-            .orbit.two {
-
-                width: 105vw;
-                height: 45vw;
-            }
-
-        }
-
-    </style>
-
+</style>
 </head>
 
 
 <body>
 
+<canvas id="space"></canvas>
 
-    <!-- =====================================================
-         UNIVERSO
-    ===================================================== -->
+<div class="grain"></div>
 
-    <canvas id="space"></canvas>
-
-    <div class="grain"></div>
-
-    <div class="vignette"></div>
+<div class="vignette"></div>
 
 
-    <!-- =====================================================
-         PORTADA
-    ===================================================== -->
+<!-- =====================================================
+     PORTADA
+===================================================== -->
 
-    <section id="intro">
+<section id="intro">
 
-        <div class="intro-stars"></div>
+    <div class="intro-stars"></div>
 
-        <div class="intro-glow"></div>
+    <div class="intro-glow"></div>
 
-        <div class="orbit one"></div>
+    <div class="orbit one"></div>
 
-        <div class="orbit two"></div>
-
-
-        <div class="intro-content">
-
-            <div class="intro-symbol">
-                ✦
-            </div>
+    <div class="orbit two"></div>
 
 
-            <p class="eyebrow">
-                PARA MI NOVIECITA LINDA
-            </p>
+    <div class="intro-content">
+
+        <div class="intro-symbol">
+            ✦
+        </div>
 
 
-            <h1 class="intro-title">
-
-                Nuestro
-
-                <span>
-                    Universo
-                </span>
-
-            </h1>
+        <p class="eyebrow">
+            PARA MI NOVIECITA LINDA
+        </p>
 
 
-            <div class="intro-heart">
-                ♡
-            </div>
+        <h1 class="intro-title">
+
+            Nuestro
+
+            <span>
+                Universo
+            </span>
+
+        </h1>
 
 
-            <div class="intro-line">
-
-                <span></span>
-
-                <i>✦</i>
-
-                <span></span>
-
-            </div>
+        <div class="intro-heart">
+            ♡
+        </div>
 
 
-            <p class="intro-text">
+        <div class="intro-line">
 
-                Un lugar infinito,<br>
-                donde tú eres mi destino.
+            <span></span>
 
-            </p>
+            <i>✦</i>
 
-
-            <button
-                id="enter"
-                type="button"
-            >
-
-                <span>
-                    ENTRAR
-                </span>
-
-                <b>
-                    ✦
-                </b>
-
-            </button>
-
-
-            <div class="intro-scroll">
-
-                <span></span>
-
-                <small>
-                    DESCUBRE
-                </small>
-
-            </div>
+            <span></span>
 
         </div>
 
-    </section>
+
+        <p class="intro-text">
+
+            Un lugar infinito,<br>
+            donde tú eres mi destino.
+
+        </p>
 
 
-    <!-- =====================================================
-         TÍTULO
-    ===================================================== -->
+        <button
+            id="enter"
+            type="button"
+        >
 
-    <div id="topTitle">
-        PARA MI NOVIECITA LINDA
+            <span>
+                ENTRAR
+            </span>
+
+            <b>
+                ✦
+            </b>
+
+        </button>
+
+
+        <div class="intro-scroll">
+
+            <span></span>
+
+            <small>
+                DESCUBRE
+            </small>
+
+        </div>
+
     </div>
 
+</section>
 
-    <!-- =====================================================
-         FRASES
-    ===================================================== -->
 
-    <div id="message"></div>
+<!-- =====================================================
+     TÍTULO
+===================================================== -->
 
+<div id="topTitle">
+    PARA MI NOVIECITA LINDA
+</div>
 
-    <!-- =====================================================
-         MÚSICA
-    ===================================================== -->
 
-    <button
-        id="musicControl"
-        type="button"
-    >
-        ♫
-    </button>
+<!-- =====================================================
+     FRASES
+===================================================== -->
 
+<div id="message"></div>
 
-    <audio
-        id="music"
-        src="assets/timeless.mp3"
-        preload="auto"
-        loop
-        playsinline
-    ></audio>
 
+<!-- =====================================================
+     MÚSICA
+===================================================== -->
 
-    <script>
+<button
+    id="musicControl"
+    type="button"
+>
+    ♫
+</button>
 
-        "use strict";
 
+<audio
+    id="music"
+    src="assets/timeless.mp3"
+    preload="auto"
+    loop
+    playsinline
+></audio>
 
-        /* =====================================================
-           ELEMENTOS
-        ===================================================== */
 
-        const canvas =
-            document.getElementById("space");
+<script>
 
-        const ctx =
-            canvas.getContext("2d");
+"use strict";
 
-        const intro =
-            document.getElementById("intro");
 
-        const enter =
-            document.getElementById("enter");
+/* =====================================================
+   ELEMENTOS
+===================================================== */
 
-        const message =
-            document.getElementById("message");
+const canvas =
+    document.getElementById("space");
 
-        const title =
-            document.getElementById("topTitle");
+const ctx =
+    canvas.getContext("2d");
 
-        const music =
-            document.getElementById("music");
+const intro =
+    document.getElementById("intro");
 
-        const musicControl =
-            document.getElementById("musicControl");
+const enter =
+    document.getElementById("enter");
 
+const message =
+    document.getElementById("message");
 
-        /* =====================================================
-           VARIABLES
-        ===================================================== */
+const title =
+    document.getElementById("topTitle");
 
-        let W = 0;
-        let H = 0;
-        let DPR = 1;
+const music =
+    document.getElementById("music");
 
-        let started = false;
+const musicControl =
+    document.getElementById("musicControl");
 
-        let startTime = 0;
 
-        let cameraX = 0;
-        let cameraY = 0;
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-        let targetX = 0;
-        let targetY = 0;
+let W = 0;
+let H = 0;
+let DPR = 1;
 
-        let stars = [];
-        let galaxyStars = [];
-        let dust = [];
+let started = false;
 
-        let shootingStars = [];
+let startTime = 0;
 
-        let phraseStar = null;
+let cameraX = 0;
+let cameraY = 0;
 
-        let heartParticles = [];
+let targetX = 0;
+let targetY = 0;
 
-        let formingHeart = false;
+let stars = [];
+let galaxyStars = [];
+let dust = [];
 
-        let heartStart = 0;
+let shootingStars = [];
 
-        let phraseIndex = 0;
+let phraseStar = null;
 
-        let phraseRunning = false;
+let heartParticles = [];
 
+let formingHeart = false;
 
-        /* =====================================================
-           FRASES
-        ===================================================== */
+let heartStart = 0;
 
-        const phrases = [
+let phraseIndex = 0;
 
-            "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
+let phraseRunning = false;
 
-            "Me encanta absolutamente todo de ti.",
 
-            "Contigo todo siempre es más lindo.",
+/* =====================================================
+   FRASES
+===================================================== */
 
-            "Eres lo más bonito de este mundo.",
+const phrases = [
 
-            "Te elegiría una y mil veces."
+    "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
 
-        ];
+    "Me encanta absolutamente todo de ti.",
 
+    "Contigo todo siempre es más lindo.",
 
-        /* =====================================================
-           UTILIDADES
-        ===================================================== */
+    "Eres lo más bonito de este mundo.",
 
-        function random(min, max) {
+    "Te elegiría una y mil veces."
 
-            return Math.random() *
-                (max - min) +
-                min;
-        }
+];
 
 
-        function clamp(value, min, max) {
+/* =====================================================
+   UTILIDADES
+===================================================== */
 
-            return Math.max(
-                min,
-                Math.min(max, value)
-            );
-        }
+function random(min,max) {
 
+    return Math.random() *
+        (max-min) +
+        min;
 
-        function easeOutCubic(t) {
+}
 
-            return 1 -
-                Math.pow(
-                    1 - t,
-                    3
-                );
-        }
 
+function clamp(value,min,max) {
 
-        function easeInOut(t) {
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
 
-            return t < .5
+}
 
-                ? 2 * t * t
 
-                : 1 -
-                    Math.pow(
-                        -2 * t + 2,
-                        2
-                    ) / 2;
-        }
+function easeOutCubic(t) {
 
+    return 1 -
+        Math.pow(
+            1-t,
+            3
+        );
 
-        /* =====================================================
-           RESIZE
-        ===================================================== */
+}
 
-        function resize() {
 
-            W =
-                window.innerWidth;
+function easeInOut(t) {
 
-            H =
-                window.innerHeight;
+    return t < .5
 
-            DPR =
-                Math.min(
-                    window.devicePixelRatio || 1,
-                    2
-                );
+        ? 2*t*t
 
-            canvas.width =
-                W * DPR;
+        : 1 -
+          Math.pow(
+              -2*t+2,
+              2
+          )/2;
 
-            canvas.height =
-                H * DPR;
+}
 
-            canvas.style.width =
-                W + "px";
 
-            canvas.style.height =
-                H + "px";
+/* =====================================================
+   RESIZE
+===================================================== */
 
-            ctx.setTransform(
-                DPR,
-                0,
-                0,
-                DPR,
-                0,
-                0
-            );
+function resize() {
 
-            createUniverse();
+    W =
+        window.innerWidth;
 
-        }
+    H =
+        window.innerHeight;
 
-
-        window.addEventListener(
-            "resize",
-            resize
+    DPR =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
         );
 
 
-        /* =====================================================
-           CREAR UNIVERSO
-        ===================================================== */
+    canvas.width =
+        W*DPR;
 
-        function createUniverse() {
+    canvas.height =
+        H*DPR;
 
-            stars = [];
-            galaxyStars = [];
-            dust = [];
-            shootingStars = [];
 
+    canvas.style.width =
+        W+"px";
 
-            const backgroundAmount =
-                W < 600
-                    ? 450
-                    : 850;
+    canvas.style.height =
+        H+"px";
 
 
-            for (
-                let i = 0;
-                i < backgroundAmount;
-                i++
-            ) {
+    ctx.setTransform(
+        DPR,
+        0,
+        0,
+        DPR,
+        0,
+        0
+    );
 
-                stars.push({
 
-                    x:
-                        Math.random() * W,
+    createUniverse();
 
-                    y:
-                        Math.random() * H,
+}
 
-                    size:
-                        random(.15,1.2),
 
-                    alpha:
-                        random(.15,.8),
+window.addEventListener(
+    "resize",
+    resize
+);
 
-                    depth:
-                        random(.05,.45),
 
-                    phase:
-                        random(
-                            0,
-                            Math.PI * 2
-                        ),
+/* =====================================================
+   CREAR UNIVERSO
+===================================================== */
 
-                    speed:
-                        random(
-                            .003,
-                            .018
-                        )
+function createUniverse() {
 
-                });
+    stars = [];
 
-            }
+    galaxyStars = [];
 
+    dust = [];
 
-            /* =================================================
-               GALAXIA
-            ================================================= */
+    shootingStars = [];
 
-            const amount =
-                W < 600
-                    ? 3600
-                    : 6200;
 
+    const backgroundAmount =
+        W < 600
+            ? 450
+            : 850;
 
-            const arms = 4;
 
+    for (
+        let i=0;
+        i<backgroundAmount;
+        i++
+    ) {
 
-            for (
-                let i = 0;
-                i < amount;
-                i++
-            ) {
+        stars.push({
 
-                const n =
-                    Math.pow(
-                        Math.random(),
-                        .67
-                    );
+            x:
+                Math.random()*W,
 
+            y:
+                Math.random()*H,
 
-                const radius =
-                    n *
-                    Math.min(
-                        W,
-                        H
-                    ) *
-                    .88;
+            size:
+                random(.15,1.2),
 
+            alpha:
+                random(.15,.8),
 
-                const arm =
-                    Math.floor(
-                        Math.random() *
-                        arms
-                    );
+            depth:
+                random(.05,.45),
 
-
-                const base =
-                    arm *
-                    (
-                        Math.PI * 2 /
-                        arms
-                    );
-
-
-                const spread =
-                    random(
-                        -.11,
-                        .11
-                    ) *
-                    (
-                        .3 +
-                        n
-                    );
-
-
-                galaxyStars.push({
-
-                    radius,
-
-                    angle:
-                        base +
-                        spread,
-
-                    depth:
-                        random(
-                            .15,
-                            1
-                        ),
-
-                    size:
-                        random(
-                            .25,
-                            1.5
-                        ),
-
-                    brightness:
-                        random(
-                            .35,
-                            1
-                        ),
-
-                    speed:
-                        random(
-                            .00002,
-                            .00018
-                        ),
-
-                    phase:
-                        random(
-                            0,
-                            Math.PI * 2
-                        )
-
-                });
-
-            }
-
-
-            /* =================================================
-               POLVO
-            ================================================= */
-
-            const dustAmount =
-                W < 600
-                    ? 900
-                    : 1500;
-
-
-            for (
-                let i = 0;
-                i < dustAmount;
-                i++
-            ) {
-
-                const n =
-                    Math.pow(
-                        Math.random(),
-                        .72
-                    );
-
-
-                const radius =
-                    n *
-                    Math.min(
-                        W,
-                        H
-                    ) *
-                    .84;
-
-
-                const arm =
-                    Math.floor(
-                        Math.random() *
-                        arms
-                    );
-
-
-                dust.push({
-
-                    radius,
-
-                    angle:
-                        arm *
-                        (
-                            Math.PI * 2 /
-                            arms
-                        ) +
-                        random(
-                            -.18,
-                            .18
-                        ),
-
-                    alpha:
-                        random(
-                            .015,
-                            .11
-                        ),
-
-                    size:
-                        random(
-                            .4,
-                            2.8
-                        ),
-
-                    depth:
-                        random(
-                            .1,
-                            .9
-                        ),
-
-                    speed:
-                        random(
-                            .00002,
-                            .00012
-                        )
-
-                });
-
-            }
-
-
-            /* =================================================
-               ESTRELLAS FUGACES
-            ================================================= */
-
-            for (
-                let i = 0;
-                i < 7;
-                i++
-            ) {
-
-                shootingStars.push(
-                    createShootingStar(true)
-                );
-
-            }
-
-        }
-
-
-        /* =====================================================
-           ESTRELLA FUGAZ
-        ===================================================== */
-
-        function createShootingStar(
-            initial = false
-        ) {
-
-            return {
-
-                x:
-                    initial
-                        ? random(-W,W)
-                        : random(-100,W),
-
-                y:
-                    initial
-                        ? random(0,H*.65)
-                        : random(-100,H*.55),
-
-                speed:
-                    random(5,12),
-
-                length:
-                    random(80,200),
-
-                alpha:
-                    initial
-                        ? random(0,.8)
-                        : 1,
-
-                delay:
-                    initial
-                        ? random(0,8)
-                        : random(.4,4),
-
-                hue:
-                    Math.random()
-
-            };
-
-        }
-
-
-        /* =====================================================
-           FONDO
-        ===================================================== */
-
-        function drawBackground(time) {
-
-            const cx =
-                W * .5 +
-                cameraX * 15;
-
-
-            const cy =
-                H * .48 +
-                cameraY * 8;
-
-
-            const bg =
-                ctx.createRadialGradient(
-
-                    cx,
-                    cy,
+            phase:
+                random(
                     0,
+                    Math.PI*2
+                ),
 
-                    cx,
-                    cy,
-                    Math.max(W,H)
+            speed:
+                random(
+                    .003,
+                    .018
+                )
 
-                );
+        });
+
+    }
 
 
-            bg.addColorStop(
-                0,
-                "#191047"
+    /* =================================================
+       GALAXIA
+    ================================================= */
+
+    const amount =
+        W < 600
+            ? 4200
+            : 7600;
+
+
+    const arms = 4;
+
+
+    for (
+        let i=0;
+        i<amount;
+        i++
+    ) {
+
+        const n =
+            Math.pow(
+                Math.random(),
+                .67
             );
 
 
-            bg.addColorStop(
-                .18,
-                "#120b37"
-            );
-
-
-            bg.addColorStop(
-                .38,
-                "#0a0825"
-            );
-
-
-            bg.addColorStop(
-                .65,
-                "#050619"
-            );
-
-
-            bg.addColorStop(
-                1,
-                "#000106"
-            );
-
-
-            ctx.fillStyle =
-                bg;
-
-
-            ctx.fillRect(
-                0,
-                0,
+        const radius =
+            n *
+            Math.min(
                 W,
                 H
+            ) *
+            .88;
+
+
+        const arm =
+            Math.floor(
+                Math.random()*arms
             );
 
 
-            drawNebula(
-                W*.18,
-                H*.35,
-                Math.min(W,H)*.55,
-                "rgba(55,75,220,.07)"
+        const base =
+            arm *
+            (
+                Math.PI*2 /
+                arms
             );
 
 
-            drawNebula(
-                W*.82,
-                H*.55,
-                Math.min(W,H)*.55,
-                "rgba(230,40,190,.065)"
+        /*
+         * Curvatura de los brazos.
+         * Esto hace que no sean simples
+         * líneas rectas.
+         */
+
+        const spiral =
+            radius*.0028;
+
+
+        const spread =
+            random(
+                -.13,
+                .13
+            ) *
+            (
+                .35+n
             );
 
 
-            drawNebula(
-                W*.5,
-                H*.15,
-                Math.min(W,H)*.35,
-                "rgba(50,90,255,.045)"
+        galaxyStars.push({
+
+            radius,
+
+            angle:
+                base+
+                spread+
+                spiral,
+
+            arm,
+
+            armPosition:
+                n,
+
+            depth:
+                random(
+                    .15,
+                    1
+                ),
+
+            size:
+                random(
+                    .25,
+                    1.55
+                ),
+
+            brightness:
+                random(
+                    .35,
+                    1
+                ),
+
+            speed:
+                random(
+                    .00002,
+                    .00018
+                ),
+
+            phase:
+                random(
+                    0,
+                    Math.PI*2
+                )
+
+        });
+
+    }
+
+
+    /* =================================================
+       POLVO
+    ================================================= */
+
+    const dustAmount =
+        W < 600
+            ? 1100
+            : 1800;
+
+
+    for (
+        let i=0;
+        i<dustAmount;
+        i++
+    ) {
+
+        const n =
+            Math.pow(
+                Math.random(),
+                .72
             );
 
-        }
+
+        const radius =
+            n *
+            Math.min(
+                W,
+                H
+            ) *
+            .84;
 
 
-        /* =====================================================
-           NEBULOSA
-        ===================================================== */
+        const arm =
+            Math.floor(
+                Math.random()*arms
+            );
 
-        function drawNebula(
+
+        dust.push({
+
+            radius,
+
+            angle:
+                arm *
+                (
+                    Math.PI*2 /
+                    arms
+                ) +
+                random(
+                    -.18,
+                    .18
+                ),
+
+            alpha:
+                random(
+                    .015,
+                    .11
+                ),
+
+            size:
+                random(
+                    .4,
+                    2.8
+                ),
+
+            depth:
+                random(
+                    .1,
+                    .9
+                ),
+
+            speed:
+                random(
+                    .00002,
+                    .00012
+                )
+
+        });
+
+    }
+
+
+    /* =================================================
+       ESTRELLAS FUGACES
+    ================================================= */
+
+    for (
+        let i=0;
+        i<7;
+        i++
+    ) {
+
+        shootingStars.push(
+            createShootingStar(true)
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ESTRELLA FUGAZ
+===================================================== */
+
+function createShootingStar(
+    initial=false
+) {
+
+    return {
+
+        x:
+            initial
+                ? random(-W,W)
+                : random(-100,W),
+
+        y:
+            initial
+                ? random(0,H*.65)
+                : random(-100,H*.55),
+
+        speed:
+            random(5,12),
+
+        length:
+            random(80,200),
+
+        alpha:
+            initial
+                ? random(0,.8)
+                : 1,
+
+        delay:
+            initial
+                ? random(0,8)
+                : random(.4,4),
+
+        hue:
+            Math.random()
+
+    };
+
+}
+
+
+/* =====================================================
+   FONDO
+===================================================== */
+
+function drawBackground(time) {
+
+    const cx =
+        W*.5+
+        cameraX*15;
+
+
+    const cy =
+        H*.48+
+        cameraY*8;
+
+
+    const bg =
+        ctx.createRadialGradient(
+
+            cx,
+            cy,
+            0,
+
+            cx,
+            cy,
+            Math.max(W,H)
+
+        );
+
+
+    bg.addColorStop(
+        0,
+        "#191047"
+    );
+
+    bg.addColorStop(
+        .18,
+        "#120b37"
+    );
+
+    bg.addColorStop(
+        .38,
+        "#0a0825"
+    );
+
+    bg.addColorStop(
+        .65,
+        "#050619"
+    );
+
+    bg.addColorStop(
+        1,
+        "#000106"
+    );
+
+
+    ctx.fillStyle =
+        bg;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    drawNebula(
+        W*.18,
+        H*.35,
+        Math.min(W,H)*.55,
+        "rgba(55,75,220,.07)"
+    );
+
+
+    drawNebula(
+        W*.82,
+        H*.55,
+        Math.min(W,H)*.55,
+        "rgba(230,40,190,.065)"
+    );
+
+
+    drawNebula(
+        W*.5,
+        H*.15,
+        Math.min(W,H)*.35,
+        "rgba(50,90,255,.045)"
+    );
+
+}
+
+
+function drawNebula(
+    x,
+    y,
+    radius,
+    color
+) {
+
+    const gradient =
+        ctx.createRadialGradient(
+
             x,
             y,
-            radius,
-            color
+            0,
+
+            x,
+            y,
+            radius
+
+        );
+
+
+    gradient.addColorStop(
+        0,
+        color
+    );
+
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        gradient;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+}
+
+
+/* =====================================================
+   ESTRELLAS DE FONDO
+===================================================== */
+
+function drawStars(time) {
+
+    for (
+        const star of stars
+    ) {
+
+        star.phase +=
+            star.speed;
+
+
+        const pulse =
+            .55+
+            Math.sin(
+                star.phase
+            )*.35;
+
+
+        const x =
+            star.x+
+            cameraX*
+            20*
+            star.depth;
+
+
+        const y =
+            star.y+
+            cameraY*
+            12*
+            star.depth;
+
+
+        let color;
+
+
+        const type =
+            (
+                star.x+
+                star.y
+            )%3;
+
+
+        if (
+            type<1
         ) {
 
-            const gradient =
-                ctx.createRadialGradient(
-
-                    x,
-                    y,
-                    0,
-
-                    x,
-                    y,
-                    radius
-
-                );
-
-
-            gradient.addColorStop(
-                0,
-                color
-            );
-
-
-            gradient.addColorStop(
-                1,
-                "rgba(0,0,0,0)"
-            );
-
-
-            ctx.fillStyle =
-                gradient;
-
-
-            ctx.fillRect(
-                0,
-                0,
-                W,
-                H
-            );
+            color =
+                `rgba(
+                    130,
+                    175,
+                    255,
+                    ${star.alpha*pulse}
+                )`;
 
         }
 
-
-        /* =====================================================
-           ESTRELLAS DE FONDO
-        ===================================================== */
-
-        function drawStars(time) {
-
-            for (
-                const star of stars
-            ) {
-
-                star.phase +=
-                    star.speed;
-
-
-                const pulse =
-                    .55 +
-                    Math.sin(
-                        star.phase
-                    ) * .35;
-
-
-                const x =
-                    star.x +
-                    cameraX *
-                    20 *
-                    star.depth;
-
-
-                const y =
-                    star.y +
-                    cameraY *
-                    12 *
-                    star.depth;
-
-
-                let color;
-
-
-                const type =
-                    (
-                        star.x +
-                        star.y
-                    ) % 3;
-
-
-                if (
-                    type < 1
-                ) {
-
-                    color =
-                        `rgba(
-                            130,
-                            175,
-                            255,
-                            ${star.alpha * pulse}
-                        )`;
-
-                }
-
-                else if (
-                    type < 2
-                ) {
-
-                    color =
-                        `rgba(
-                            220,
-                            205,
-                            255,
-                            ${star.alpha * pulse}
-                        )`;
-
-                }
-
-                else {
-
-                    color =
-                        `rgba(
-                            255,
-                            205,
-                            240,
-                            ${star.alpha * pulse}
-                        )`;
-
-                }
-
-
-                ctx.beginPath();
-
-                ctx.fillStyle =
-                    color;
-
-                ctx.arc(
-                    x,
-                    y,
-                    star.size,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-
-            }
-
-        }
-
-
-        /* =====================================================
-           GALAXIA
-        ===================================================== */
-
-        function drawGalaxy(time) {
-
-            if (!started) {
-                return;
-            }
-
-
-            /*
-             * CUANDO EMPIEZA EL CORAZÓN:
-             *
-             * NO dibujamos una segunda galaxia.
-             *
-             * Las mismas estrellas serán
-             * movidas por drawHeart().
-             */
-
-            if (formingHeart) {
-                return;
-            }
-
-
-            const elapsed =
-                time -
-                startTime;
-
-
-            const formation =
-                easeOutCubic(
-                    clamp(
-                        elapsed / 5,
-                        0,
-                        1
-                    )
-                );
-
-
-            const rotation =
-                time * .012;
-
-
-            const cx =
-                W*.5 +
-                cameraX*12;
-
-
-            const cy =
-                H*.48 +
-                cameraY*8;
-
-
-            const tilt =
-                W < 600
-                    ? .34
-                    : .29;
-
-
-            /* =================================================
-               POLVO
-            ================================================= */
-
-            for (
-                const p of dust
-            ) {
-
-                p.angle +=
-                    p.speed;
-
-
-                const radius =
-                    p.radius *
-                    formation;
-
-
-                const angle =
-                    p.angle +
-                    rotation +
-                    radius*.0022;
-
-
-                const x =
-                    cx +
-                    Math.cos(angle) *
-                    radius;
-
-
-                const y =
-                    cy +
-                    Math.sin(angle) *
-                    radius *
-                    tilt;
-
-
-                ctx.beginPath();
-
-
-                if (
-                    p.depth > .55
-                ) {
-
-                    ctx.fillStyle =
-                        `rgba(
-                            205,
-                            65,
-                            215,
-                            ${p.alpha*formation}
-                        )`;
-
-                }
-
-                else {
-
-                    ctx.fillStyle =
-                        `rgba(
-                            65,
-                            100,
-                            220,
-                            ${p.alpha*formation}
-                        )`;
-
-                }
-
-
-                ctx.arc(
-                    x,
-                    y,
-                    p.size *
-                    (.5+p.depth),
-                    0,
-                    Math.PI*2
-                );
-
-
-                ctx.fill();
-
-            }
-
-
-            /* =================================================
-               ESTRELLAS GALAXIA
-            ================================================= */
-
-            for (
-                const star of galaxyStars
-            ) {
-
-                star.phase +=
-                    star.speed;
-
-
-                const radius =
-                    star.radius *
-                    formation;
-
-
-                const angle =
-                    star.angle +
-                    rotation +
-                    radius*.0023;
-
-
-                const x =
-                    cx +
-                    Math.cos(angle) *
-                    radius;
-
-
-                const y =
-                    cy +
-                    Math.sin(angle) *
-                    radius *
-                    tilt;
-
-
-                const depth =
-                    star.depth;
-
-
-                const size =
-                    star.size *
-                    (
-                        .45 +
-                        depth*1.6
-                    );
-
-
-                const alpha =
-                    star.brightness *
-                    formation;
-
-
-                let r;
-                let g;
-                let b;
-
-
-                if (
-                    depth < .32
-                ) {
-
-                    r=100;
-                    g=130;
-                    b=255;
-
-                }
-
-                else if (
-                    depth < .60
-                ) {
-
-                    r=175;
-                    g=105;
-                    b=245;
-
-                }
-
-                else if (
-                    depth < .82
-                ) {
-
-                    r=245;
-                    g=105;
-                    b=220;
-
-                }
-
-                else {
-
-                    r=255;
-                    g=205;
-                    b=245;
-
-                }
-
-
-                ctx.beginPath();
-
-
-                ctx.fillStyle =
-                    `rgba(
-                        ${r},
-                        ${g},
-                        ${b},
-                        ${alpha}
-                    )`;
-
-
-                if (
-                    depth>.84 &&
-                    star.brightness>.7
-                ) {
-
-                    ctx.shadowBlur =
-                        4+
-                        depth*5;
-
-                    ctx.shadowColor =
-                        "#ff70d0";
-
-                }
-
-
-                ctx.arc(
-                    x,
-                    y,
-                    size,
-                    0,
-                    Math.PI*2
-                );
-
-
-                ctx.fill();
-
-
-                ctx.shadowBlur=0;
-
-            }
-
-
-            /* =================================================
-               NÚCLEO
-            ================================================= */
-
-            const core =
-                ctx.createRadialGradient(
-
-                    cx,
-                    cy,
-                    0,
-
-                    cx,
-                    cy,
-                    Math.min(W,H)*.34
-
-                );
-
-
-            core.addColorStop(
-                0,
+        else if (
+            type<2
+        ) {
+
+            color =
                 `rgba(
-                    255,
-                    250,
-                    255,
-                    ${.42*formation}
-                )`
-            );
-
-
-            core.addColorStop(
-                .05,
-                `rgba(
-                    255,
-                    210,
-                    245,
-                    ${.30*formation}
-                )`
-            );
-
-
-            core.addColorStop(
-                .13,
-                `rgba(
-                    255,
-                    100,
-                    215,
-                    ${.16*formation}
-                )`
-            );
-
-
-            core.addColorStop(
-                .28,
-                `rgba(
-                    150,
-                    55,
                     220,
-                    ${.07*formation}
-                )`
-            );
+                    205,
+                    255,
+                    ${star.alpha*pulse}
+                )`;
+
+        }
+
+        else {
+
+            color =
+                `rgba(
+                    255,
+                    205,
+                    240,
+                    ${star.alpha*pulse}
+                )`;
+
+        }
 
 
-            core.addColorStop(
-                1,
-                "rgba(0,0,0,0)"
-            );
+        ctx.beginPath();
 
+        ctx.fillStyle =
+            color;
+
+        ctx.arc(
+            x,
+            y,
+            star.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =====================================================
+   GALAXIA
+===================================================== */
+
+function drawGalaxy(time) {
+
+    if (!started) {
+        return;
+    }
+
+
+    /*
+     * Cuando comienza la transformación,
+     * las estrellas dejan de dibujarse
+     * aquí y pasan a drawHeart().
+     */
+
+    if (formingHeart) {
+        return;
+    }
+
+
+    const elapsed =
+        time-startTime;
+
+
+    const formation =
+        easeOutCubic(
+            clamp(
+                elapsed/5,
+                0,
+                1
+            )
+        );
+
+
+    const rotation =
+        time*.012;
+
+
+    const cx =
+        W*.5+
+        cameraX*12;
+
+
+    const cy =
+        H*.48+
+        cameraY*8;
+
+
+    const tilt =
+        W<600
+            ? .34
+            : .29;
+
+
+    /* =================================================
+       POLVO DE LOS BRAZOS
+    ================================================= */
+
+    for (
+        const p of dust
+    ) {
+
+        p.angle +=
+            p.speed;
+
+
+        const radius =
+            p.radius*
+            formation;
+
+
+        const angle =
+            p.angle+
+            rotation+
+            radius*.0022;
+
+
+        const x =
+            cx+
+            Math.cos(angle)*
+            radius;
+
+
+        const y =
+            cy+
+            Math.sin(angle)*
+            radius*
+            tilt;
+
+
+        ctx.beginPath();
+
+
+        if (
+            p.depth>.55
+        ) {
 
             ctx.fillStyle =
-                core;
-
-
-            ctx.fillRect(
-                0,
-                0,
-                W,
-                H
-            );
-
-        }
-
-
-        /* =====================================================
-           ESTRELLAS FUGACES
-        ===================================================== */
-
-        function drawShootingStars() {
-
-            if (!started) {
-                return;
-            }
-
-
-            for (
-                let i=0;
-                i<shootingStars.length;
-                i++
-            ) {
-
-                const s =
-                    shootingStars[i];
-
-
-                if (
-                    s.delay>0
-                ) {
-
-                    s.delay-=.016;
-
-                    continue;
-
-                }
-
-
-                s.x +=
-                    s.speed;
-
-
-                s.y +=
-                    s.speed*.32;
-
-
-                s.alpha -=
-                    .008;
-
-
-                let color;
-
-
-                if (
-                    s.hue<.33
-                ) {
-
-                    color =
-                        `rgba(
-                            100,
-                            170,
-                            255,
-                            ${s.alpha}
-                        )`;
-
-                }
-
-                else if (
-                    s.hue<.66
-                ) {
-
-                    color =
-                        `rgba(
-                            220,
-                            100,
-                            255,
-                            ${s.alpha}
-                        )`;
-
-                }
-
-                else {
-
-                    color =
-                        `rgba(
-                            255,
-                            110,
-                            215,
-                            ${s.alpha}
-                        )`;
-
-                }
-
-
-                const trail =
-                    ctx.createLinearGradient(
-
-                        s.x,
-                        s.y,
-
-                        s.x-s.length,
-                        s.y-s.length*.32
-
-                    );
-
-
-                trail.addColorStop(
-                    0,
-                    `rgba(
-                        255,
-                        250,
-                        255,
-                        ${s.alpha}
-                    )`
-                );
-
-
-                trail.addColorStop(
-                    .25,
-                    color
-                );
-
-
-                trail.addColorStop(
-                    1,
-                    "rgba(0,0,0,0)"
-                );
-
-
-                ctx.beginPath();
-
-                ctx.strokeStyle =
-                    trail;
-
-                ctx.lineWidth=1.5;
-
-                ctx.moveTo(
-                    s.x,
-                    s.y
-                );
-
-                ctx.lineTo(
-                    s.x-s.length,
-                    s.y-s.length*.32
-                );
-
-                ctx.stroke();
-
-
-                ctx.beginPath();
-
-                ctx.fillStyle =
-                    `rgba(
-                        255,
-                        250,
-                        255,
-                        ${s.alpha}
-                    )`;
-
-                ctx.shadowBlur=18;
-
-                ctx.shadowColor="#ff82d8";
-
-                ctx.arc(
-                    s.x,
-                    s.y,
-                    2,
-                    0,
-                    Math.PI*2
-                );
-
-                ctx.fill();
-
-                ctx.shadowBlur=0;
-
-
-                if (
-                    s.alpha<=0 ||
-                    s.x>W+250 ||
-                    s.y>H+200
-                ) {
-
-                    shootingStars[i] =
-                        createShootingStar(false);
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           ESTRELLA DE CADA FRASE
-        ===================================================== */
-
-        function createPhraseStar() {
-
-            return {
-
-                progress:0,
-
-                duration:1900,
-
-                startX:
-                    W*random(.82,.98),
-
-                startY:
-                    H*random(.06,.20),
-
-                endX:
-                    W*random(.40,.60),
-
-                endY:
-                    H*random(.40,.57),
-
-                alpha:0,
-
-                active:true,
-
-                revealed:false
-
-            };
-
-        }
-
-
-        function drawPhraseStar() {
-
-            if (
-                !phraseStar ||
-                !phraseStar.active
-            ) {
-
-                return;
-
-            }
-
-
-            const s =
-                phraseStar;
-
-
-            const p =
-                clamp(
-                    s.progress,
-                    0,
-                    1
-                );
-
-
-            const eased =
-                easeOutCubic(p);
-
-
-            const x =
-                s.startX +
-                (
-                    s.endX -
-                    s.startX
-                ) *
-                eased;
-
-
-            const y =
-                s.startY +
-                (
-                    s.endY -
-                    s.startY
-                ) *
-                eased;
-
-
-            const dx =
-                s.endX -
-                s.startX;
-
-
-            const dy =
-                s.endY -
-                s.startY;
-
-
-            const distance =
-                Math.hypot(
-                    dx,
-                    dy
-                ) || 1;
-
-
-            const ux =
-                dx/distance;
-
-
-            const uy =
-                dy/distance;
-
-
-            const length =
-                Math.min(
-                    W,
-                    H
-                )*.25;
-
-
-            const tailX =
-                x -
-                ux*length;
-
-
-            const tailY =
-                y -
-                uy*length;
-
-
-            const trail =
-                ctx.createLinearGradient(
-
-                    tailX,
-                    tailY,
-
-                    x,
-                    y
-
-                );
-
-
-            trail.addColorStop(
-                0,
-                "rgba(70,90,255,0)"
-            );
-
-
-            trail.addColorStop(
-                .35,
                 `rgba(
-                    110,
-                    100,
-                    255,
-                    ${s.alpha*.28}
-                )`
-            );
-
-
-            trail.addColorStop(
-                .62,
-                `rgba(
-                    200,
-                    90,
-                    255,
-                    ${s.alpha*.55}
-                )`
-            );
-
-
-            trail.addColorStop(
-                .84,
-                `rgba(
-                    255,
-                    95,
+                    205,
+                    65,
                     215,
-                    ${s.alpha*.8}
-                )`
-            );
+                    ${p.alpha*formation}
+                )`;
 
+        }
 
-            trail.addColorStop(
-                1,
-                `rgba(
-                    255,
-                    250,
-                    255,
-                    ${s.alpha}
-                )`
-            );
-
-
-            ctx.beginPath();
-
-            ctx.strokeStyle =
-                trail;
-
-            ctx.lineWidth=2.5;
-
-            ctx.moveTo(
-                tailX,
-                tailY
-            );
-
-            ctx.lineTo(
-                x,
-                y
-            );
-
-            ctx.stroke();
-
-
-            ctx.beginPath();
+        else {
 
             ctx.fillStyle =
                 `rgba(
-                    255,
-                    245,
+                    65,
+                    100,
+                    220,
+                    ${p.alpha*formation}
+                )`;
+
+        }
+
+
+        ctx.arc(
+            x,
+            y,
+            p.size*
+            (.5+p.depth),
+            0,
+            Math.PI*2
+        );
+
+
+        ctx.fill();
+
+    }
+
+
+    /* =================================================
+       ESTRELLAS DE LOS BRAZOS
+    ================================================= */
+
+    for (
+        const star of galaxyStars
+    ) {
+
+        star.phase +=
+            star.speed;
+
+
+        const radius =
+            star.radius*
+            formation;
+
+
+        const angle =
+            star.angle+
+            rotation+
+            radius*.0023;
+
+
+        const x =
+            cx+
+            Math.cos(angle)*
+            radius;
+
+
+        const y =
+            cy+
+            Math.sin(angle)*
+            radius*
+            tilt;
+
+
+        const depth =
+            star.depth;
+
+
+        const size =
+            star.size*
+            (
+                .45+
+                depth*1.6
+            );
+
+
+        const alpha =
+            star.brightness*
+            formation;
+
+
+        let r;
+        let g;
+        let b;
+
+
+        if (
+            depth<.32
+        ) {
+
+            r=100;
+            g=130;
+            b=255;
+
+        }
+
+        else if (
+            depth<.60
+        ) {
+
+            r=175;
+            g=105;
+            b=245;
+
+        }
+
+        else if (
+            depth<.82
+        ) {
+
+            r=245;
+            g=105;
+            b=220;
+
+        }
+
+        else {
+
+            r=255;
+            g=205;
+            b=245;
+
+        }
+
+
+        ctx.beginPath();
+
+
+        ctx.fillStyle =
+            `rgba(
+                ${r},
+                ${g},
+                ${b},
+                ${alpha}
+            )`;
+
+
+        if (
+            depth>.84 &&
+            star.brightness>.7
+        ) {
+
+            ctx.shadowBlur =
+                4+
+                depth*5;
+
+            ctx.shadowColor =
+                "#ff70d0";
+
+        }
+
+
+        ctx.arc(
+            x,
+            y,
+            size,
+            0,
+            Math.PI*2
+        );
+
+
+        ctx.fill();
+
+
+        ctx.shadowBlur=0;
+
+    }
+
+
+    /* =================================================
+       NÚCLEO
+    ================================================= */
+
+    const core =
+        ctx.createRadialGradient(
+
+            cx,
+            cy,
+            0,
+
+            cx,
+            cy,
+            Math.min(W,H)*.34
+
+        );
+
+
+    core.addColorStop(
+        0,
+        `rgba(
+            255,
+            250,
+            255,
+            ${.42*formation}
+        )`
+    );
+
+
+    core.addColorStop(
+        .05,
+        `rgba(
+            255,
+            210,
+            245,
+            ${.30*formation}
+        )`
+    );
+
+
+    core.addColorStop(
+        .13,
+        `rgba(
+            255,
+            100,
+            215,
+            ${.16*formation}
+        )`
+    );
+
+
+    core.addColorStop(
+        .28,
+        `rgba(
+            150,
+            55,
+            220,
+            ${.07*formation}
+        )`
+    );
+
+
+    core.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        core;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+}
+
+
+/* =====================================================
+   ESTRELLAS FUGACES
+===================================================== */
+
+function drawShootingStars() {
+
+    if (!started) {
+        return;
+    }
+
+
+    for (
+        let i=0;
+        i<shootingStars.length;
+        i++
+    ) {
+
+        const s =
+            shootingStars[i];
+
+
+        if (
+            s.delay>0
+        ) {
+
+            s.delay-=.016;
+
+            continue;
+
+        }
+
+
+        s.x +=
+            s.speed;
+
+
+        s.y +=
+            s.speed*.32;
+
+
+        s.alpha -=
+            .008;
+
+
+        let color;
+
+
+        if (
+            s.hue<.33
+        ) {
+
+            color =
+                `rgba(
+                    100,
+                    170,
                     255,
                     ${s.alpha}
                 )`;
 
-            ctx.shadowBlur=32;
+        }
 
-            ctx.shadowColor="#ff72d2";
+        else if (
+            s.hue<.66
+        ) {
 
-            ctx.arc(
-                x,
-                y,
-                2.3+p*1.7,
-                0,
-                Math.PI*2
+            color =
+                `rgba(
+                    220,
+                    100,
+                    255,
+                    ${s.alpha}
+                )`;
+
+        }
+
+        else {
+
+            color =
+                `rgba(
+                    255,
+                    110,
+                    215,
+                    ${s.alpha}
+                )`;
+
+        }
+
+
+        const trail =
+            ctx.createLinearGradient(
+
+                s.x,
+                s.y,
+
+                s.x-s.length,
+                s.y-s.length*.32
+
             );
 
-            ctx.fill();
 
-            ctx.shadowBlur=0;
-
-
-            for (
-                let i=0;
-                i<14;
-                i++
-            ) {
-
-                const t =
-                    i/14;
+        trail.addColorStop(
+            0,
+            `rgba(
+                255,
+                250,
+                255,
+                ${s.alpha}
+            )`
+        );
 
 
-                const px =
-                    x-
-                    ux*
-                    length*
-                    t;
+        trail.addColorStop(
+            .25,
+            color
+        );
 
 
-                const py =
-                    y-
-                    uy*
-                    length*
-                    t;
+        trail.addColorStop(
+            1,
+            "rgba(0,0,0,0)"
+        );
 
 
-                ctx.beginPath();
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            trail;
+
+        ctx.lineWidth=1.5;
+
+        ctx.moveTo(
+            s.x,
+            s.y
+        );
+
+        ctx.lineTo(
+            s.x-s.length,
+            s.y-s.length*.32
+        );
+
+        ctx.stroke();
 
 
-                ctx.fillStyle =
-                    `rgba(
-                        ${180+i*5},
-                        ${135+i*6},
-                        255,
-                        ${s.alpha*
-                          (1-t)*
-                          .45}
-                    )`;
+        ctx.beginPath();
+
+        ctx.fillStyle =
+            `rgba(
+                255,
+                250,
+                255,
+                ${s.alpha}
+            )`;
+
+        ctx.shadowBlur=18;
+
+        ctx.shadowColor="#ff82d8";
+
+        ctx.arc(
+            s.x,
+            s.y,
+            2,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.shadowBlur=0;
 
 
-                ctx.arc(
+        if (
+            s.alpha<=0 ||
+            s.x>W+250 ||
+            s.y>H+200
+        ) {
 
-                    px+
-                    Math.sin(i*5.7)*2,
+            shootingStars[i] =
+                createShootingStar(false);
 
-                    py+
-                    Math.cos(i*4.2)*2,
+        }
 
-                    .5+
-                    (1-t)*.8,
+    }
 
+}
+
+
+/* =====================================================
+   ESTRELLA DE FRASES
+===================================================== */
+
+function createPhraseStar() {
+
+    return {
+
+        progress:0,
+
+        duration:1900,
+
+        startX:
+            W*random(.82,.98),
+
+        startY:
+            H*random(.06,.20),
+
+        endX:
+            W*random(.40,.60),
+
+        endY:
+            H*random(.40,.57),
+
+        alpha:0,
+
+        active:true,
+
+        revealed:false
+
+    };
+
+}
+
+
+function drawPhraseStar() {
+
+    if (
+        !phraseStar ||
+        !phraseStar.active
+    ) {
+
+        return;
+
+    }
+
+
+    const s =
+        phraseStar;
+
+
+    const p =
+        clamp(
+            s.progress,
+            0,
+            1
+        );
+
+
+    const eased =
+        easeOutCubic(p);
+
+
+    const x =
+        s.startX+
+        (
+            s.endX-
+            s.startX
+        )*
+        eased;
+
+
+    const y =
+        s.startY+
+        (
+            s.endY-
+            s.startY
+        )*
+        eased;
+
+
+    const dx =
+        s.endX-
+        s.startX;
+
+
+    const dy =
+        s.endY-
+        s.startY;
+
+
+    const distance =
+        Math.hypot(
+            dx,
+            dy
+        )||1;
+
+
+    const ux =
+        dx/distance;
+
+
+    const uy =
+        dy/distance;
+
+
+    const length =
+        Math.min(
+            W,
+            H
+        )*.25;
+
+
+    const tailX =
+        x-
+        ux*length;
+
+
+    const tailY =
+        y-
+        uy*length;
+
+
+    const trail =
+        ctx.createLinearGradient(
+
+            tailX,
+            tailY,
+
+            x,
+            y
+
+        );
+
+
+    trail.addColorStop(
+        0,
+        "rgba(70,90,255,0)"
+    );
+
+
+    trail.addColorStop(
+        .35,
+        `rgba(
+            110,
+            100,
+            255,
+            ${s.alpha*.28}
+        )`
+    );
+
+
+    trail.addColorStop(
+        .62,
+        `rgba(
+            200,
+            90,
+            255,
+            ${s.alpha*.55}
+        )`
+    );
+
+
+    trail.addColorStop(
+        .84,
+        `rgba(
+            255,
+            95,
+            215,
+            ${s.alpha*.8}
+        )`
+    );
+
+
+    trail.addColorStop(
+        1,
+        `rgba(
+            255,
+            250,
+            255,
+            ${s.alpha}
+        )`
+    );
+
+
+    ctx.beginPath();
+
+    ctx.strokeStyle =
+        trail;
+
+    ctx.lineWidth=2.5;
+
+    ctx.moveTo(
+        tailX,
+        tailY
+    );
+
+    ctx.lineTo(
+        x,
+        y
+    );
+
+    ctx.stroke();
+
+
+    ctx.beginPath();
+
+    ctx.fillStyle =
+        `rgba(
+            255,
+            245,
+            255,
+            ${s.alpha}
+        )`;
+
+    ctx.shadowBlur=32;
+
+    ctx.shadowColor="#ff72d2";
+
+    ctx.arc(
+        x,
+        y,
+        2.3+p*1.7,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.shadowBlur=0;
+
+}
+
+
+/* =====================================================
+   ❤️ PREPARAR TRANSFORMACIÓN
+===================================================== */
+
+function createHeartParticles() {
+
+    heartParticles = [];
+
+
+    const cx =
+        W*.5;
+
+
+    const cy =
+        H*.46;
+
+
+    /*
+     * Corazón un poco más grande
+     * y mucho más lleno.
+     */
+
+    const scale =
+        Math.min(W,H) *
+        (
+            W<600
+                ? .0215
+                : .028
+        );
+
+
+    /*
+     * TODAS las estrellas de la galaxia
+     * se reutilizan.
+     */
+
+    const source =
+        galaxyStars;
+
+
+    const total =
+        source.length;
+
+
+    /*
+     * Guardamos la posición EXACTA
+     * de cada estrella al comenzar
+     * la transformación.
+     */
+
+    const rotation =
+        heartStart*.012;
+
+
+    for (
+        let i=0;
+        i<total;
+        i++
+    ) {
+
+        const star =
+            source[i];
+
+
+        const radius =
+            star.radius;
+
+
+        const angle =
+            star.angle+
+            rotation+
+            radius*.0023;
+
+
+        const galaxyX =
+            cx+
+            Math.cos(angle)*
+            radius;
+
+
+        const galaxyY =
+            cy+
+            Math.sin(angle)*
+            radius*
+            (
+                W<600
+                    ? .34
+                    : .29
+            );
+
+
+        /*
+         * Cada estrella conserva
+         * su pertenencia a uno de los
+         * cuatro brazos.
+         */
+
+        const arm =
+            star.arm;
+
+
+        const armProgress =
+            star.armPosition;
+
+
+        /*
+         * En lugar de repartir estrellas
+         * aleatoriamente, cada brazo
+         * alimenta una zona específica
+         * del corazón.
+         *
+         * Esto hace que SE VEA la
+         * transformación de los brazos.
+         */
+
+        const armAngle =
+            (
+                arm/
+                4
+            ) *
+            Math.PI*2;
+
+
+        /*
+         * Parámetro del corazón.
+         */
+
+        const t =
+            (
+                i/
+                total
+            ) *
+            Math.PI*2;
+
+
+        const hx =
+            16*
+            Math.pow(
+                Math.sin(t),
+                3
+            );
+
+
+        const hy =
+            -(
+                13*Math.cos(t) -
+                5*Math.cos(2*t) -
+                2*Math.cos(3*t) -
+                Math.cos(4*t)
+            );
+
+
+        /*
+         * Mucho relleno interior.
+         *
+         * Los puntos cercanos al centro
+         * son tan importantes como
+         * los del contorno.
+         */
+
+        const fill =
+            Math.pow(
+                Math.random(),
+                .43
+            );
+
+
+        /*
+         * Pequeña variación radial para
+         * evitar una textura demasiado
+         * artificial.
+         */
+
+        const variation =
+            1+
+            random(
+                -.035,
+                .035
+            );
+
+
+        let targetX =
+            cx+
+            hx*
+            scale*
+            fill*
+            variation;
+
+
+        let targetY =
+            cy+
+            hy*
+            scale*
+            fill*
+            variation;
+
+
+        /*
+         * Los brazos exteriores tienen
+         * un pequeño sesgo dependiendo
+         * de su brazo original.
+         *
+         * Esto conserva la sensación
+         * de que los brazos están
+         * entrando al corazón.
+         */
+
+        const armInfluence =
+            Math.pow(
+                armProgress,
+                .65
+            );
+
+
+        targetX +=
+            Math.cos(
+                armAngle
+            )*
+            armInfluence*
+            Math.min(W,H)*
+            .008;
+
+
+        targetY +=
+            Math.sin(
+                armAngle
+            )*
+            armInfluence*
+            Math.min(W,H)*
+            .006;
+
+
+        heartParticles.push({
+
+            /*
+             * ORIGEN:
+             * estrella real de la galaxia.
+             */
+
+            x:
+                galaxyX,
+
+            y:
+                galaxyY,
+
+
+            /*
+             * DESTINO:
+             * corazón.
+             */
+
+            targetX,
+
+            targetY,
+
+
+            /*
+             * Propiedades originales.
+             */
+
+            size:
+                star.size*
+                (
+                    .72+
+                    star.depth*1.05
+                ),
+
+
+            brightness:
+                star.brightness,
+
+
+            depth:
+                star.depth,
+
+
+            phase:
+                star.phase,
+
+
+            hue:
+                star.depth,
+
+
+            arm,
+
+
+            armProgress,
+
+            /*
+             * Los brazos exteriores
+             * empiezan ligeramente antes.
+             */
+
+            delay:
+                (
+                    1-
+                    armProgress
+                )*
+                .13+
+                random(
                     0,
-                    Math.PI*2
+                    .12
+                )
 
-                );
+        });
+
+    }
+
+}
 
 
-                ctx.fill();
+/* =====================================================
+   ❤️ DIBUJAR TRANSFORMACIÓN
+===================================================== */
 
-            }
+function drawHeart(time) {
+
+    if (!formingHeart) {
+        return;
+    }
+
+
+    /*
+     * 0 → 5.8 segundos:
+     * galaxia se transforma.
+     *
+     * 5.8 → adelante:
+     * corazón completo.
+     */
+
+    const transformDuration =
+        5.8;
+
+
+    const elapsed =
+        time-
+        heartStart;
+
+
+    const heartFormation =
+        clamp(
+            elapsed/
+            transformDuration,
+            0,
+            1
+        );
+
+
+    /*
+     * Curva suave.
+     */
+
+    const eased =
+        easeInOut(
+            heartFormation
+        );
+
+
+    /*
+     * El corazón ya terminado
+     * respira muy suavemente.
+     */
+
+    let pulse = 1;
+
+
+    if (
+        heartFormation>=1
+    ) {
+
+        pulse =
+            1+
+            Math.sin(
+                elapsed*2.15
+            )*
+            .025;
+
+    }
+
+
+    /* =================================================
+       ESTRELLAS
+    ================================================= */
+
+    for (
+        const p of heartParticles
+    ) {
+
+        /*
+         * Las estrellas de cada brazo
+         * comienzan su movimiento desde
+         * su propia posición.
+         */
+
+        const local =
+            clamp(
+                (
+                    eased-
+                    p.delay
+                )/
+                (
+                    1-
+                    p.delay
+                ),
+                0,
+                1
+            );
+
+
+        /*
+         * Movimiento suave pero con
+         * sensación de corriente.
+         */
+
+        const armWave =
+            Math.sin(
+                local*
+                Math.PI
+            );
+
+
+        const e =
+            easeInOut(
+                local
+            );
+
+
+        /*
+         * Durante la transformación,
+         * cada brazo se curva antes de
+         * entrar al corazón.
+         */
+
+        const curveStrength =
+            (
+                1-e
+            )*
+            armWave;
+
+
+        const dx =
+            p.targetX-
+            p.x;
+
+
+        const dy =
+            p.targetY-
+            p.y;
+
+
+        /*
+         * Curvatura perpendicular
+         * al movimiento.
+         */
+
+        const distance =
+            Math.hypot(
+                dx,
+                dy
+            )||1;
+
+
+        const nx =
+            -dy/distance;
+
+
+        const ny =
+            dx/distance;
+
+
+        /*
+         * Cada brazo gira ligeramente
+         * hacia el centro.
+         */
+
+        const curve =
+            curveStrength*
+            Math.min(W,H)*
+            .065;
+
+
+        let x =
+            p.x+
+            dx*e+
+            nx*curve;
+
+
+        let y =
+            p.y+
+            dy*e+
+            ny*curve;
+
+
+        /*
+         * Cuando ya está formado,
+         * usamos el destino exacto.
+         */
+
+        if (
+            heartFormation>=1
+        ) {
+
+            x =
+                p.targetX;
+
+            y =
+                p.targetY;
 
         }
 
 
-        /* =====================================================
-           MOSTRAR FRASE
-        ===================================================== */
+        /*
+         * Pulso del corazón.
+         */
 
-        function showPhrase(text) {
-
-            message.innerHTML = `
-
-                <div class="text">
-                    “${text}”
-                </div>
-
-            `;
+        const centerX =
+            W*.5;
 
 
-            message.classList.add(
-                "show"
+        const centerY =
+            H*.46;
+
+
+        if (
+            heartFormation>=1
+        ) {
+
+            x =
+                centerX+
+                (
+                    x-centerX
+                )*
+                pulse;
+
+
+            y =
+                centerY+
+                (
+                    y-centerY
+                )*
+                pulse;
+
+        }
+
+
+        p.phase += .018;
+
+
+        const sparkle =
+            .72+
+            Math.sin(
+                p.phase
+            )*
+            .28;
+
+
+        let r;
+        let g;
+        let b;
+
+
+        /*
+         * Conservamos la paleta
+         * de la galaxia.
+         */
+
+        if (
+            p.depth<.32
+        ) {
+
+            r=95;
+            g=135;
+            b=255;
+
+        }
+
+        else if (
+            p.depth<.60
+        ) {
+
+            r=175;
+            g=100;
+            b=245;
+
+        }
+
+        else if (
+            p.depth<.82
+        ) {
+
+            r=245;
+            g=105;
+            b=220;
+
+        }
+
+        else {
+
+            r=255;
+            g=205;
+            b=245;
+
+        }
+
+
+        /*
+         * Durante la transformación
+         * la estrella se vuelve un poco
+         * más brillante al acercarse
+         * al corazón.
+         */
+
+        const alpha =
+            (
+                .65+
+                p.brightness*.35
+            )*
+            (
+                .72+
+                e*.28
+            )*
+            sparkle;
+
+
+        const size =
+            p.size*
+            (
+                1+
+                e*.16
+            );
+
+
+        ctx.save();
+
+
+        ctx.beginPath();
+
+
+        ctx.fillStyle =
+            `rgba(
+                ${r},
+                ${g},
+                ${b},
+                ${alpha}
+            )`;
+
+
+        /*
+         * El glow solo aparece en estrellas
+         * que ya existen.
+         */
+
+        ctx.shadowBlur =
+            2+
+            e*7;
+
+
+        ctx.shadowColor =
+            `rgba(
+                255,
+                100,
+                220,
+                ${.3+e*.45}
+            )`;
+
+
+        ctx.arc(
+            x,
+            y,
+            size,
+            0,
+            Math.PI*2
+        );
+
+
+        ctx.fill();
+
+
+        ctx.restore();
+
+    }
+
+
+    /* =================================================
+       BRILLO DEL CORAZÓN
+    ================================================= */
+
+    if (
+        heartFormation>.55
+    ) {
+
+        const glowProgress =
+            clamp(
+                (
+                    heartFormation-
+                    .55
+                )/.45,
+                0,
+                1
+            );
+
+
+        const alpha =
+            .035+
+            glowProgress*.055;
+
+
+        const glow =
+            ctx.createRadialGradient(
+
+                W*.5,
+                H*.46,
+                0,
+
+                W*.5,
+                H*.46,
+                Math.min(W,H)*.36
+
+            );
+
+
+        glow.addColorStop(
+            0,
+            `rgba(
+                255,
+                80,
+                215,
+                ${alpha}
+            )`
+        );
+
+
+        glow.addColorStop(
+            .35,
+            `rgba(
+                170,
+                70,
+                255,
+                ${alpha*.5}
+            )`
+        );
+
+
+        glow.addColorStop(
+            1,
+            "rgba(0,0,0,0)"
+        );
+
+
+        ctx.fillStyle =
+            glow;
+
+
+        ctx.fillRect(
+            0,
+            0,
+            W,
+            H
+        );
+
+    }
+
+
+    /* =================================================
+       TEXTO FINAL
+    ================================================= */
+
+    if (
+        elapsed>=5.1
+    ) {
+
+        const textProgress =
+            clamp(
+                (
+                    elapsed-
+                    5.1
+                )/
+                .9,
+                0,
+                1
+            );
+
+
+        const textFade =
+            easeInOut(
+                textProgress
+            );
+
+
+        const breathing =
+            heartFormation>=1
+
+                ? Math.sin(
+                    elapsed*1.8
+                )*
+                1.2
+
+                : 0;
+
+
+        ctx.save();
+
+
+        ctx.globalAlpha =
+            textFade;
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.textBaseline =
+            "middle";
+
+
+        /*
+         * El texto está debajo
+         * del corazón.
+         */
+
+        const firstY =
+            H*.72+
+            breathing;
+
+
+        ctx.font =
+            '500 20px "Segoe UI", sans-serif';
+
+
+        ctx.shadowBlur =
+            24;
+
+
+        ctx.shadowColor =
+            "rgba(255,75,205,.85)";
+
+
+        ctx.fillStyle =
+            "rgba(255,238,250,.97)";
+
+
+        ctx.fillText(
+            "TE AMO MUCHOTE",
+            W*.5,
+            firstY
+        );
+
+
+        ctx.restore();
+
+    }
+
+
+    /* =================================================
+       FELICES 3 MESES
+    ================================================= */
+
+    if (
+        elapsed>=5.75
+    ) {
+
+        const progress =
+            clamp(
+                (
+                    elapsed-
+                    5.75
+                )/
+                .8,
+                0,
+                1
+            );
+
+
+        const fade =
+            easeInOut(
+                progress
+            );
+
+
+        const breathing =
+            heartFormation>=1
+
+                ? Math.sin(
+                    elapsed*1.8
+                )*
+                1.2
+
+                : 0;
+
+
+        ctx.save();
+
+
+        ctx.globalAlpha =
+            fade;
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.textBaseline =
+            "middle";
+
+
+        ctx.font =
+            '400 14px "Segoe UI", sans-serif';
+
+
+        ctx.shadowBlur =
+            17;
+
+
+        ctx.shadowColor =
+            "rgba(210,100,255,.75)";
+
+
+        ctx.fillStyle =
+            "rgba(255,220,245,.94)";
+
+
+        ctx.fillText(
+            "FELICES 3 MESES",
+            W*.5,
+            H*.72+
+            30+
+            breathing
+        );
+
+
+        ctx.restore();
+
+    }
+
+}
+
+
+/* =====================================================
+   MOSTRAR FRASE
+===================================================== */
+
+function showPhrase(text) {
+
+    message.innerHTML = `
+
+        <div class="text">
+            “${text}”
+        </div>
+
+    `;
+
+
+    message.classList.add(
+        "show"
+    );
+
+}
+
+
+function hidePhrase() {
+
+    message.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   SECUENCIA
+===================================================== */
+
+function startPhrases() {
+
+    if (
+        phraseRunning
+    ) {
+
+        return;
+
+    }
+
+
+    phraseRunning=true;
+
+    phraseIndex=0;
+
+
+    setTimeout(
+        launchNextPhrase,
+        1700
+    );
+
+}
+
+
+function launchNextPhrase() {
+
+    if (
+        phraseIndex>=phrases.length
+    ) {
+
+        finishPhrases();
+
+        return;
+
+    }
+
+
+    hidePhrase();
+
+
+    phraseStar =
+        createPhraseStar();
+
+
+    const star =
+        phraseStar;
+
+
+    const beginning =
+        performance.now();
+
+
+    function animateStar(now) {
+
+        if (
+            !phraseStar ||
+            phraseStar!==star
+        ) {
+
+            return;
+
+        }
+
+
+        star.progress =
+            (
+                now-
+                beginning
+            )/
+            star.duration;
+
+
+        if (
+            star.progress<.15
+        ) {
+
+            star.alpha =
+                star.progress/.15;
+
+        }
+
+        else if (
+            star.progress<.78
+        ) {
+
+            star.alpha=1;
+
+        }
+
+        else {
+
+            star.alpha =
+                1-
+                (
+                    star.progress-.78
+                )/.22;
+
+        }
+
+
+        if (
+            star.progress>=.60 &&
+            !star.revealed
+        ) {
+
+            star.revealed=true;
+
+
+            showPhrase(
+                phrases[
+                    phraseIndex
+                ]
             );
 
         }
 
 
-        function hidePhrase() {
-
-            message.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        /* =====================================================
-           SECUENCIA FRASES
-        ===================================================== */
-
-        function startPhrases() {
-
-            if (
-                phraseRunning
-            ) {
-
-                return;
-
-            }
-
-
-            phraseRunning=true;
-
-            phraseIndex=0;
-
-
-            setTimeout(
-                launchNextPhrase,
-                1700
-            );
-
-        }
-
-
-        function launchNextPhrase() {
-
-            if (
-                phraseIndex>=phrases.length
-            ) {
-
-                finishPhrases();
-
-                return;
-
-            }
-
-
-            hidePhrase();
-
-
-            phraseStar =
-                createPhraseStar();
-
-
-            const star =
-                phraseStar;
-
-
-            const beginning =
-                performance.now();
-
-
-            function animateStar(now) {
-
-                if (
-                    !phraseStar ||
-                    phraseStar!==star
-                ) {
-
-                    return;
-
-                }
-
-
-                star.progress =
-                    (
-                        now-
-                        beginning
-                    )/
-                    star.duration;
-
-
-                if (
-                    star.progress<.15
-                ) {
-
-                    star.alpha =
-                        star.progress/.15;
-
-                }
-
-                else if (
-                    star.progress<.78
-                ) {
-
-                    star.alpha=1;
-
-                }
-
-                else {
-
-                    star.alpha =
-                        1-
-                        (
-                            star.progress-.78
-                        )/.22;
-
-                }
-
-
-                if (
-                    star.progress>=.60 &&
-                    !star.revealed
-                ) {
-
-                    star.revealed=true;
-
-
-                    showPhrase(
-                        phrases[
-                            phraseIndex
-                        ]
-                    );
-
-                }
-
-
-                if (
-                    star.progress<1
-                ) {
-
-                    requestAnimationFrame(
-                        animateStar
-                    );
-
-                }
-
-                else {
-
-                    star.active=false;
-
-
-                    setTimeout(
-                        () => {
-
-                            hidePhrase();
-
-
-                            phraseIndex++;
-
-
-                            setTimeout(
-                                launchNextPhrase,
-                                950
-                            );
-
-                        },
-                        3900
-                    );
-
-                }
-
-            }
-
+        if (
+            star.progress<1
+        ) {
 
             requestAnimationFrame(
                 animateStar
@@ -3106,1255 +3917,447 @@
 
         }
 
+        else {
 
-        /* =====================================================
-           ⭐ CREAR CORAZÓN A PARTIR DE LA GALAXIA
-        ===================================================== */
-
-        function createHeartParticles() {
-
-            heartParticles = [];
-
-
-            const cx =
-                W * .5;
-
-
-            const cy =
-                H * .47;
-
-
-            const scale =
-                Math.min(W,H) *
-                (
-                    W < 600
-                        ? .020
-                        : .026
-                );
-
-
-            /*
-             * AQUÍ ESTÁ LA DIFERENCIA:
-             *
-             * NO generamos estrellas nuevas.
-             *
-             * Usamos las mismas galaxyStars.
-             */
-
-            const sourceStars =
-                galaxyStars;
-
-
-            const total =
-                sourceStars.length;
-
-
-            for (
-                let i = 0;
-                i < total;
-                i++
-            ) {
-
-                const star =
-                    sourceStars[i];
-
-
-                /*
-                 * Posición que tenía la estrella
-                 * dentro de la galaxia.
-                 */
-
-                const rotation =
-                    heartStart *
-                    .012;
-
-
-                const radius =
-                    star.radius;
-
-
-                const angle =
-                    star.angle +
-                    rotation +
-                    radius*.0023;
-
-
-                const galaxyX =
-                    cx +
-                    Math.cos(angle) *
-                    radius;
-
-
-                const galaxyY =
-                    cy +
-                    Math.sin(angle) *
-                    radius *
-                    (
-                        W < 600
-                            ? .34
-                            : .29
-                    );
-
-
-                /*
-                 * Distribución destino:
-                 * corazón.
-                 */
-
-                const t =
-                    (
-                        i /
-                        total
-                    ) *
-                    Math.PI *
-                    2;
-
-
-                const hx =
-                    16 *
-                    Math.pow(
-                        Math.sin(t),
-                        3
-                    );
-
-
-                const hy =
-                    -(
-                        13*Math.cos(t) -
-                        5*Math.cos(2*t) -
-                        2*Math.cos(3*t) -
-                        Math.cos(4*t)
-                    );
-
-
-                /*
-                 * Rellenamos el corazón.
-                 */
-
-                const fill =
-                    Math.pow(
-                        Math.random(),
-                        .58
-                    );
-
-
-                const targetX =
-                    cx +
-                    hx *
-                    scale *
-                    fill;
-
-
-                const targetY =
-                    cy +
-                    hy *
-                    scale *
-                    fill;
-
-
-                heartParticles.push({
-
-                    /*
-                     * MISMA POSICIÓN
-                     * DE LA GALAXIA
-                     */
-
-                    x:
-                        galaxyX,
-
-                    y:
-                        galaxyY,
-
-
-                    /*
-                     * DESTINO:
-                     * CORAZÓN
-                     */
-
-                    targetX,
-
-                    targetY,
-
-
-                    /*
-                     * Conservamos las
-                     * características de
-                     * la estrella original.
-                     */
-
-                    size:
-                        star.size *
-                        (
-                            .7 +
-                            star.depth*.9
-                        ),
-
-
-                    phase:
-                        star.phase,
-
-
-                    hue:
-                        star.depth,
-
-
-                    brightness:
-                        star.brightness,
-
-
-                    delay:
-                        Math.random()*.20
-
-                });
-
-            }
-
-        }
-
-
-        /* =====================================================
-           ❤️ CORAZÓN FINAL
-        ===================================================== */
-
-        function drawHeart(time) {
-
-            if (!formingHeart) {
-                return;
-            }
-
-
-            /*
-             * Durante los primeros 5.5 segundos
-             * las estrellas forman el corazón.
-             *
-             * Después aparece el mensaje.
-             */
-
-            const progress =
-                clamp(
-                    (
-                        time -
-                        heartStart
-                    ) / 7.5,
-                    0,
-                    1.35
-                );
-
-
-            const heartFormation =
-                clamp(
-                    (
-                        time -
-                        heartStart
-                    ) / 5.5,
-                    0,
-                    1
-                );
-
-
-            const eased =
-                easeInOut(
-                    heartFormation
-                );
-
-
-            /* =================================================
-               PULSO
-            ================================================= */
-
-            let heartPulse = 1;
-
-
-            if (
-                progress >= 1
-            ) {
-
-                heartPulse =
-                    1 +
-                    Math.sin(
-                        (
-                            time -
-                            heartStart
-                        ) * 2.2
-                    ) * .035;
-
-            }
-
-
-            /* =================================================
-               ESTRELLAS DE LA GALAXIA → CORAZÓN
-            ================================================= */
-
-            for (
-                const p of heartParticles
-            ) {
-
-                const local =
-                    clamp(
-                        (
-                            eased -
-                            p.delay
-                        ) /
-                        (
-                            1 -
-                            p.delay
-                        ),
-                        0,
-                        1
-                    );
-
-
-                const e =
-                    easeInOut(local);
-
-
-                let x =
-                    p.x +
-                    (
-                        p.targetX -
-                        p.x
-                    ) * e;
-
-
-                let y =
-                    p.y +
-                    (
-                        p.targetY -
-                        p.y
-                    ) * e;
-
-
-                /*
-                 * Una vez formado,
-                 * el corazón sigue vivo.
-                 */
-
-                if (
-                    progress >= 1
-                ) {
-
-                    x =
-                        p.targetX +
-                        Math.sin(
-                            time*1.5 +
-                            p.phase
-                        )*1.2;
-
-
-                    y =
-                        p.targetY +
-                        Math.cos(
-                            time*1.3 +
-                            p.phase
-                        )*1.2;
-
-                }
-
-
-                p.phase += .025;
-
-
-                const sparkle =
-                    .72 +
-                    Math.sin(
-                        p.phase
-                    )*.28;
-
-
-                let color;
-
-
-                if (
-                    p.hue < .33
-                ) {
-
-                    color =
-                        `rgba(
-                            115,
-                            155,
-                            255,
-                            ${sparkle}
-                        )`;
-
-                }
-
-                else if (
-                    p.hue < .66
-                ) {
-
-                    color =
-                        `rgba(
-                            205,
-                            105,
-                            255,
-                            ${sparkle}
-                        )`;
-
-                }
-
-                else {
-
-                    color =
-                        `rgba(
-                            255,
-                            125,
-                            220,
-                            ${sparkle}
-                        )`;
-
-                }
-
-
-                ctx.save();
-
-
-                ctx.translate(
-                    W*.5,
-                    H*.47
-                );
-
-
-                ctx.scale(
-                    heartPulse,
-                    heartPulse
-                );
-
-
-                ctx.translate(
-                    -W*.5,
-                    -H*.47
-                );
-
-
-                ctx.beginPath();
-
-
-                ctx.fillStyle =
-                    color;
-
-
-                ctx.shadowBlur =
-                    progress >= 1
-                        ? 8
-                        : 4;
-
-
-                ctx.shadowColor =
-                    "#ff82d5";
-
-
-                ctx.arc(
-                    x,
-                    y,
-                    p.size,
-                    0,
-                    Math.PI*2
-                );
-
-
-                ctx.fill();
-
-
-                ctx.restore();
-
-
-                ctx.shadowBlur=0;
-
-            }
-
-
-            /* =================================================
-               HALO
-            ================================================= */
-
-            if (
-                heartFormation > .65
-            ) {
-
-                const haloProgress =
-                    clamp(
-                        (
-                            heartFormation -
-                            .65
-                        ) / .35,
-                        0,
-                        1
-                    );
-
-
-                const pulse =
-                    progress >= 1
-
-                        ? (
-                            .5 +
-                            Math.sin(
-                                (
-                                    time -
-                                    heartStart
-                                )*2.2
-                            )*.5
-                        )
-
-                        : 0;
-
-
-                const alpha =
-                    haloProgress *
-                    (
-                        progress >= 1
-                            ? .08 +
-                              pulse*.045
-                            : .08
-                    );
-
-
-                const cx =
-                    W*.5;
-
-
-                const cy =
-                    H*.47;
-
-
-                const radius =
-                    Math.min(W,H)*.34;
-
-
-                const glow =
-                    ctx.createRadialGradient(
-
-                        cx,
-                        cy,
-                        0,
-
-                        cx,
-                        cy,
-                        radius
-
-                    );
-
-
-                glow.addColorStop(
-                    0,
-                    `rgba(
-                        255,
-                        90,
-                        210,
-                        ${alpha}
-                    )`
-                );
-
-
-                glow.addColorStop(
-                    .42,
-                    `rgba(
-                        155,
-                        70,
-                        255,
-                        ${alpha*.55}
-                    )`
-                );
-
-
-                glow.addColorStop(
-                    1,
-                    "rgba(0,0,0,0)"
-                );
-
-
-                ctx.fillStyle =
-                    glow;
-
-
-                ctx.fillRect(
-                    0,
-                    0,
-                    W,
-                    H
-                );
-
-            }
-
-
-            /* =================================================
-               TE AMO MUCHOTE
-            ================================================= */
-
-            if (
-                progress >= .82
-            ) {
-
-                const textProgress =
-                    clamp(
-                        (
-                            progress -
-                            .82
-                        )/.18,
-                        0,
-                        1
-                    );
-
-
-                const textFade =
-                    easeInOut(
-                        textProgress
-                    );
-
-
-                const breathing =
-                    progress >= 1
-
-                        ? Math.sin(
-                            (
-                                time -
-                                heartStart
-                            )*1.8
-                        )*1.5
-
-                        : 0;
-
-
-                ctx.save();
-
-
-                ctx.globalAlpha =
-                    textFade;
-
-
-                ctx.textAlign =
-                    "center";
-
-
-                ctx.textBaseline =
-                    "middle";
-
-
-                const firstTextY =
-                    H*.72 +
-                    breathing;
-
-
-                ctx.font =
-                    '500 20px "Segoe UI", sans-serif';
-
-
-                ctx.shadowBlur =
-                    24;
-
-
-                ctx.shadowColor =
-                    "rgba(255,75,205,.85)";
-
-
-                ctx.fillStyle =
-                    "rgba(255,238,250,.97)";
-
-
-                ctx.fillText(
-                    "TE AMO MUCHOTE",
-                    W*.5,
-                    firstTextY
-                );
-
-
-                ctx.shadowBlur =
-                    8;
-
-
-                ctx.shadowColor =
-                    "rgba(160,100,255,.8)";
-
-
-                ctx.fillStyle =
-                    "rgba(255,225,245,.92)";
-
-
-                ctx.fillText(
-                    "TE AMO MUCHOTE",
-                    W*.5,
-                    firstTextY
-                );
-
-
-                ctx.restore();
-
-            }
-
-
-            /* =================================================
-               FELICES 3 MESES
-            ================================================= */
-
-            if (
-                progress >= 1
-            ) {
-
-                const celebrationProgress =
-                    clamp(
-                        (
-                            progress -
-                            1
-                        )/.25,
-                        0,
-                        1
-                    );
-
-
-                const celebrationFade =
-                    easeInOut(
-                        celebrationProgress
-                    );
-
-
-                const breathing =
-                    Math.sin(
-                        (
-                            time -
-                            heartStart
-                        )*1.8
-                    )*1.5;
-
-
-                ctx.save();
-
-
-                ctx.globalAlpha =
-                    celebrationFade;
-
-
-                ctx.textAlign =
-                    "center";
-
-
-                ctx.textBaseline =
-                    "middle";
-
-
-                /*
-                 * Está solamente 30px
-                 * debajo del primer texto.
-                 */
-
-                const secondTextY =
-                    H*.72 +
-                    30 +
-                    breathing;
-
-
-                ctx.font =
-                    '400 14px "Segoe UI", sans-serif';
-
-
-                ctx.letterSpacing =
-                    "0.16em";
-
-
-                ctx.shadowBlur =
-                    17;
-
-
-                ctx.shadowColor =
-                    "rgba(210,100,255,.75)";
-
-
-                ctx.fillStyle =
-                    "rgba(255,220,245,.94)";
-
-
-                ctx.fillText(
-                    "FELICES 3 MESES",
-                    W*.5,
-                    secondTextY
-                );
-
-
-                ctx.restore();
-
-            }
-
-
-            /* =================================================
-               DESTELLO FINAL
-            ================================================= */
-
-            if (
-                progress >= 1
-            ) {
-
-                const pulse =
-                    (
-                        Math.sin(
-                            (
-                                time -
-                                heartStart
-                            )*2.2
-                        )+1
-                    )/2;
-
-
-                if (
-                    pulse>.92
-                ) {
-
-                    const flash =
-                        ctx.createRadialGradient(
-
-                            W*.5,
-                            H*.47,
-                            0,
-
-                            W*.5,
-                            H*.47,
-                            Math.min(W,H)*.28
-
-                        );
-
-
-                    flash.addColorStop(
-                        0,
-                        "rgba(255,220,250,.10)"
-                    );
-
-
-                    flash.addColorStop(
-                        .35,
-                        "rgba(255,100,220,.045)"
-                    );
-
-
-                    flash.addColorStop(
-                        1,
-                        "rgba(0,0,0,0)"
-                    );
-
-
-                    ctx.fillStyle =
-                        flash;
-
-
-                    ctx.fillRect(
-                        0,
-                        0,
-                        W,
-                        H
-                    );
-
-                }
-
-            }
-
-        }
-
-
-        /* =====================================================
-           FINAL DE FRASES
-        ===================================================== */
-
-        function finishPhrases() {
-
-            phraseRunning = false;
-
-            phraseStar = null;
-
-            hidePhrase();
+            star.active=false;
 
 
             setTimeout(
                 () => {
 
-                    /*
-                     * Primero registramos el tiempo.
-                     */
-
-                    heartStart =
-                        performance.now()*
-                        .001;
+                    hidePhrase();
 
 
-                    /*
-                     * Tomamos las estrellas
-                     * EXISTENTES de la galaxia.
-                     */
-
-                    createHeartParticles();
+                    phraseIndex++;
 
 
-                    /*
-                     * Comienza la transformación.
-                     */
-
-                    formingHeart = true;
+                    setTimeout(
+                        launchNextPhrase,
+                        950
+                    );
 
                 },
-                1200
+                3900
             );
 
         }
 
-
-        /* =====================================================
-           ANIMACIÓN PRINCIPAL
-        ===================================================== */
-
-        function animate(timestamp) {
-
-            const time =
-                timestamp*.001;
+    }
 
 
-            cameraX +=
-                (
-                    targetX-
-                    cameraX
-                )*.025;
+    requestAnimationFrame(
+        animateStar
+    );
+
+}
 
 
-            cameraY +=
-                (
-                    targetY-
-                    cameraY
-                )*.025;
+/* =====================================================
+   FINAL DE FRASES
+===================================================== */
+
+function finishPhrases() {
+
+    phraseRunning=false;
+
+    phraseStar=null;
+
+    hidePhrase();
 
 
-            drawBackground(
-                time
-            );
+    setTimeout(
+        () => {
 
+            /*
+             * El momento exacto en que
+             * los brazos comienzan a
+             * transformarse.
+             */
 
-            drawStars(
-                time
-            );
+            heartStart =
+                performance.now()*
+                .001;
 
 
             /*
-             * Solo una de estas dos cosas
-             * se dibuja:
-             *
-             * galaxia normal
-             * O
-             * estrellas transformándose.
+             * Guardamos las estrellas
+             * ACTUALES de la galaxia.
              */
 
-            drawGalaxy(
-                time
-            );
+            createHeartParticles();
 
 
-            drawShootingStars();
+            /*
+             * Activamos la transformación.
+             */
+
+            formingHeart=true;
+
+        },
+        1200
+    );
+
+}
 
 
-            drawPhraseStar();
+/* =====================================================
+   ANIMACIÓN PRINCIPAL
+===================================================== */
+
+function animate(timestamp) {
+
+    const time =
+        timestamp*.001;
 
 
-            drawHeart(
-                time
-            );
+    cameraX +=
+        (
+            targetX-
+            cameraX
+        )*.025;
 
 
-            requestAnimationFrame(
-                animate
+    cameraY +=
+        (
+            targetY-
+            cameraY
+        )*.025;
+
+
+    drawBackground(
+        time
+    );
+
+
+    drawStars(
+        time
+    );
+
+
+    /*
+     * Antes del corazón:
+     * galaxia normal.
+     *
+     * Durante el corazón:
+     * las mismas estrellas
+     * forman la nueva figura.
+     */
+
+    drawGalaxy(
+        time
+    );
+
+
+    drawShootingStars();
+
+
+    drawPhraseStar();
+
+
+    drawHeart(
+        time
+    );
+
+
+    requestAnimationFrame(
+        animate
+    );
+
+}
+
+
+/* =====================================================
+   ENTRAR
+===================================================== */
+
+enter.addEventListener(
+    "click",
+    async () => {
+
+        if (
+            started
+        ) {
+
+            return;
+
+        }
+
+
+        started=true;
+
+
+        startTime =
+            performance.now()*
+            .001;
+
+
+        music.volume=.55;
+
+
+        try {
+
+            await music.play();
+
+        }
+
+        catch(error) {
+
+            console.log(
+                "El navegador bloqueó el audio."
             );
 
         }
 
 
-        /* =====================================================
-           ENTRAR
-        ===================================================== */
-
-        enter.addEventListener(
-            "click",
-            async () => {
-
-                if (
-                    started
-                ) {
-
-                    return;
-
-                }
+        intro.classList.add(
+            "hide"
+        );
 
 
-                started = true;
+        title.classList.add(
+            "show"
+        );
 
 
-                startTime =
-                    performance.now()*
-                    .001;
+        setTimeout(
+            startPhrases,
+            6000
+        );
+
+    }
+);
 
 
-                music.volume=.55;
+/* =====================================================
+   CONTROL DE MÚSICA
+===================================================== */
+
+musicControl.addEventListener(
+    "click",
+    () => {
+
+        if (
+            music.paused
+        ) {
+
+            music.play()
+                .then(
+                    () => {
+
+                        musicControl
+                            .classList
+                            .add(
+                                "playing"
+                            );
+
+                        musicControl
+                            .textContent =
+                            "❚❚";
+
+                    }
+                )
+                .catch(
+                    () => {}
+                );
+
+        }
+
+        else {
+
+            music.pause();
 
 
-                try {
-
-                    await music.play();
-
-                }
-
-                catch(error) {
-
-                    console.log(
-                        "El navegador bloqueó el audio."
-                    );
-
-                }
-
-
-                intro.classList.add(
-                    "hide"
+            musicControl
+                .classList
+                .remove(
+                    "playing"
                 );
 
 
-                title.classList.add(
-                    "show"
-                );
+            musicControl
+                .textContent =
+                "♫";
 
+        }
 
-                setTimeout(
-                    startPhrases,
-                    6000
-                );
+    }
+);
 
-            }
-        );
 
+music.addEventListener(
+    "play",
+    () => {
 
-        /* =====================================================
-           CONTROL MÚSICA
-        ===================================================== */
+        musicControl
+            .classList
+            .add(
+                "playing"
+            );
 
-        musicControl.addEventListener(
-            "click",
-            () => {
+        musicControl
+            .textContent =
+            "❚❚";
 
-                if (
-                    music.paused
-                ) {
+    }
+);
 
-                    music.play()
-                        .then(
-                            () => {
 
-                                musicControl
-                                    .classList
-                                    .add(
-                                        "playing"
-                                    );
+music.addEventListener(
+    "pause",
+    () => {
 
-                                musicControl
-                                    .textContent =
-                                    "❚❚";
+        musicControl
+            .classList
+            .remove(
+                "playing"
+            );
 
-                            }
-                        )
-                        .catch(
-                            () => {}
-                        );
+        musicControl
+            .textContent =
+            "♫";
 
-                }
+    }
+);
 
-                else {
 
-                    music.pause();
+/* =====================================================
+   PARALLAX
+===================================================== */
 
+window.addEventListener(
+    "pointermove",
+    event => {
 
-                    musicControl
-                        .classList
-                        .remove(
-                            "playing"
-                        );
+        if (
+            event.pointerType ===
+            "touch"
+        ) {
 
+            return;
 
-                    musicControl
-                        .textContent =
-                        "♫";
+        }
 
-                }
 
-            }
-        );
+        targetX =
+            (
+                event.clientX-
+                W/2
+            )/
+            (
+                W/2
+            );
 
 
-        music.addEventListener(
-            "play",
-            () => {
+        targetY =
+            (
+                event.clientY-
+                H/2
+            )/
+            (
+                H/2
+            );
 
-                musicControl
-                    .classList
-                    .add(
-                        "playing"
-                    );
+    },
+    {
+        passive:true
+    }
+);
 
-                musicControl
-                    .textContent =
-                    "❚❚";
 
-            }
-        );
+window.addEventListener(
+    "touchmove",
+    event => {
 
+        if (
+            !event.touches.length
+        ) {
 
-        music.addEventListener(
-            "pause",
-            () => {
+            return;
 
-                musicControl
-                    .classList
-                    .remove(
-                        "playing"
-                    );
+        }
 
-                musicControl
-                    .textContent =
-                    "♫";
 
-            }
-        );
+        const touch =
+            event.touches[0];
 
 
-        /* =====================================================
-           PARALLAX — MOUSE
-        ===================================================== */
+        targetX =
+            (
+                touch.clientX-
+                W/2
+            )/
+            (
+                W/2
+            );
 
-        window.addEventListener(
-            "pointermove",
-            event => {
 
-                if (
-                    event.pointerType ===
-                    "touch"
-                ) {
+        targetY =
+            (
+                touch.clientY-
+                H/2
+            )/
+            (
+                H/2
+            );
 
-                    return;
+    },
+    {
+        passive:true
+    }
+);
 
-                }
 
+/* =====================================================
+   ORIENTACIÓN
+===================================================== */
 
-                targetX =
-                    (
-                        event.clientX-
-                        W/2
-                    )/
-                    (
-                        W/2
-                    );
+window.addEventListener(
+    "deviceorientation",
+    event => {
 
+        if (
+            event.gamma===null ||
+            event.beta===null
+        ) {
 
-                targetY =
-                    (
-                        event.clientY-
-                        H/2
-                    )/
-                    (
-                        H/2
-                    );
+            return;
 
-            },
-            {
-                passive:true
-            }
-        );
+        }
 
 
-        /* =====================================================
-           PARALLAX — TOUCH
-        ===================================================== */
+        targetX =
+            clamp(
+                event.gamma/30,
+                -1,
+                1
+            );
 
-        window.addEventListener(
-            "touchmove",
-            event => {
 
-                if (
-                    !event.touches.length
-                ) {
+        targetY =
+            clamp(
+                event.beta/45,
+                -1,
+                1
+            );
 
-                    return;
+    },
+    {
+        passive:true
+    }
+);
 
-                }
 
+/* =====================================================
+   INICIAR
+===================================================== */
 
-                const touch =
-                    event.touches[0];
+resize();
 
+requestAnimationFrame(
+    animate
+);
 
-                targetX =
-                    (
-                        touch.clientX-
-                        W/2
-                    )/
-                    (
-                        W/2
-                    );
-
-
-                targetY =
-                    (
-                        touch.clientY-
-                        H/2
-                    )/
-                    (
-                        H/2
-                    );
-
-            },
-            {
-                passive:true
-            }
-        );
-
-
-        /* =====================================================
-           ORIENTACIÓN CELULAR
-        ===================================================== */
-
-        window.addEventListener(
-            "deviceorientation",
-            event => {
-
-                if (
-                    event.gamma === null ||
-                    event.beta === null
-                ) {
-
-                    return;
-
-                }
-
-
-                targetX =
-                    clamp(
-                        event.gamma/30,
-                        -1,
-                        1
-                    );
-
-
-                targetY =
-                    clamp(
-                        event.beta/45,
-                        -1,
-                        1
-                    );
-
-            },
-            {
-                passive:true
-            }
-        );
-
-
-        /* =====================================================
-           INICIAR
-        ===================================================== */
-
-        resize();
-
-        requestAnimationFrame(
-            animate
-        );
-
-    </script>
+</script>
 
 </body>
-
 </html>
