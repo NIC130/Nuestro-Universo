@@ -2009,29 +2009,17 @@ function setPhraseText(
     }
 
 
-    /*
-      Tu #message empieza vacío.
-      Por eso nosotros mismos
-      construimos el contenido.
-    */
-
     message.innerHTML = `
-
-        <div class="label">
-            MI MENSAJE PARA TI
-        </div>
 
         <div class="text">
             “${text}”
         </div>
 
-        <div class="heart">
-            ♡
-        </div>
-
     `;
 
 }
+
+    
 
 
 function hidePhrase() {
