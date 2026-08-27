@@ -27,6 +27,642 @@ let targetY = 0;
 let cameraX = 0;
 let cameraY = 0;
 
+/* =========================================================
+   FRASES — ESTRELLAS FUGACES
+========================================================= */
+
+const lovePhrases = [
+    "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
+    "Me encanta absolutamente todo de ti.",
+    "Contigo todo siempre es más lindo.",
+    "Eres lo más bonito de este mundo.",
+    "Te elegiría una y mil veces."
+];
+
+let currentPhrase = 0;
+let phraseSequenceStarted = false;
+let phraseStar = null;
+let phraseTimer = null;
+
+
+/* =========================================================
+   FUNCIONES DE LAS FRASES
+========================================================= */
+
+function getMessageElement() {
+    return document.getElementById("message");
+}
+
+
+function setPhraseText(text) {
+
+    const message =
+        getMessageElement();
+
+    if (!message) return;
+
+
+    const textElement =
+        message.querySelector(".text") ||
+        message.querySelector(".main");
+
+
+    if (textElement) {
+
+        textElement.innerHTML =
+            `“${text}”`;
+
+    } else {
+
+        message.innerHTML = `
+            <div class="label">
+                MI MENSAJE PARA TI
+            </div>
+
+            <div class="text">
+                “${text}”
+            </div>
+
+            <div class="heart">
+                ♡
+            </div>
+        `;
+
+    }
+
+}
+
+
+function hidePhrase() {
+
+    const message =
+        getMessageElement();
+
+    if (message) {
+
+        message.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+function showPhrase() {
+
+    const message =
+        getMessageElement();
+
+    if (message) {
+
+        message.classList.add(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CREAR ESTRELLA ESPECIAL
+========================================================= */
+
+function createPhraseStar() {
+
+    return {
+
+        progress: 0,
+
+        duration: 1500,
+
+        startX:
+            W * 0.94,
+
+        startY:
+            H * 0.08,
+
+        endX:
+            W * 0.52,
+
+        endY:
+            H * 0.53,
+
+        length:
+            Math.min(W, H) * 0.22,
+
+        alpha: 0,
+
+        active: true,
+
+        revealed: false
+
+    };
+
+}
+
+
+/* =========================================================
+   DIBUJAR ESTRELLA DE LA FRASE
+========================================================= */
+
+function drawPhraseStar() {
+
+    if (
+        !phraseStar ||
+        !phraseStar.active
+    ) {
+
+        return;
+
+    }
+
+
+    const s =
+        phraseStar;
+
+
+    const p =
+        clamp(
+            s.progress,
+            0,
+            1
+        );
+
+
+    const eased =
+        easeOutCubic(p);
+
+
+    const x =
+        s.startX +
+        (
+            s.endX -
+            s.startX
+        ) *
+        eased;
+
+
+    const y =
+        s.startY +
+        (
+            s.endY -
+            s.startY
+        ) *
+        eased;
+
+
+    const dx =
+        s.endX -
+        s.startX;
+
+
+    const dy =
+        s.endY -
+        s.startY;
+
+
+    const distance =
+        Math.hypot(
+            dx,
+            dy
+        ) || 1;
+
+
+    const ux =
+        dx / distance;
+
+
+    const uy =
+        dy / distance;
+
+
+    const tailX =
+        x -
+        ux *
+        s.length;
+
+
+    const tailY =
+        y -
+        uy *
+        s.length;
+
+
+    /*
+      Cola azul → violeta → rosa
+    */
+
+    const trail =
+        ctx.createLinearGradient(
+
+            tailX,
+            tailY,
+
+            x,
+            y
+
+        );
+
+
+    trail.addColorStop(
+        0,
+        "rgba(70,100,255,0)"
+    );
+
+
+    trail.addColorStop(
+        0.45,
+        `rgba(
+            135,
+            95,
+            255,
+            ${s.alpha * 0.28}
+        )`
+    );
+
+
+    trail.addColorStop(
+        0.78,
+        `rgba(
+            255,
+            95,
+            215,
+            ${s.alpha * 0.62}
+        )`
+    );
+
+
+    trail.addColorStop(
+        1,
+        `rgba(
+            255,
+            245,
+            255,
+            ${s.alpha}
+        )`
+    );
+
+
+    ctx.beginPath();
+
+    ctx.strokeStyle =
+        trail;
+
+    ctx.lineWidth =
+        2.2;
+
+    ctx.moveTo(
+        tailX,
+        tailY
+    );
+
+    ctx.lineTo(
+        x,
+        y
+    );
+
+    ctx.stroke();
+
+
+    /*
+      Brillo de la estrella
+    */
+
+    ctx.beginPath();
+
+    ctx.fillStyle =
+        `rgba(
+            255,
+            235,
+            252,
+            ${s.alpha}
+        )`;
+
+
+    ctx.shadowBlur =
+        24;
+
+
+    ctx.shadowColor =
+        "#ff79d4";
+
+
+    ctx.arc(
+
+        x,
+        y,
+
+        2.3 +
+        p * 1.2,
+
+        0,
+        Math.PI * 2
+
+    );
+
+
+    ctx.fill();
+
+
+    ctx.shadowBlur = 0;
+
+
+    /*
+      Partículas que deja atrás
+    */
+
+    for (
+        let i = 0;
+        i < 8;
+        i++
+    ) {
+
+        const t =
+            i / 8;
+
+
+        const px =
+            x -
+            ux *
+            s.length *
+            t;
+
+
+        const py =
+            y -
+            uy *
+            s.length *
+            t;
+
+
+        ctx.beginPath();
+
+
+        ctx.fillStyle =
+            `rgba(
+                ${190 + i * 7},
+                ${150 + i * 5},
+                255,
+                ${s.alpha *
+                    (1 - t) *
+                    0.45}
+            )`;
+
+
+        ctx.arc(
+
+            px +
+            Math.sin(i * 8.1) * 2,
+
+            py +
+            Math.cos(i * 5.7) * 2,
+
+            0.7 +
+            (1 - t) * 0.7,
+
+            0,
+            Math.PI * 2
+
+        );
+
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   INICIAR FRASES
+========================================================= */
+
+function startLovePhrases() {
+
+    if (
+        phraseSequenceStarted
+    ) {
+
+        return;
+
+    }
+
+
+    phraseSequenceStarted =
+        true;
+
+
+    currentPhrase =
+        0;
+
+
+    hidePhrase();
+
+
+    /*
+      Espera para que primero
+      disfrutemos la galaxia.
+    */
+
+    setTimeout(
+        () => {
+
+            launchNextPhrase();
+
+        },
+        1800
+    );
+
+}
+
+
+/* =========================================================
+   SIGUIENTE FRASE
+========================================================= */
+
+function launchNextPhrase() {
+
+    if (
+        currentPhrase >=
+        lovePhrases.length
+    ) {
+
+        phraseSequenceStarted =
+            false;
+
+        phraseStar =
+            null;
+
+        return;
+
+    }
+
+
+    hidePhrase();
+
+
+    setPhraseText(
+        lovePhrases[
+            currentPhrase
+        ]
+    );
+
+
+    phraseStar =
+        createPhraseStar();
+
+
+    const start =
+        performance.now();
+
+
+    const duration =
+        phraseStar.duration;
+
+
+    function animatePhraseStar(
+        now
+    ) {
+
+        if (!phraseStar) {
+
+            return;
+
+        }
+
+
+        phraseStar.progress =
+            (
+                now -
+                start
+            ) /
+            duration;
+
+
+        /*
+          Aparición.
+        */
+
+        if (
+            phraseStar.progress <
+            0.18
+        ) {
+
+            phraseStar.alpha =
+                phraseStar.progress /
+                0.18;
+
+        }
+
+        /*
+          Brillo máximo.
+        */
+
+        else if (
+            phraseStar.progress <
+            0.78
+        ) {
+
+            phraseStar.alpha =
+                1;
+
+        }
+
+        /*
+          Desaparición.
+        */
+
+        else {
+
+            phraseStar.alpha =
+                1 -
+                (
+                    phraseStar.progress -
+                    0.78
+                ) /
+                0.22;
+
+        }
+
+
+        /*
+          La frase aparece cuando
+          la estrella ya está cerca
+          del centro.
+        */
+
+        if (
+            phraseStar.progress >=
+            0.62 &&
+            !phraseStar.revealed
+        ) {
+
+            phraseStar.revealed =
+                true;
+
+            showPhrase();
+
+        }
+
+
+        if (
+            phraseStar.progress <
+            1
+        ) {
+
+            requestAnimationFrame(
+                animatePhraseStar
+            );
+
+        }
+
+        else {
+
+            phraseStar.active =
+                false;
+
+
+            /*
+              Tiempo que permanece
+              visible la frase.
+            */
+
+            phraseTimer =
+                setTimeout(
+                    () => {
+
+                        hidePhrase();
+
+
+                        currentPhrase++;
+
+
+                        setTimeout(
+                            () => {
+
+                                launchNextPhrase();
+
+                            },
+                            900
+                        );
+
+                    },
+                    4100
+                );
+
+        }
+
+    }
+
+
+    requestAnimationFrame(
+        animatePhraseStar
+    );
+
+}
+
 
 /* =========================================================
    UTILIDADES
