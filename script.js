@@ -2320,7 +2320,11 @@ const enterButton =
 if (
     enterButton
 ) {
+setTimeout(() => {
 
+    startLovePhrases();
+
+}, 6500);
     enterButton.addEventListener(
         "click",
         async function () {
