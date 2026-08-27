@@ -1,88 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
+  <meta charset="UTF-8">
 
-    <meta name="theme-color" content="#08000b">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
 
-    <title>Nuestro Universo 💗</title>
+  <meta
+    name="theme-color"
+    content="#030006"
+  >
 
-    <link rel="stylesheet" href="style.css">
+  <title>Para mi noviecita linda ♡</title>
+
+  <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <!-- ==========================================
-         PANTALLA DE ENTRADA
-    =========================================== -->
+  <!-- =====================================
+       UNIVERSO
+  ====================================== -->
 
-    <section id="inicio" class="pantalla-inicio">
-
-        <div class="brillo-inicio"></div>
-
-        <div class="contenido-inicio">
-
-            <p class="pequeno">
-                PARA MI NOVIECITA LINDA
-            </p>
-
-            <h1>
-                Felices 3 meses 💗
-            </h1>
-
-            <p class="subtitulo">
-                Tengo un pequeño universo para ti...
-            </p>
-
-            <button id="entrar" class="boton-entrar">
-                Entrar ✨
-            </button>
-
-        </div>
-
-    </section>
+  <canvas id="universe"></canvas>
 
 
-    <!-- ==========================================
-         UNIVERSO
-    =========================================== -->
+  <!-- =====================================
+       PANTALLA INICIAL
+  ====================================== -->
 
-    <main id="universo-container">
+  <section id="welcome">
 
-        <canvas id="universo"></canvas>
+    <div class="welcome-glow"></div>
 
-        <div class="titulo-universo">
-            <span>PARA MI NOVIECITA LINDA</span>
-        </div>
+    <div class="welcome-content">
 
-        <!-- Las frases aparecen aquí -->
-        <div id="mensaje"></div>
-
-        <div class="corazon-final">
-            ♡
-        </div>
-
-    </main>
+      <div class="mini-title">
+        PARA MI NOVIECITA LINDA ✦
+      </div>
 
 
-    <!-- ==========================================
-         MÚSICA
-    =========================================== -->
+      <h1>
 
-    <audio
-        id="musica"
-        src="assets/timeless.mp3"
-        preload="auto"
-        loop
-    ></audio>
+        felices
+
+        <br>
+
+        <span>3 meses</span>
+
+      </h1>
 
 
-    <script src="script.js"></script>
+      <p class="hint">
+        toca para descubrirlo
+      </p>
+
+
+      <button
+        id="enterButton"
+        type="button"
+      >
+        ENTRAR ♡
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       FRASES
+  ====================================== -->
+
+  <div
+    id="message"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =====================================
+       BOTÓN DE MÚSICA
+  ====================================== -->
+
+  <button
+    id="musicButton"
+    type="button"
+    aria-label="Pausar música"
+  >
+    ♫
+  </button>
+
+
+  <!-- =====================================
+       MÚSICA
+  ====================================== -->
+
+  <audio
+    id="music"
+    src="assets/timeless.mp3"
+    preload="auto"
+    loop
+    playsinline
+  ></audio>
+
+
+  <script src="script.js"></script>
 
 </body>
+
 </html>
