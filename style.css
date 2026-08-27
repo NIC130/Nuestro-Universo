@@ -15,254 +15,550 @@ body {
 body {
   position: fixed;
   inset: 0;
-  font-family: Georgia, "Times New Roman", serif;
+
   color: white;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+
+  touch-action: none;
 }
+
+
+/* =========================================
+   UNIVERSO
+========================================= */
 
 #universe {
   position: fixed;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   display: block;
-  background:
-    radial-gradient(
-      ellipse at 50% 52%,
-      rgba(100, 0, 75, 0.28) 0%,
-      rgba(35, 0, 28, 0.18) 28%,
-      rgba(3, 0, 6, 0) 68%
-    ),
-    #030006;
 }
+
+
+/* =========================================
+   LUZ ROSADA
+========================================= */
+
+.pink-glow {
+  position: fixed;
+  inset: -20%;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255, 60, 180, .16),
+      rgba(255, 40, 160, .06) 30%,
+      transparent 65%
+    ),
+
+    radial-gradient(
+      ellipse at 20% 35%,
+      rgba(255, 120, 210, .08),
+      transparent 40%
+    ),
+
+    radial-gradient(
+      ellipse at 85% 70%,
+      rgba(180, 50, 255, .07),
+      transparent 45%
+    );
+
+  filter: blur(20px);
+
+  animation:
+    glowMove 12s ease-in-out infinite alternate;
+}
+
+
+/* =========================================
+   VIÑETA
+========================================= */
 
 .vignette {
   position: fixed;
   inset: 0;
-  pointer-events: none;
+
   z-index: 2;
 
+  pointer-events: none;
+
   background:
+
     radial-gradient(
-      ellipse at center,
-      transparent 38%,
-      rgba(0, 0, 0, 0.15) 65%,
-      rgba(0, 0, 0, 0.72) 100%
+      circle at center,
+      transparent 35%,
+      rgba(0, 0, 0, .18) 62%,
+      rgba(0, 0, 0, .80) 100%
     );
 }
 
-.content {
+
+/* =========================================
+   PANTALLA INICIAL
+========================================= */
+
+#intro {
   position: fixed;
   inset: 0;
-  z-index: 5;
+
+  z-index: 10;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  pointer-events: none;
   text-align: center;
-}
-
-.intro {
-  position: absolute;
-  width: min(90vw, 600px);
-
-  opacity: 0;
-  transform: scale(0.94);
-
-  animation:
-    introAppear 2.5s ease-out 3s forwards,
-    introDisappear 1.5s ease-in 8.5s forwards;
-
-  text-shadow:
-    0 0 10px rgba(255, 170, 235, 0.35),
-    0 0 30px rgba(255, 80, 190, 0.18);
-}
-
-.intro-small {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(11px, 3vw, 17px);
-  letter-spacing: 0.42em;
-  margin-left: 0.42em;
-  margin-bottom: 16px;
-  opacity: 0.85;
-}
-
-.intro-title {
-  font-size: clamp(35px, 10vw, 68px);
-  font-weight: normal;
-  letter-spacing: 0.02em;
-}
-
-.messages {
-  position: absolute;
-  width: min(88vw, 650px);
-  min-height: 180px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.message {
-  position: absolute;
-  width: 100%;
-  padding: 0 8px;
-
-  opacity: 0;
-  transform: translateY(18px) scale(0.98);
-
-  font-size: clamp(23px, 6vw, 38px);
-  line-height: 1.24;
-  font-weight: normal;
-
-  text-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.85),
-    0 0 12px rgba(255, 120, 210, 0.2);
-
-  animation: messageSequence 30s ease-in-out infinite;
-}
-
-.message:nth-child(1) {
-  animation-delay: 9s;
-}
-
-.message:nth-child(2) {
-  animation-delay: 14s;
-}
-
-.message:nth-child(3) {
-  animation-delay: 19s;
-}
-
-.message:nth-child(4) {
-  animation-delay: 24s;
-}
-
-.message:nth-child(5) {
-  animation-delay: 29s;
-}
-
-.message:nth-child(6) {
-  animation-delay: 34s;
-}
-
-.final-message {
-  font-size: clamp(24px, 6.3vw, 40px);
-}
-
-#musicButton {
-  position: fixed;
-  right: 22px;
-  bottom: 25px;
-
-  width: 45px;
-  height: 45px;
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-
-  background: rgba(20, 0, 18, 0.45);
-  color: rgba(255, 255, 255, 0.85);
-
-  font-size: 19px;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  opacity: 0.75;
-  pointer-events: auto;
-  cursor: pointer;
 
   transition:
-    transform 0.3s ease,
-    background 0.3s ease;
+    opacity 1.5s ease,
+    transform 1.5s ease,
+    filter 1.5s ease;
 }
 
-#musicButton:active {
-  transform: scale(0.9);
+#intro.hide {
+  opacity: 0;
+
+  transform:
+    scale(1.12);
+
+  filter:
+    blur(8px);
+
+  pointer-events: none;
 }
+
+.intro-content {
+  width: 90%;
+  max-width: 600px;
+
+  animation:
+    introAppear 2s ease-out;
+}
+
+.small-title {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    clamp(9px, 2.5vw, 13px);
+
+  letter-spacing:
+    .35em;
+
+  margin-right:
+    -.35em;
+
+  margin-bottom:
+    18px;
+
+  opacity: .76;
+}
+
+h1 {
+  font-size:
+    clamp(46px, 14vw, 78px);
+
+  line-height:
+    .9;
+
+  font-weight:
+    400;
+
+  font-style:
+    italic;
+
+  text-shadow:
+
+    0 0 12px #ff9bdc,
+
+    0 0 35px rgba(255, 50, 175, .8),
+
+    0 0 75px rgba(255, 50, 175, .3);
+}
+
+h1 span {
+  font-size:
+    .83em;
+}
+
+.intro-content p {
+  margin-top:
+    25px;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .3em;
+
+  opacity:
+    .55;
+}
+
+
+/* =========================================
+   BOTÓN ENTRAR
+========================================= */
+
+#enter {
+  -webkit-appearance:
+    none;
+
+  appearance:
+    none;
+
+  display:
+    block;
+
+  margin:
+    38px auto 0;
+
+  min-width:
+    175px;
+
+  padding:
+    15px 35px;
+
+  border-radius:
+    999px;
+
+  border:
+    1px solid
+    rgba(255, 190, 230, .9);
+
+  color:
+    white;
+
+  background:
+    rgba(255, 50, 170, .09);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    .3em;
+
+  box-shadow:
+
+    0 0 20px
+    rgba(255, 60, 180, .35),
+
+    inset 0 0 20px
+    rgba(255, 60, 180, .05);
+
+  cursor:
+    pointer;
+
+  touch-action:
+    manipulation;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+#enter:active {
+  transform:
+    scale(.93);
+
+  background:
+    rgba(255, 60, 180, .25);
+
+  box-shadow:
+
+    0 0 50px
+    rgba(255, 80, 190, .9);
+}
+
+
+/* =========================================
+   FRASES
+========================================= */
+
+#story {
+  position: fixed;
+  inset: 0;
+
+  z-index: 7;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0 7vw;
+
+  pointer-events:
+    none;
+
+  text-align:
+    center;
+}
+
+#phrase {
+  width:
+    min(88vw, 700px);
+
+  min-height:
+    4em;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex-direction:
+    column;
+
+  opacity:
+    0;
+
+  transform:
+    translateY(20px)
+    scale(.98);
+
+  filter:
+    blur(8px);
+
+  transition:
+
+    opacity 1s ease,
+
+    transform 1s ease,
+
+    filter 1s ease;
+
+  font-size:
+    clamp(24px, 7vw, 43px);
+
+  line-height:
+    1.25;
+
+  font-style:
+    italic;
+
+  text-shadow:
+
+    0 2px 10px
+    rgba(0,0,0,.9),
+
+    0 0 18px
+    rgba(255,120,210,.55),
+
+    0 0 45px
+    rgba(255,40,170,.3);
+}
+
+#phrase.show {
+  opacity:
+    1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter:
+    blur(0);
+}
+
+#phrase.final {
+  font-size:
+    clamp(24px, 7vw, 43px);
+}
+
+#phrase.final span {
+  display:
+    block;
+
+  margin-top:
+    18px;
+
+  font-size:
+    .9em;
+
+  text-shadow:
+
+    0 0 15px
+    #ff8dce,
+
+    0 0 35px
+    #ff3aa9;
+}
+
+
+/* =========================================
+   BOTÓN MÚSICA
+========================================= */
+
+#musicButton {
+  position:
+    fixed;
+
+  z-index:
+    20;
+
+  right:
+    18px;
+
+  bottom:
+    calc(
+      18px +
+      env(safe-area-inset-bottom)
+    );
+
+  width:
+    44px;
+
+  height:
+    44px;
+
+  border-radius:
+    50%;
+
+  border:
+    1px solid
+    rgba(255,190,230,.45);
+
+  background:
+    rgba(20,0,20,.45);
+
+  color:
+    rgba(255,255,255,.85);
+
+  font-size:
+    18px;
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+
+  opacity:
+    .75;
+
+  cursor:
+    pointer;
+}
+
+
+/* =========================================
+   ANIMACIONES
+========================================= */
 
 @keyframes introAppear {
-  0% {
-    opacity: 0;
-    transform: scale(0.94);
-    filter: blur(8px);
+
+  from {
+
+    opacity:
+      0;
+
+    transform:
+      translateY(25px)
+      scale(.96);
+
+    filter:
+      blur(8px);
   }
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
+  to {
+
+    opacity:
+      1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter:
+      blur(0);
   }
 }
 
-@keyframes introDisappear {
-  0% {
-    opacity: 1;
-    filter: blur(0);
+@keyframes glowMove {
+
+  from {
+
+    transform:
+      scale(1)
+      translate3d(-1%,0,0);
   }
 
-  100% {
-    opacity: 0;
-    filter: blur(8px);
+  to {
+
+    transform:
+      scale(1.08)
+      translate3d(1%,1%,0);
   }
 }
 
-@keyframes messageSequence {
-  0% {
-    opacity: 0;
-    transform: translateY(18px) scale(0.98);
-    filter: blur(8px);
-  }
 
-  5% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-
-  18% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-
-  22% {
-    opacity: 0;
-    transform: translateY(-12px) scale(1.02);
-    filter: blur(7px);
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
+/* =========================================
+   IPHONE
+========================================= */
 
 @media (max-width: 480px) {
-  .messages {
-    width: 88vw;
+
+  .small-title {
+
+    letter-spacing:
+      .25em;
+
+    margin-right:
+      -.25em;
   }
 
-  .message {
-    font-size: clamp(21px, 6.1vw, 30px);
+  #phrase {
+
+    width:
+      88vw;
+
+    font-size:
+      clamp(23px, 6.8vw, 33px);
   }
 
-  .intro-small {
-    letter-spacing: 0.28em;
-  }
+  #phrase.final {
 
-  #musicButton {
-    right: 16px;
-    bottom: 18px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .intro,
-  .message {
-    animation-duration: 1ms;
+    font-size:
+      clamp(23px, 6.9vw, 35px);
   }
 }
