@@ -1,57 +1,11 @@
 "use strict";
 
-
 /* =====================================================
-   ELEMENTOS
+   UNIVERSO BASE — GALAXIA VIVA
 ===================================================== */
 
-const canvas =
-  document.getElementById("space");
-
-const ctx =
-  canvas.getContext("2d");
-
-const intro =
-  document.getElementById("intro");
-
-const enter =
-  document.getElementById("enter");
-
-const message =
-  document.getElementById("message");
-
-const music =
-  document.getElementById("music");
-
-const musicControl =
-  document.getElementById("musicControl");
-
-const topTitle =
-  document.getElementById("topTitle");
-
-
-/* =====================================================
-   FRASES
-===================================================== */
-
-const phrases = [
-
-  "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
-
-  "No necesito un universo perfecto, si puedo compartir el mío contigo.",
-
-  "Gracias por todos los momentos juntas.",
-
-  "Estos 3 meses son solo el comienzo de todo lo que quiero vivir contigo.",
-
-  "Te elegiría una y mil veces."
-
-];
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
+const canvas = document.getElementById("space");
+const ctx = canvas.getContext("2d");
 
 let W = 0;
 let H = 0;
@@ -59,16 +13,11 @@ let DPR = 1;
 
 let stars = [];
 let galaxy = [];
-let dust = [];
-let meteors = [];
+let foreground = [];
+let shootingStars = [];
 
 let started = false;
-
 let startTime = 0;
-
-let phraseTimer = null;
-
-let phraseIndex = 0;
 
 let targetX = 0;
 let targetY = 0;
@@ -78,7 +27,7 @@ let smoothY = 0;
 
 
 /* =====================================================
-   RANDOM
+   UTILIDADES
 ===================================================== */
 
 function random(min, max) {
@@ -87,7 +36,7 @@ function random(min, max) {
 
 
 /* =====================================================
-   RESIZE
+   TAMAÑO DEL CANVAS
 ===================================================== */
 
 function resize() {
@@ -100,17 +49,11 @@ function resize() {
     2
   );
 
-  canvas.width =
-    Math.floor(W * DPR);
+  canvas.width = Math.floor(W * DPR);
+  canvas.height = Math.floor(H * DPR);
 
-  canvas.height =
-    Math.floor(H * DPR);
-
-  canvas.style.width =
-    W + "px";
-
-  canvas.style.height =
-    H + "px";
+  canvas.style.width = W + "px";
+  canvas.style.height = H + "px";
 
   ctx.setTransform(
     DPR,
@@ -124,10 +67,7 @@ function resize() {
   createUniverse();
 }
 
-window.addEventListener(
-  "resize",
-  resize
-);
+window.addEventListener("resize", resize);
 
 
 /* =====================================================
@@ -138,45 +78,48 @@ function createUniverse() {
 
   stars = [];
   galaxy = [];
-  dust = [];
-  meteors = [];
+  foreground = [];
+  shootingStars = [];
 
 
-  /* ---------------------------------------------
-     ESTRELLAS MUY LEJANAS
-  --------------------------------------------- */
+  /* ---------------------------------------------------
+     ESTRELLAS LEJANAS
+  --------------------------------------------------- */
 
-  for (let i = 0; i < 420; i++) {
+  const starCount =
+    W < 600 ? 420 : 650;
+
+  for (let i = 0; i < starCount; i++) {
 
     stars.push({
 
       x: Math.random() * W,
       y: Math.random() * H,
 
-      size: random(.15, 1),
+      size: random(0.2, 1.3),
 
-      depth: random(.05, .35),
+      depth: random(0.05, 0.45),
 
-      alpha: random(.15, .6),
+      alpha: random(0.15, 0.75),
 
       phase: random(0, Math.PI * 2),
 
-      speed: random(.004, .015)
+      twinkle: random(0.004, 0.025)
 
     });
 
   }
 
 
-  /* ---------------------------------------------
+  /* ---------------------------------------------------
      GALAXIA
-  --------------------------------------------- */
+  --------------------------------------------------- */
 
-  const amount =
-    W < 600 ? 1500 : 2300;
+  const particleCount =
+    W < 600 ? 1800 : 2700;
 
 
-  for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < particleCount; i++) {
 
     const angle =
       Math.random() *
@@ -185,77 +128,75 @@ function createUniverse() {
 
 
     /*
-      Distribución que concentra
-      más partículas hacia el centro.
+      Mayor concentración
+      hacia el centro.
     */
 
     const radius =
       Math.pow(
         Math.random(),
-        .57
+        0.58
       ) *
       Math.max(W, H) *
-      .64;
+      0.67;
 
 
     galaxy.push({
 
-      angle,
+      angle: angle,
 
-      radius,
+      radius: radius,
 
-      depth:
-        random(.05, 1),
+      depth: random(0.05, 1),
 
-      size:
-        random(.25, 1.6),
+      size: random(0.25, 1.7),
 
-      alpha:
-        random(.15, .9),
+      alpha: random(0.18, 0.95),
 
-      speed:
-        random(.0002, .0012),
+      speed: random(0.00012, 0.0009),
 
-      offset:
-        random(-1, 1)
+      armOffset: random(-0.18, 0.18)
 
     });
 
   }
 
 
-  /* ---------------------------------------------
-     POLVO CÓSMICO EN PRIMER PLANO
-  --------------------------------------------- */
+  /* ---------------------------------------------------
+     PARTÍCULAS EN PRIMER PLANO
+  --------------------------------------------------- */
 
-  for (let i = 0; i < 600; i++) {
+  const foregroundCount =
+    W < 600 ? 500 : 800;
 
-    dust.push({
+
+  for (let i = 0; i < foregroundCount; i++) {
+
+    foreground.push({
 
       x: Math.random() * W,
 
       y: Math.random() * H,
 
-      depth: random(.45, 1),
+      size: random(0.35, 2.2),
 
-      size: random(.3, 2.1),
+      depth: random(0.45, 1),
 
-      phase:
-        random(0, Math.PI * 2)
+      phase: random(0, Math.PI * 2)
 
     });
 
   }
 
 
-  /* ---------------------------------------------
-     METEOROS
-  --------------------------------------------- */
+  /* ---------------------------------------------------
+     ESTRELLAS FUGACES
+  --------------------------------------------------- */
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
 
-    meteors.push(
-      newMeteor(true)
+    shootingStars.push(
+      createShootingStar(true)
     );
 
   }
@@ -264,33 +205,32 @@ function createUniverse() {
 
 
 /* =====================================================
-   METEORO
+   ESTRELLA FUGAZ
 ===================================================== */
 
-function newMeteor(initial = false) {
+function createShootingStar(initial = false) {
 
   return {
 
-    x:
-      initial
-        ? random(0, W)
-        : W + 100,
+    x: initial
+      ? random(0, W)
+      : W + random(50, 250),
 
-    y:
-      initial
-        ? random(0, H * .5)
-        : random(-100, H * .4),
+    y: initial
+      ? random(0, H * 0.55)
+      : random(-100, H * 0.45),
 
-    speed:
-      random(7, 12),
+    speed: random(5, 11),
 
-    length:
-      random(60, 130),
+    length: random(70, 170),
 
-    alpha:
-      initial
-        ? random(.2, .8)
-        : 1
+    alpha: initial
+      ? random(0, 0.7)
+      : 1,
+
+    delay: initial
+      ? random(0, 6)
+      : random(0, 2)
 
   };
 
@@ -301,18 +241,22 @@ function newMeteor(initial = false) {
    FONDO
 ===================================================== */
 
-function background(time) {
+function drawBackground(time) {
 
   const centerX =
-    W * .5 +
-    smoothX * 8;
+    W * 0.5 +
+    smoothX * 10;
 
   const centerY =
-    H * .47 +
-    smoothY * 5;
+    H * 0.48 +
+    smoothY * 7;
 
 
-  const gradient =
+  /*
+    Fondo profundo.
+  */
+
+  const background =
     ctx.createRadialGradient(
 
       centerX,
@@ -321,39 +265,39 @@ function background(time) {
 
       centerX,
       centerY,
-      Math.max(W, H) * .85
+      Math.max(W, H) * 0.9
 
     );
 
 
-  gradient.addColorStop(
+  background.addColorStop(
     0,
-    "#3b002d"
+    "#39002d"
   );
 
-  gradient.addColorStop(
-    .18,
-    "#24001b"
+  background.addColorStop(
+    0.2,
+    "#25001d"
   );
 
-  gradient.addColorStop(
-    .45,
-    "#10000e"
+  background.addColorStop(
+    0.45,
+    "#11000f"
   );
 
-  gradient.addColorStop(
-    .75,
+  background.addColorStop(
+    0.72,
     "#050006"
   );
 
-  gradient.addColorStop(
+  background.addColorStop(
     1,
     "#010002"
   );
 
 
   ctx.fillStyle =
-    gradient;
+    background;
 
   ctx.fillRect(
     0,
@@ -364,72 +308,67 @@ function background(time) {
 
 
   /*
-    Nebulosa grande.
+    Nebulosa viva.
   */
 
-  if (started) {
-
-    const elapsed =
-      time - startTime;
-
-    const progress =
-      Math.min(
-        1,
-        elapsed / 6
-      );
+  const pulse =
+    Math.sin(time * 0.22) * 0.5 + 0.5;
 
 
-    const nebula =
-      ctx.createRadialGradient(
+  const nebula =
+    ctx.createRadialGradient(
 
-        centerX,
-        centerY,
-        0,
-
-        centerX,
-        centerY,
-        Math.min(W, H) * .75
-
-      );
-
-
-    nebula.addColorStop(
+      centerX,
+      centerY,
       0,
-      `rgba(
-        255,
-        45,
-        180,
-        ${.08 + progress * .08}
-      )`
-    );
 
-    nebula.addColorStop(
-      .32,
-      `rgba(
-        180,
-        30,
-        145,
-        ${.045 + progress * .04}
-      )`
-    );
+      centerX,
+      centerY,
+      Math.min(W, H) * 0.78
 
-    nebula.addColorStop(
-      1,
-      "rgba(255,0,150,0)"
     );
 
 
-    ctx.fillStyle =
-      nebula;
+  nebula.addColorStop(
+    0,
+    `rgba(
+      255,
+      55,
+      185,
+      ${0.07 + pulse * 0.025}
+    )`
+  );
 
-    ctx.fillRect(
-      0,
-      0,
-      W,
-      H
-    );
+  nebula.addColorStop(
+    0.28,
+    `rgba(
+      190,
+      25,
+      145,
+      ${0.045 + pulse * 0.02}
+    )`
+  );
 
-  }
+  nebula.addColorStop(
+    0.65,
+    "rgba(90,10,80,0.025)"
+  );
+
+  nebula.addColorStop(
+    1,
+    "rgba(255,0,150,0)"
+  );
+
+
+  ctx.fillStyle =
+    nebula;
+
+  ctx.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
 
 }
 
@@ -443,33 +382,29 @@ function drawStars(time) {
   for (const star of stars) {
 
     star.phase +=
-      star.speed;
+      star.twinkle;
 
 
-    const pulse =
-      .5 +
-      .5 *
-      Math.sin(
-        star.phase
-      );
+    const brightness =
+      0.45 +
+      Math.sin(star.phase) * 0.35;
 
 
     /*
-      Diferentes planos =
-      diferentes desplazamientos.
+      Parallax.
     */
 
     const x =
       star.x +
       smoothX *
-      18 *
+      25 *
       star.depth;
 
 
     const y =
       star.y +
       smoothY *
-      10 *
+      15 *
       star.depth;
 
 
@@ -479,9 +414,12 @@ function drawStars(time) {
     ctx.fillStyle =
       `rgba(
         255,
-        215,
-        240,
-        ${star.alpha * (.65 + pulse * .35)}
+        220,
+        244,
+        ${Math.max(
+          0.05,
+          star.alpha * brightness
+        )}
       )`;
 
 
@@ -491,7 +429,7 @@ function drawStars(time) {
       y,
 
       star.size *
-      (.6 + star.depth),
+      (0.65 + star.depth),
 
       0,
       Math.PI * 2
@@ -501,13 +439,61 @@ function drawStars(time) {
 
     ctx.fill();
 
+
+    /*
+      Algunas estrellas tienen
+      un pequeño destello.
+    */
+
+    if (
+      star.depth > 0.38 &&
+      brightness > 0.7
+    ) {
+
+      ctx.strokeStyle =
+        `rgba(
+          255,
+          190,
+          230,
+          ${brightness * 0.35}
+        )`;
+
+      ctx.lineWidth = 0.5;
+
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        x - 4 * star.depth,
+        y
+      );
+
+      ctx.lineTo(
+        x + 4 * star.depth,
+        y
+      );
+
+      ctx.moveTo(
+        x,
+        y - 4 * star.depth
+      );
+
+      ctx.lineTo(
+        x,
+        y + 4 * star.depth
+      );
+
+      ctx.stroke();
+
+    }
+
   }
 
 }
 
 
 /* =====================================================
-   GALAXIA
+   GALAXIA ESPIRAL
 ===================================================== */
 
 function drawGalaxy(time) {
@@ -522,45 +508,54 @@ function drawGalaxy(time) {
 
 
   /*
-    Entrada de la galaxia.
+    La galaxia aparece
+    progresivamente.
   */
 
-  const progress =
+  const formation =
     Math.min(
       1,
-      elapsed / 6
+      elapsed / 5.5
     );
 
 
   const expansion =
-    .025 +
-    .975 *
+    0.035 +
+    0.965 *
     (
       1 -
       Math.pow(
-        1 - progress,
-        2.3
+        1 - formation,
+        2.2
       )
     );
 
 
+  /*
+    Movimiento lento de rotación.
+  */
+
+  const rotation =
+    time * 0.035;
+
+
   const centerX =
-    W * .5 +
-    smoothX * 12;
+    W * 0.5 +
+    smoothX * 14;
 
 
   const centerY =
-    H * .47 +
-    smoothY * 7;
+    H * 0.48 +
+    smoothY * 8;
 
 
   /*
-    Perspectiva.
+    Perspectiva de galaxia.
   */
 
-  const perspective =
-    .28 +
-    progress * .12;
+  const flatten =
+    0.28 +
+    formation * 0.08;
 
 
   for (const p of galaxy) {
@@ -573,7 +568,7 @@ function drawGalaxy(time) {
       p.speed *
       (
         1 +
-        progress * 4
+        formation * 3
       );
 
 
@@ -583,34 +578,45 @@ function drawGalaxy(time) {
 
 
     /*
-      Curvatura de los brazos.
+      Espiral.
     */
 
     const spiral =
       p.angle +
-      radius *
-      .00175;
+      radius * 0.0018 +
+      rotation +
+      p.armOffset;
 
 
     /*
-      Perspectiva.
+      Pequeña distorsión
+      natural en los brazos.
     */
+
+    const wave =
+      Math.sin(
+        p.angle * 3 +
+        radius * 0.006
+      ) *
+      radius *
+      0.025;
+
+
+    const finalRadius =
+      radius + wave;
+
 
     const x =
       centerX +
-      Math.cos(
-        spiral
-      ) *
-      radius;
+      Math.cos(spiral) *
+      finalRadius;
 
 
     const y =
       centerY +
-      Math.sin(
-        spiral
-      ) *
-      radius *
-      perspective;
+      Math.sin(spiral) *
+      finalRadius *
+      flatten;
 
 
     /*
@@ -624,47 +630,62 @@ function drawGalaxy(time) {
     const size =
       p.size *
       (
-        .45 +
-        depth * 1.7
+        0.45 +
+        depth * 1.65
       );
 
 
     const alpha =
       p.alpha *
       (
-        .05 +
-        progress * .95
+        0.04 +
+        formation * 0.96
       );
 
 
     /*
-      Color según profundidad.
+      Colores:
+      lejos = violeta
+      cerca = rosa
+      centro = blanco/rosa.
     */
+
+    const red = 255;
+
+    const green =
+      105 +
+      depth * 115;
+
+    const blue =
+      175 +
+      depth * 70;
+
 
     ctx.beginPath();
 
 
     ctx.fillStyle =
       `rgba(
-        255,
-        ${125 + depth * 90},
-        ${180 + depth * 70},
+        ${red},
+        ${green},
+        ${blue},
         ${alpha}
       )`;
 
 
     /*
-      Las partículas cercanas
-      tienen más glow.
+      Glow solo en partículas
+      importantes para no sobrecargar
+      el iPhone.
     */
 
-    if (depth > .75) {
+    if (depth > 0.76) {
 
       ctx.shadowBlur =
-        5 + depth * 7;
+        3 + depth * 6;
 
       ctx.shadowColor =
-        "#ff52b4";
+        "#ff55b7";
 
     }
 
@@ -687,7 +708,7 @@ function drawGalaxy(time) {
 
 
   /*
-    Núcleo brillante.
+    NÚCLEO CENTRAL
   */
 
   const core =
@@ -699,24 +720,39 @@ function drawGalaxy(time) {
 
       centerX,
       centerY,
-      Math.min(W, H) * .28
+      Math.min(W, H) * 0.3
 
     );
 
 
   core.addColorStop(
     0,
-    `rgba(255,220,247,${.28 * progress})`
+    `rgba(
+      255,
+      235,
+      250,
+      ${0.24 * formation}
+    )`
   );
 
   core.addColorStop(
-    .12,
-    `rgba(255,115,205,${.18 * progress})`
+    0.08,
+    `rgba(
+      255,
+      150,
+      220,
+      ${0.18 * formation}
+    )`
   );
 
   core.addColorStop(
-    .45,
-    "rgba(255,50,180,.045)"
+    0.3,
+    `rgba(
+      255,
+      60,
+      185,
+      ${0.06 * formation}
+    )`
   );
 
   core.addColorStop(
@@ -739,43 +775,43 @@ function drawGalaxy(time) {
 
 
 /* =====================================================
-   POLVO EN PRIMER PLANO
+   PRIMER PLANO
 ===================================================== */
 
-function drawDust(time) {
+function drawForeground(time) {
 
   if (!started) {
     return;
   }
 
 
-  for (const p of dust) {
+  for (const p of foreground) {
 
-    p.phase += .005;
+    p.phase += 0.004;
 
 
     const x =
       p.x +
 
       smoothX *
-      38 *
+      45 *
       p.depth +
 
       Math.sin(
-        time * .18 +
+        time * 0.18 +
         p.phase
-      ) * 7;
+      ) * 6;
 
 
     const y =
       p.y +
 
       smoothY *
-      22 *
+      25 *
       p.depth +
 
       Math.cos(
-        time * .14 +
+        time * 0.15 +
         p.phase
       ) * 5;
 
@@ -786,19 +822,18 @@ function drawDust(time) {
     ctx.fillStyle =
       `rgba(
         255,
-        160,
+        170,
         225,
-        ${.08 + p.depth * .4}
+        ${0.06 + p.depth * 0.32}
       )`;
 
 
     ctx.shadowBlur =
-      4 +
-      p.depth * 7;
-
+      2 +
+      p.depth * 6;
 
     ctx.shadowColor =
-      "#ff62b8";
+      "#ff63bb";
 
 
     ctx.arc(
@@ -807,7 +842,10 @@ function drawDust(time) {
       y,
 
       p.size *
-      (.4 + p.depth),
+      (
+        0.4 +
+        p.depth
+      ),
 
       0,
       Math.PI * 2
@@ -826,10 +864,10 @@ function drawDust(time) {
 
 
 /* =====================================================
-   METEOROS
+   ESTRELLAS FUGACES
 ===================================================== */
 
-function drawMeteors() {
+function drawShootingStars() {
 
   if (!started) {
     return;
@@ -838,67 +876,100 @@ function drawMeteors() {
 
   for (
     let i = 0;
-    i < meteors.length;
+    i < shootingStars.length;
     i++
   ) {
 
-    const meteor =
-      meteors[i];
+    const s =
+      shootingStars[i];
 
 
-    meteor.x +=
-      meteor.speed;
+    if (s.delay > 0) {
+
+      s.delay -=
+        0.016;
+
+      continue;
+
+    }
 
 
-    meteor.y +=
-      meteor.speed * .35;
+    s.x +=
+      s.speed;
 
 
-    meteor.alpha -=
-      .008;
+    s.y +=
+      s.speed * 0.32;
+
+
+    s.alpha -=
+      0.009;
 
 
     const gradient =
       ctx.createLinearGradient(
 
-        meteor.x,
-        meteor.y,
+        s.x,
+        s.y,
 
-        meteor.x -
-          meteor.length,
+        s.x -
+          s.length,
 
-        meteor.y -
-          meteor.length * .35
+        s.y -
+          s.length * 0.32
 
       );
 
 
     gradient.addColorStop(
+
       0,
+
       `rgba(
         255,
         255,
         255,
-        ${meteor.alpha}
+        ${s.alpha}
       )`
+
     );
 
 
     gradient.addColorStop(
-      .25,
+
+      0.2,
+
       `rgba(
         255,
-        140,
-        215,
-        ${meteor.alpha * .7}
+        180,
+        230,
+        ${s.alpha * 0.9}
       )`
+
+    );
+
+
+    gradient.addColorStop(
+
+      0.55,
+
+      `rgba(
+        255,
+        70,
+        190,
+        ${s.alpha * 0.45}
+      )`
+
     );
 
 
     gradient.addColorStop(
       1,
-      "rgba(255,30,170,0)"
+      "rgba(255,0,150,0)"
     );
+
+
+    ctx.beginPath();
 
 
     ctx.strokeStyle =
@@ -908,22 +979,19 @@ function drawMeteors() {
       1.4;
 
 
-    ctx.beginPath();
-
-
     ctx.moveTo(
-      meteor.x,
-      meteor.y
+      s.x,
+      s.y
     );
 
 
     ctx.lineTo(
 
-      meteor.x -
-        meteor.length,
+      s.x -
+        s.length,
 
-      meteor.y -
-        meteor.length * .35
+      s.y -
+        s.length * 0.32
 
     );
 
@@ -931,14 +999,50 @@ function drawMeteors() {
     ctx.stroke();
 
 
+    /*
+      Cabeza brillante.
+    */
+
+    ctx.beginPath();
+
+    ctx.fillStyle =
+      `rgba(
+        255,
+        245,
+        255,
+        ${s.alpha}
+      )`;
+
+    ctx.shadowBlur =
+      12;
+
+    ctx.shadowColor =
+      "#ff7ac5";
+
+
+    ctx.arc(
+      s.x,
+      s.y,
+      1.8,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+
+    ctx.shadowBlur = 0;
+
+
     if (
-      meteor.alpha <= 0 ||
-      meteor.x > W + 150 ||
-      meteor.y > H + 100
+      s.alpha <= 0 ||
+      s.x > W + 200 ||
+      s.y > H + 150
     ) {
 
-      meteors[i] =
-        newMeteor(false);
+      shootingStars[i] =
+        createShootingStar(false);
 
     }
 
@@ -948,38 +1052,42 @@ function drawMeteors() {
 
 
 /* =====================================================
-   ANIMACIÓN
+   ANIMACIÓN PRINCIPAL
 ===================================================== */
 
 function animate(timestamp) {
 
   const time =
-    timestamp * .001;
+    timestamp * 0.001;
 
+
+  /*
+    Movimiento suave de la cámara.
+  */
 
   smoothX +=
     (
       targetX -
       smoothX
-    ) * .035;
+    ) * 0.035;
 
 
   smoothY +=
     (
       targetY -
       smoothY
-    ) * .035;
+    ) * 0.035;
 
 
-  background(time);
+  drawBackground(time);
 
   drawStars(time);
 
   drawGalaxy(time);
 
-  drawDust(time);
+  drawForeground(time);
 
-  drawMeteors();
+  drawShootingStars();
 
 
   requestAnimationFrame(
@@ -990,150 +1098,12 @@ function animate(timestamp) {
 
 
 /* =====================================================
-   FRASES
-===================================================== */
-
-function showPhrase(text) {
-
-  message.classList.remove(
-    "show"
-  );
-
-
-  setTimeout(() => {
-
-    message.innerHTML =
-      text;
-
-
-    message.classList.add(
-      "show"
-    );
-
-  }, 900);
-
-}
-
-
-function startPhrases() {
-
-  phraseIndex = 0;
-
-
-  showPhrase(
-    phrases[phraseIndex]
-  );
-
-
-  phraseTimer =
-    setInterval(() => {
-
-      phraseIndex++;
-
-
-      if (
-        phraseIndex >=
-        phrases.length
-      ) {
-
-        clearInterval(
-          phraseTimer
-        );
-
-
-        showFinal();
-
-        return;
-
-      }
-
-
-      showPhrase(
-        phrases[phraseIndex]
-      );
-
-    }, 5900);
-
-}
-
-
-/* =====================================================
-   FINAL
-===================================================== */
-
-function showFinal() {
-
-  setTimeout(() => {
-
-    message.classList.remove(
-      "show"
-    );
-
-
-    setTimeout(() => {
-
-      message.classList.add(
-        "final"
-      );
-
-
-      message.innerHTML = `
-
-        Contigo, todo tiene más sentido.
-        <br>
-        Gracias por formar parte de mi universo.
-
-        <span class="love">
-          Te amo muchote. ♡
-        </span>
-
-      `;
-
-
-      message.classList.add(
-        "show"
-      );
-
-    }, 900);
-
-  }, 300);
-
-}
-
-
-/* =====================================================
-   MÚSICA
-===================================================== */
-
-async function startMusic() {
-
-  try {
-
-    music.volume =
-      .55;
-
-    await music.play();
-
-    musicControl.textContent =
-      "♫";
-
-  } catch (error) {
-
-    musicControl.textContent =
-      "♫";
-
-  }
-
-}
-
-
-/* =====================================================
-   ENTRAR
+   ENTRADA AL UNIVERSO
 ===================================================== */
 
 enter.addEventListener(
   "click",
-  () => {
+  async function () {
 
     if (started) {
       return;
@@ -1144,74 +1114,66 @@ enter.addEventListener(
 
 
     startTime =
-      performance.now() *
-      .001;
+      performance.now() * 0.001;
 
 
     /*
-      La música se solicita
-      directamente desde el toque.
+      Música.
     */
 
-    startMusic();
+    const music =
+      document.getElementById("music");
 
 
-    /*
-      Entrada cinematográfica.
-    */
+    if (music) {
 
-    intro.classList.add(
-      "hide"
-    );
-
-
-    topTitle.classList.add(
-      "show"
-    );
-
-
-    /*
-      Dejamos que la galaxia
-      aparezca antes de las frases.
-    */
-
-    setTimeout(() => {
-
-      startPhrases();
-
-    }, 7000);
-
-  }
-);
-
-
-/* =====================================================
-   CONTROL DE MÚSICA
-===================================================== */
-
-musicControl.addEventListener(
-  "click",
-  async () => {
-
-    if (
-      music.paused
-    ) {
+      music.volume = 0.55;
 
       try {
 
         await music.play();
 
-        musicControl.textContent =
-          "♫";
+      } catch (error) {
 
-      } catch (error) {}
+        console.log(
+          "El navegador requiere otra interacción para reproducir audio."
+        );
 
-    } else {
+      }
 
-      music.pause();
+    }
 
-      musicControl.textContent =
-        "Ⅱ";
+
+    /*
+      Desaparece la portada.
+    */
+
+    const intro =
+      document.getElementById("intro");
+
+
+    if (intro) {
+
+      intro.classList.add(
+        "hide"
+      );
+
+    }
+
+
+    /*
+      Título superior.
+    */
+
+    const topTitle =
+      document.getElementById("topTitle");
+
+
+    if (topTitle) {
+
+      topTitle.classList.add(
+        "show"
+      );
 
     }
 
@@ -1220,51 +1182,35 @@ musicControl.addEventListener(
 
 
 /* =====================================================
-   PARALLAX
+   PARALLAX — MOUSE
 ===================================================== */
-
-function moveScene(
-  x,
-  y
-) {
-
-  targetX =
-    (
-      x -
-      W / 2
-    ) /
-    W *
-    2;
-
-
-  targetY =
-    (
-      y -
-      H / 2
-    ) /
-    H *
-    2;
-
-}
-
-
-/* Computadora */
 
 window.addEventListener(
   "pointermove",
-  event => {
+  function (event) {
 
     if (
-      event.pointerType !==
+      event.pointerType ===
       "touch"
     ) {
-
-      moveScene(
-        event.clientX,
-        event.clientY
-      );
-
+      return;
     }
+
+
+    targetX =
+      (
+        event.clientX -
+        W / 2
+      ) /
+      (W / 2);
+
+
+    targetY =
+      (
+        event.clientY -
+        H / 2
+      ) /
+      (H / 2);
 
   },
   {
@@ -1273,25 +1219,39 @@ window.addEventListener(
 );
 
 
-/* Celular */
+/* =====================================================
+   PARALLAX — TOUCH
+===================================================== */
 
 window.addEventListener(
   "touchmove",
-  event => {
+  function (event) {
 
     if (
-      event.touches.length
+      !event.touches.length
     ) {
-
-      moveScene(
-
-        event.touches[0].clientX,
-
-        event.touches[0].clientY
-
-      );
-
+      return;
     }
+
+
+    const touch =
+      event.touches[0];
+
+
+    targetX =
+      (
+        touch.clientX -
+        W / 2
+      ) /
+      (W / 2);
+
+
+    targetY =
+      (
+        touch.clientY -
+        H / 2
+      ) /
+      (H / 2);
 
   },
   {
