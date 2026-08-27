@@ -17,12 +17,7 @@
 
     <title>Nuestro Universo ♡</title>
 
-
     <style>
-
-        /* =====================================================
-           RESET
-        ===================================================== */
 
         * {
             box-sizing: border-box;
@@ -118,6 +113,7 @@
             100% {
                 transform: translate(0,0);
             }
+
         }
 
 
@@ -257,6 +253,7 @@
                 transform:
                     translate3d(-80px,60px,0);
             }
+
         }
 
 
@@ -303,6 +300,7 @@
                 transform: scale(1.08);
                 opacity: 1;
             }
+
         }
 
 
@@ -376,6 +374,7 @@
                     translate(-50%,-50%)
                     rotate(347deg);
             }
+
         }
 
         @keyframes orbitTwo {
@@ -391,6 +390,7 @@
                     translate(-50%,-50%)
                     rotate(-339deg);
             }
+
         }
 
 
@@ -441,11 +441,12 @@
                 filter:
                     blur(0);
             }
+
         }
 
 
         /* =====================================================
-           ESTRELLA SUPERIOR
+           SÍMBOLO
         ===================================================== */
 
         .intro-symbol {
@@ -478,6 +479,7 @@
                 transform: scale(1.2);
                 opacity: 1;
             }
+
         }
 
 
@@ -605,6 +607,7 @@
             50% {
                 transform: scale(1.08);
             }
+
         }
 
 
@@ -875,6 +878,7 @@
                 transform: scaleY(1);
                 opacity: 1;
             }
+
         }
 
 
@@ -2073,6 +2077,20 @@
             }
 
 
+            /*
+             * CUANDO EMPIEZA EL CORAZÓN:
+             *
+             * NO dibujamos una segunda galaxia.
+             *
+             * Las mismas estrellas serán
+             * movidas por drawHeart().
+             */
+
+            if (formingHeart) {
+                return;
+            }
+
+
             const elapsed =
                 time -
                 startTime;
@@ -2924,7 +2942,7 @@
 
 
         /* =====================================================
-           SECUENCIA
+           SECUENCIA FRASES
         ===================================================== */
 
         function startPhrases() {
@@ -3090,54 +3108,110 @@
 
 
         /* =====================================================
-           CREAR CORAZÓN
+           ⭐ CREAR CORAZÓN A PARTIR DE LA GALAXIA
         ===================================================== */
 
         function createHeartParticles() {
 
-            heartParticles=[];
-
-
-            const amount =
-                W<600
-                    ? 650
-                    : 1000;
+            heartParticles = [];
 
 
             const cx =
-                W*.5;
+                W * .5;
 
 
             const cy =
-                H*.47;
+                H * .47;
 
 
             const scale =
-                Math.min(W,H)*
+                Math.min(W,H) *
                 (
-                    W<600
+                    W < 600
                         ? .020
                         : .026
                 );
 
 
+            /*
+             * AQUÍ ESTÁ LA DIFERENCIA:
+             *
+             * NO generamos estrellas nuevas.
+             *
+             * Usamos las mismas galaxyStars.
+             */
+
+            const sourceStars =
+                galaxyStars;
+
+
+            const total =
+                sourceStars.length;
+
+
             for (
-                let i=0;
-                i<amount;
+                let i = 0;
+                i < total;
                 i++
             ) {
 
-                const t =
-                    Math.random()*
-                    Math.PI*2;
+                const star =
+                    sourceStars[i];
 
 
                 /*
-                  Ecuación del corazón.
-                */
+                 * Posición que tenía la estrella
+                 * dentro de la galaxia.
+                 */
+
+                const rotation =
+                    heartStart *
+                    .012;
+
+
+                const radius =
+                    star.radius;
+
+
+                const angle =
+                    star.angle +
+                    rotation +
+                    radius*.0023;
+
+
+                const galaxyX =
+                    cx +
+                    Math.cos(angle) *
+                    radius;
+
+
+                const galaxyY =
+                    cy +
+                    Math.sin(angle) *
+                    radius *
+                    (
+                        W < 600
+                            ? .34
+                            : .29
+                    );
+
+
+                /*
+                 * Distribución destino:
+                 * corazón.
+                 */
+
+                const t =
+                    (
+                        i /
+                        total
+                    ) *
+                    Math.PI *
+                    2;
+
 
                 const hx =
-                    16*
+                    16 *
                     Math.pow(
                         Math.sin(t),
                         3
@@ -3154,63 +3228,82 @@
 
 
                 /*
-                  Relleno interior.
-                */
+                 * Rellenamos el corazón.
+                 */
 
                 const fill =
                     Math.pow(
                         Math.random(),
-                        .55
+                        .58
                     );
 
 
-                const tx =
-                    cx+
-                    hx*
-                    scale*
+                const targetX =
+                    cx +
+                    hx *
+                    scale *
                     fill;
 
 
-                const ty =
-                    cy+
-                    hy*
-                    scale*
+                const targetY =
+                    cy +
+                    hy *
+                    scale *
                     fill;
 
 
                 heartParticles.push({
 
+                    /*
+                     * MISMA POSICIÓN
+                     * DE LA GALAXIA
+                     */
+
                     x:
-                        random(
-                            W*.15,
-                            W*.85
-                        ),
+                        galaxyX,
 
                     y:
-                        random(
-                            H*.15,
-                            H*.85
-                        ),
+                        galaxyY,
 
-                    targetX:tx,
 
-                    targetY:ty,
+                    /*
+                     * DESTINO:
+                     * CORAZÓN
+                     */
+
+                    targetX,
+
+                    targetY,
+
+
+                    /*
+                     * Conservamos las
+                     * características de
+                     * la estrella original.
+                     */
 
                     size:
-                        random(
-                            .45,
-                            1.8
+                        star.size *
+                        (
+                            .7 +
+                            star.depth*.9
                         ),
 
-                    delay:
-                        Math.random()*.75,
 
                     phase:
-                        Math.random()*
-                        Math.PI*2,
+                        star.phase,
+
 
                     hue:
-                        Math.random()
+                        star.depth,
+
+
+                    brightness:
+                        star.brightness,
+
+
+                    delay:
+                        Math.random()*.20
 
                 });
 
@@ -3220,7 +3313,7 @@
 
 
         /* =====================================================
-           CORAZÓN FINAL
+           ❤️ CORAZÓN FINAL
         ===================================================== */
 
         function drawHeart(time) {
@@ -3231,12 +3324,11 @@
 
 
             /*
-              0 → 1.00
-              formación del corazón
-
-              1.00 → 1.35
-              tiempo del mensaje final
-            */
+             * Durante los primeros 5.5 segundos
+             * las estrellas forman el corazón.
+             *
+             * Después aparece el mensaje.
+             */
 
             const progress =
                 clamp(
@@ -3248,12 +3340,6 @@
                     1.35
                 );
 
-
-            /*
-              IMPORTANTE:
-              El corazón termina de formarse
-              exactamente a los 5.5 segundos.
-            */
 
             const heartFormation =
                 clamp(
@@ -3296,7 +3382,7 @@
 
 
             /* =================================================
-               ESTRELLAS DEL CORAZÓN
+               ESTRELLAS DE LA GALAXIA → CORAZÓN
             ================================================= */
 
             for (
@@ -3339,9 +3425,9 @@
 
 
                 /*
-                  Cuando el corazón ya está completo,
-                  las estrellas respiran suavemente.
-                */
+                 * Una vez formado,
+                 * el corazón sigue vivo.
+                 */
 
                 if (
                     progress >= 1
@@ -3350,17 +3436,17 @@
                     x =
                         p.targetX +
                         Math.sin(
-                            time * 1.5 +
+                            time*1.5 +
                             p.phase
-                        ) * 1.2;
+                        )*1.2;
 
 
                     y =
                         p.targetY +
                         Math.cos(
-                            time * 1.3 +
+                            time*1.3 +
                             p.phase
-                        ) * 1.2;
+                        )*1.2;
 
                 }
 
@@ -3372,7 +3458,7 @@
                     .72 +
                     Math.sin(
                         p.phase
-                    ) * .28;
+                    )*.28;
 
 
                 let color;
@@ -3450,7 +3536,7 @@
                 ctx.shadowBlur =
                     progress >= 1
                         ? 8
-                        : 3;
+                        : 4;
 
 
                 ctx.shadowColor =
@@ -3478,7 +3564,7 @@
 
 
             /* =================================================
-               HALO DEL CORAZÓN
+               HALO
             ================================================= */
 
             if (
@@ -3505,8 +3591,8 @@
                                 (
                                     time -
                                     heartStart
-                                ) * 2.2
-                            ) * .5
+                                )*2.2
+                            )*.5
                         )
 
                         : 0;
@@ -3516,10 +3602,8 @@
                     haloProgress *
                     (
                         progress >= 1
-
                             ? .08 +
-                              pulse * .045
-
+                              pulse*.045
                             : .08
                     );
 
@@ -3605,7 +3689,7 @@
                         (
                             progress -
                             .82
-                        ) / .18,
+                        )/.18,
                         0,
                         1
                     );
@@ -3624,8 +3708,8 @@
                             (
                                 time -
                                 heartStart
-                            ) * 1.8
-                        ) * 1.5
+                            )*1.8
+                        )*1.5
 
                         : 0;
 
@@ -3644,11 +3728,6 @@
                 ctx.textBaseline =
                     "middle";
 
-
-                /*
-                  El texto queda debajo
-                  del corazón, sin tocarlo.
-                */
 
                 const firstTextY =
                     H*.72 +
@@ -3677,10 +3756,6 @@
                     firstTextY
                 );
 
-
-                /*
-                  Segundo brillo.
-                */
 
                 ctx.shadowBlur =
                     8;
@@ -3719,7 +3794,7 @@
                         (
                             progress -
                             1
-                        ) / .25,
+                        )/.25,
                         0,
                         1
                     );
@@ -3736,8 +3811,8 @@
                         (
                             time -
                             heartStart
-                        ) * 1.8
-                    ) * 1.5;
+                        )*1.8
+                    )*1.5;
 
 
                 ctx.save();
@@ -3756,9 +3831,9 @@
 
 
                 /*
-                  Queda juntito a
-                  TE AMO MUCHOTE.
-                */
+                 * Está solamente 30px
+                 * debajo del primer texto.
+                 */
 
                 const secondTextY =
                     H*.72 +
@@ -3812,13 +3887,13 @@
                             (
                                 time -
                                 heartStart
-                            ) * 2.2
-                        ) + 1
-                    ) / 2;
+                            )*2.2
+                        )+1
+                    )/2;
 
 
                 if (
-                    pulse > .92
+                    pulse>.92
                 ) {
 
                     const flash =
@@ -3877,9 +3952,9 @@
 
         function finishPhrases() {
 
-            phraseRunning=false;
+            phraseRunning = false;
 
-            phraseStar=null;
+            phraseStar = null;
 
             hidePhrase();
 
@@ -3887,13 +3962,28 @@
             setTimeout(
                 () => {
 
-                    createHeartParticles();
-
-                    formingHeart=true;
+                    /*
+                     * Primero registramos el tiempo.
+                     */
 
                     heartStart =
                         performance.now()*
                         .001;
+
+
+                    /*
+                     * Tomamos las estrellas
+                     * EXISTENTES de la galaxia.
+                     */
+
+                    createHeartParticles();
+
+
+                    /*
+                     * Comienza la transformación.
+                     */
+
+                    formingHeart = true;
 
                 },
                 1200
@@ -3936,6 +4026,15 @@
             );
 
 
+            /*
+             * Solo una de estas dos cosas
+             * se dibuja:
+             *
+             * galaxia normal
+             * O
+             * estrellas transformándose.
+             */
+
             drawGalaxy(
                 time
             );
@@ -3976,17 +4075,13 @@
                 }
 
 
-                started=true;
+                started = true;
 
 
                 startTime =
                     performance.now()*
                     .001;
 
-
-                /* =============================================
-                   MÚSICA
-                ============================================= */
 
                 music.volume=.55;
 
@@ -4006,10 +4101,6 @@
                 }
 
 
-                /* =============================================
-                   TRANSICIÓN
-                ============================================= */
-
                 intro.classList.add(
                     "hide"
                 );
@@ -4019,10 +4110,6 @@
                     "show"
                 );
 
-
-                /* =============================================
-                   INICIO FRASES
-                ============================================= */
 
                 setTimeout(
                     startPhrases,
@@ -4034,7 +4121,7 @@
 
 
         /* =====================================================
-           CONTROL DE MÚSICA
+           CONTROL MÚSICA
         ===================================================== */
 
         musicControl.addEventListener(
