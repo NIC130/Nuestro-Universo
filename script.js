@@ -1,500 +1,1454 @@
 "use strict";
 
-// ======================================================
-// 💗 NUESTRO UNIVERSO — SCRIPT
-// Pensado para celular / iPhone
-// ======================================================
 
-const canvas = document.getElementById("universo");
-const ctx = canvas.getContext("2d");
+/* =====================================================
+   ELEMENTOS
+===================================================== */
 
-let W = 0;
-let H = 0;
-let particles = [];
-let stars = [];
-let shootingStars = [];
-let started = false;
+const canvas =
+  document.getElementById("universe");
 
-// ------------------------------------------------------
-// 📱 Tamaño del universo
-// ------------------------------------------------------
+const ctx =
+  canvas.getContext("2d");
 
-function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    W = window.innerWidth;
-    H = window.innerHeight;
+const welcome =
+  document.getElementById("welcome");
 
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
+const enterButton =
+  document.getElementById("enterButton");
 
-    canvas.style.width = W + "px";
-    canvas.style.height = H + "px";
+const message =
+  document.getElementById("message");
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
+const music =
+  document.getElementById("music");
 
-resize();
-window.addEventListener("resize", resize);
+const musicButton =
+  document.getElementById("musicButton");
 
-// ------------------------------------------------------
-// ✨ Estrellas de fondo
-// ------------------------------------------------------
 
-function createStars() {
-    stars = [];
-
-    const amount = Math.floor((W * H) / 7000);
-
-    for (let i = 0; i < amount; i++) {
-        stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.5 + 0.3,
-            alpha: Math.random() * 0.8 + 0.2,
-            speed: Math.random() * 0.02 + 0.005,
-            phase: Math.random() * Math.PI * 2
-        });
-    }
-}
-
-createStars();
-
-window.addEventListener("resize", createStars);
-
-// ------------------------------------------------------
-// 🌌 Partículas del universo
-// ------------------------------------------------------
-
-function createParticles() {
-    particles = [];
-
-    const amount = W < 600 ? 650 : 950;
-
-    for (let i = 0; i < amount; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.pow(Math.random(), 0.55) * Math.min(W, H) * 0.48;
-
-        const centerX = W / 2;
-        const centerY = H * 0.43;
-
-        const x = centerX + Math.cos(angle) * distance;
-        const y = centerY + Math.sin(angle) * distance * 0.72;
-
-        particles.push({
-            x: x,
-            y: y,
-
-            baseX: x,
-            baseY: y,
-
-            size: Math.random() * 1.8 + 0.4,
-
-            alpha: Math.random() * 0.8 + 0.15,
-
-            pink:
-                Math.random() > 0.15
-                    ? Math.floor(Math.random() * 90 + 150)
-                    : 255,
-
-            depth: Math.random(),
-
-            vx: 0,
-            vy: 0,
-
-            angle: Math.random() * Math.PI * 2,
-
-            speed: Math.random() * 0.004 + 0.001
-        });
-    }
-}
-
-createParticles();
-
-// ------------------------------------------------------
-// 🌠 Estrellas fugaces
-// ------------------------------------------------------
-
-function createShootingStar() {
-    shootingStars.push({
-        x: Math.random() * W,
-        y: Math.random() * H * 0.65,
-        length: Math.random() * 90 + 50,
-        speed: Math.random() * 8 + 7,
-        alpha: 1
-    });
-}
-
-setInterval(() => {
-    if (Math.random() > 0.25) {
-        createShootingStar();
-    }
-}, 3500);
-
-// ------------------------------------------------------
-// ✨ Dibujar fondo
-// ------------------------------------------------------
-
-function drawBackground() {
-    const gradient = ctx.createRadialGradient(
-        W / 2,
-        H * 0.42,
-        0,
-        W / 2,
-        H * 0.42,
-        Math.max(W, H)
-    );
-
-    gradient.addColorStop(0, "#5b0b45");
-    gradient.addColorStop(0.35, "#310526");
-    gradient.addColorStop(0.75, "#120013");
-    gradient.addColorStop(1, "#050008");
-
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, W, H);
-}
-
-// ------------------------------------------------------
-// ⭐ Dibujar estrellas
-// ------------------------------------------------------
-
-function drawStars(time) {
-    for (const star of stars) {
-        const glow =
-            star.alpha +
-            Math.sin(time * star.speed + star.phase) * 0.25;
-
-        ctx.beginPath();
-
-        ctx.fillStyle = `rgba(255,190,235,${Math.max(
-            0.1,
-            glow
-        )})`;
-
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-
-        ctx.fill();
-    }
-}
-
-// ------------------------------------------------------
-// 💫 Partículas
-// ------------------------------------------------------
-
-function drawParticles(time) {
-    for (const p of particles) {
-        p.angle += p.speed;
-
-        const movementX = Math.cos(p.angle + time * 0.0002) * 1.5;
-        const movementY = Math.sin(p.angle + time * 0.0003) * 1.5;
-
-        p.x = p.baseX + movementX;
-        p.y = p.baseY + movementY;
-
-        const depthSize = p.size * (0.7 + p.depth * 1.8);
-
-        ctx.beginPath();
-
-        ctx.fillStyle = rgba(255,${p.pink},235,${p.alpha});
-
-        ctx.arc(
-            p.x,
-            p.y,
-            depthSize,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-        // pequeño brillo para algunas partículas
-        if (p.depth > 0.93) {
-            ctx.beginPath();
-
-            ctx.fillStyle = "rgba(255,255,255,0.8)";
-
-            ctx.arc(
-                p.x,
-                p.y,
-                depthSize * 0.35,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fill();
-        }
-    }
-}
-
-// ------------------------------------------------------
-// 🌠 Estrellas fugaces
-// ------------------------------------------------------
-
-function drawShootingStars() {
-    for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const s = shootingStars[i];
-
-        s.x += s.speed;
-        s.y += s.speed * 0.35;
-        s.alpha -= 0.015;
-
-        const gradient = ctx.createLinearGradient(
-            s.x,
-            s.y,
-            s.x - s.length,
-            s.y - s.length * 0.35
-        );
-
-        gradient.addColorStop(
-            0,
-            rgba(255,255,255,${s.alpha})
-        );
-
-        gradient.addColorStop(
-            1,
-            "rgba(255,120,220,0)"
-        );
-
-        ctx.beginPath();
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-
-        ctx.moveTo(s.x, s.y);
-
-        ctx.lineTo(
-            s.x - s.length,
-            s.y - s.length * 0.35
-        );
-
-        ctx.stroke();
-
-        if (s.alpha <= 0) {
-            shootingStars.splice(i, 1);
-        }
-    }
-}
-
-// ------------------------------------------------------
-// 💗 Corazón brillante
-// ------------------------------------------------------
-
-function drawHeart(time) {
-    const x = W / 2;
-    const y = H * 0.43;
-
-    const pulse = 1 + Math.sin(time * 0.003) * 0.05;
-
-    ctx.save();
-
-    ctx.translate(x, y);
-    ctx.scale(pulse, pulse);
-
-    ctx.beginPath();
-
-    ctx.moveTo(0, 22);
-
-    ctx.bezierCurveTo(
-        -55,
-        -18,
-        -35,
-        -55,
-        0,
-        -28
-    );
-
-    ctx.bezierCurveTo(
-        35,
-        -55,
-        55,
-        -18,
-        0,
-        22
-    );
-
-    ctx.strokeStyle = "rgba(255,170,235,0.35)";
-    ctx.lineWidth = 2;
-
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = "rgba(255,100,210,0.8)";
-
-    ctx.stroke();
-
-    ctx.restore();
-}
-
-// ------------------------------------------------------
-// 🎬 Animación principal
-// ------------------------------------------------------
-
-function animate(time) {
-    drawBackground();
-    drawStars(time);
-    drawParticles(time);
-    drawShootingStars();
-    drawHeart(time);
-
-    requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
-
-// ======================================================
-// 💌 FRASES
-// ======================================================
+/* =====================================================
+   FRASES
+===================================================== */
 
 const phrases = [
-    "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
-    "No necesito un universo perfecto, si puedo compartir el mío contigo.",
-    "Gracias por todos los momentos juntas.",
-    "Estos 3 meses son solo el comienzo de todo lo que quiero vivir contigo.",
-    "Te elegiría una y mil veces.",
-    "Contigo, todo tiene más sentido. Gracias por formar parte de mi universo.",
-    "Te amo un montón. 💗"
+
+  "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
+
+  "No necesito un universo perfecto, si puedo compartir el mío contigo.",
+
+  "Gracias por todos los momentos juntas.",
+
+  "Estos 3 meses son solo el comienzo de todo lo que quiero vivir contigo.",
+
+  "Te elegiría una y mil veces."
+
 ];
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let width = 0;
+
+let height = 0;
+
+let dpr = 1;
+
+let stars = [];
+
+let particles = [];
+
+let foreground = [];
+
+let shootingStars = [];
+
+let started = false;
+
+let universeStart = 0;
 
 let phraseIndex = 0;
 
-// ------------------------------------------------------
-// Crear contenedor de frases automáticamente
-// ------------------------------------------------------
+let pointerX = 0;
 
-let phraseBox = document.getElementById("mensaje");
+let pointerY = 0;
 
-if (!phraseBox) {
-    phraseBox = document.createElement("div");
-    phraseBox.id = "mensaje";
+let targetX = 0;
 
-    document.body.appendChild(phraseBox);
+let targetY = 0;
+
+let phraseTimer = null;
+
+
+/* =====================================================
+   RANDOM
+===================================================== */
+
+function random(min, max) {
+
+  return (
+    Math.random() *
+    (max - min)
+    + min
+  );
+
 }
 
-phraseBox.style.position = "fixed";
-phraseBox.style.left = "50%";
-phraseBox.style.top = "75%";
-phraseBox.style.transform = "translate(-50%, -50%)";
-phraseBox.style.width = "88%";
-phraseBox.style.maxWidth = "650px";
-phraseBox.style.textAlign = "center";
-phraseBox.style.color = "white";
-phraseBox.style.fontFamily = "Georgia, serif";
-phraseBox.style.fontSize = "clamp(20px, 5vw, 32px)";
-phraseBox.style.lineHeight = "1.35";
-phraseBox.style.textShadow =
-    "0 0 10px rgba(255,150,230,.8), 0 0 25px rgba(255,80,200,.5)";
-phraseBox.style.opacity = "0";
-phraseBox.style.transition =
-    "opacity 1.2s ease";
-phraseBox.style.pointerEvents = "none";
-phraseBox.style.zIndex = "20";
 
-// ------------------------------------------------------
-// Mostrar frase
-// ------------------------------------------------------
+/* =====================================================
+   RESIZE
+===================================================== */
 
-function showPhrase(text) {
-    phraseBox.style.opacity = "0";
+function resize() {
 
-    setTimeout(() => {
-        phraseBox.textContent = text;
-        phraseBox.style.opacity = "1";
-    }, 700);
+  width =
+    window.innerWidth;
+
+  height =
+    window.innerHeight;
+
+
+  dpr =
+    Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+
+  canvas.width =
+    width * dpr;
+
+  canvas.height =
+    height * dpr;
+
+
+  canvas.style.width =
+    width + "px";
+
+  canvas.style.height =
+    height + "px";
+
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+
+  createScene();
+
 }
 
-// ------------------------------------------------------
-// 💗 Secuencia de frases
-// ------------------------------------------------------
 
-function startPhrases() {
-    if (started) return;
+window.addEventListener(
+  "resize",
+  resize
+);
 
-    started = true;
 
-    phraseIndex = 0;
+/* =====================================================
+   CREAR ESCENA
+===================================================== */
 
-    showPhrase(phrases[phraseIndex]);
+function createScene() {
 
-    setInterval(() => {
+  stars = [];
+
+  particles = [];
+
+  foreground = [];
+
+  shootingStars = [];
+
+
+  /* ---------------------------------------------
+     ESTRELLAS DE FONDO
+  --------------------------------------------- */
+
+  const starCount =
+    width < 600
+      ? 320
+      : 480;
+
+
+  for (
+    let i = 0;
+    i < starCount;
+    i++
+  ) {
+
+    stars.push({
+
+      x:
+        Math.random() * width,
+
+      y:
+        Math.random() * height,
+
+      radius:
+        random(.2, 1.45),
+
+      depth:
+        random(.15, 1),
+
+      phase:
+        random(
+          0,
+          Math.PI * 2
+        ),
+
+      twinkle:
+        random(.008, .03)
+
+    });
+
+  }
+
+
+  /* ---------------------------------------------
+     GALAXIA
+  --------------------------------------------- */
+
+  const particleCount =
+    width < 600
+      ? 900
+      : 1400;
+
+
+  for (
+    let i = 0;
+    i < particleCount;
+    i++
+  ) {
+
+    const angle =
+      Math.random() *
+      Math.PI *
+      2;
+
+
+    const radius =
+      Math.pow(
+        Math.random(),
+        .55
+      ) *
+      Math.max(
+        width,
+        height
+      ) *
+      .62;
+
+
+    particles.push({
+
+      angle:
+        angle,
+
+      radius:
+        radius,
+
+      depth:
+        random(.05, 1),
+
+      size:
+        random(.35, 1.8),
+
+      alpha:
+        random(.18, .85),
+
+      speed:
+        random(.00025, .00115),
+
+      phase:
+        random(
+          0,
+          Math.PI * 2
+        )
+
+    });
+
+  }
+
+
+  /* ---------------------------------------------
+     PARTÍCULAS EN PRIMER PLANO
+  --------------------------------------------- */
+
+  for (
+    let i = 0;
+    i < 450;
+    i++
+  ) {
+
+    foreground.push({
+
+      x:
+        Math.random() * width,
+
+      y:
+        Math.random() * height,
+
+      size:
+        random(.3, 2),
+
+      depth:
+        random(.5, 1),
+
+      phase:
+        random(
+          0,
+          Math.PI * 2
+        )
+
+    });
+
+  }
+
+
+  /* ---------------------------------------------
+     ESTRELLAS FUGACES
+  --------------------------------------------- */
+
+  for (
+    let i = 0;
+    i < 4;
+    i++
+  ) {
+
+    shootingStars.push(
+      createShootingStar(true)
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ESTRELLA FUGAZ
+===================================================== */
+
+function createShootingStar(
+  initial
+) {
+
+  return {
+
+    x:
+      initial
+        ? random(0, width)
+        : width + 100,
+
+    y:
+      initial
+        ? random(0, height * .55)
+        : random(-50, height * .35),
+
+    speed:
+      random(6, 11),
+
+    length:
+      random(55, 130),
+
+    alpha:
+      1,
+
+    delay:
+      initial
+        ? random(0, 4)
+        : 0
+
+  };
+
+}
+
+
+/* =====================================================
+   FONDO
+===================================================== */
+
+function drawBackground(time) {
+
+  const gradient =
+    ctx.createRadialGradient(
+
+      width * .5,
+      height * .48,
+      0,
+
+      width * .5,
+      height * .48,
+
+      Math.max(
+        width,
+        height
+      ) * .82
+
+    );
+
+
+  gradient.addColorStop(
+    0,
+    "#350027"
+  );
+
+
+  gradient.addColorStop(
+    .25,
+    "#210019"
+  );
+
+
+  gradient.addColorStop(
+    .55,
+    "#0e000d"
+  );
+
+
+  gradient.addColorStop(
+    1,
+    "#020003"
+  );
+
+
+  ctx.fillStyle =
+    gradient;
+
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  if (!started) {
+    return;
+  }
+
+
+  const elapsed =
+    time -
+    universeStart;
+
+
+  const progress =
+    Math.min(
+      1,
+      elapsed / 5
+    );
+
+
+  /* ---------------------------------------------
+     LUZ CENTRAL
+  --------------------------------------------- */
+
+  const glow =
+    ctx.createRadialGradient(
+
+      width * .5,
+      height * .48,
+      0,
+
+      width * .5,
+      height * .48,
+
+      Math.min(
+        width,
+        height
+      ) * .65
+
+    );
+
+
+  glow.addColorStop(
+
+    0,
+
+    `rgba(
+      255,
+      55,
+      180,
+      ${.08 + progress * .12}
+    )`
+
+  );
+
+
+  glow.addColorStop(
+
+    .4,
+
+    `rgba(
+      190,
+      20,
+      120,
+      ${.035 + progress * .05}
+    )`
+
+  );
+
+
+  glow.addColorStop(
+    1,
+    "rgba(255,0,150,0)"
+  );
+
+
+  ctx.fillStyle =
+    glow;
+
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+}
+
+
+/* =====================================================
+   ESTRELLAS
+===================================================== */
+
+function drawStars() {
+
+  for (
+    const star of stars
+  ) {
+
+    star.phase +=
+      star.twinkle;
+
+
+    const brightness =
+      .35 +
+      .65 *
+      (
+        .5 +
+        .5 *
+        Math.sin(
+          star.phase
+        )
+      );
+
+
+    const x =
+      star.x +
+      pointerX *
+      20 *
+      star.depth;
+
+
+    const y =
+      star.y +
+      pointerY *
+      12 *
+      star.depth;
+
+
+    ctx.beginPath();
+
+
+    ctx.fillStyle =
+      `rgba(
+        255,
+        215,
+        240,
+        ${brightness * star.depth}
+      )`;
+
+
+    ctx.shadowBlur =
+      star.depth > .8
+        ? 8
+        : 2;
+
+
+    ctx.shadowColor =
+      "#ff6fbd";
+
+
+    ctx.arc(
+
+      x,
+      y,
+
+      star.radius *
+      (
+        .5 +
+        star.depth
+      ),
+
+      0,
+      Math.PI * 2
+
+    );
+
+
+    ctx.fill();
+
+
+    /* DESTELLO */
+
+    if (
+      star.depth > .9 &&
+      brightness > .92
+    ) {
+
+      ctx.strokeStyle =
+        "rgba(255,190,230,.5)";
+
+
+      ctx.lineWidth =
+        .5;
+
+
+      ctx.beginPath();
+
+
+      ctx.moveTo(
+        x - 5,
+        y
+      );
+
+      ctx.lineTo(
+        x + 5,
+        y
+      );
+
+
+      ctx.moveTo(
+        x,
+        y - 5
+      );
+
+      ctx.lineTo(
+        x,
+        y + 5
+      );
+
+
+      ctx.stroke();
+
+    }
+
+  }
+
+
+  ctx.shadowBlur =
+    0;
+
+}
+
+
+/* =====================================================
+   GALAXIA
+===================================================== */
+
+function drawGalaxy(time) {
+
+  let progress = 0;
+
+
+  if (started) {
+
+    progress =
+      Math.min(
+        1,
+        (
+          time -
+          universeStart
+        ) / 5
+      );
+
+  }
+
+
+  /*
+    La galaxia comienza pequeña
+    y lentamente se expande.
+  */
+
+  const expansion =
+    .045 +
+    .955 *
+    (
+      1 -
+      Math.pow(
+        1 - progress,
+        2
+      )
+    );
+
+
+  const centerX =
+    width * .5 +
+    pointerX * 8;
+
+
+  const centerY =
+    height * .48 +
+    pointerY * 5;
+
+
+  for (
+    const p of particles
+  ) {
+
+    p.angle +=
+      p.speed *
+      (
+        1 +
+        progress * 5
+      );
+
+
+    const radius =
+      p.radius *
+      expansion;
+
+
+    /*
+      Espiral.
+    */
+
+    const spiral =
+      p.angle +
+      radius *
+      .0018;
+
+
+    /*
+      Forma aplanada
+      de galaxia.
+    */
+
+    const flatten =
+      .32 +
+      p.depth * .22;
+
+
+    const x =
+      centerX +
+      Math.cos(
+        spiral
+      ) *
+      radius;
+
+
+    const y =
+      centerY +
+      Math.sin(
+        spiral
+      ) *
+      radius *
+      flatten;
+
+
+    /*
+      Profundidad.
+    */
+
+    const size =
+      p.size *
+      (
+        .45 +
+        p.depth * 1.4
+      );
+
+
+    const alpha =
+      p.alpha *
+      (
+        .08 +
+        progress * .95
+      );
+
+
+    ctx.beginPath();
+
+
+    ctx.fillStyle =
+      `rgba(
+        255,
+        ${125 + p.depth * 85},
+        ${185 + p.depth * 65},
+        ${alpha}
+      )`;
+
+
+    ctx.shadowBlur =
+      2 +
+      p.depth * 8;
+
+
+    ctx.shadowColor =
+      "#ff4fac";
+
+
+    ctx.arc(
+      x,
+      y,
+      size,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+  }
+
+
+  ctx.shadowBlur =
+    0;
+
+}
+
+
+/* =====================================================
+   PRIMER PLANO
+===================================================== */
+
+function drawForeground(time) {
+
+  if (!started) {
+    return;
+  }
+
+
+  for (
+    const p of foreground
+  ) {
+
+    p.phase +=
+      .006;
+
+
+    const x =
+      p.x +
+
+      Math.sin(
+        time * .2 +
+        p.phase
+      ) * 8 +
+
+      pointerX *
+      35 *
+      p.depth;
+
+
+    const y =
+      p.y +
+
+      Math.cos(
+        time * .15 +
+        p.phase
+      ) * 5 +
+
+      pointerY *
+      20 *
+      p.depth;
+
+
+    ctx.beginPath();
+
+
+    ctx.fillStyle =
+      `rgba(
+        255,
+        155,
+        220,
+        ${.1 + p.depth * .38}
+      )`;
+
+
+    ctx.shadowBlur =
+      4 +
+      p.depth * 6;
+
+
+    ctx.shadowColor =
+      "#ff5bb5";
+
+
+    ctx.arc(
+
+      x,
+      y,
+
+      p.size *
+      (
+        .4 +
+        p.depth
+      ),
+
+      0,
+      Math.PI * 2
+
+    );
+
+
+    ctx.fill();
+
+  }
+
+
+  ctx.shadowBlur =
+    0;
+
+}
+
+
+/* =====================================================
+   ESTRELLAS FUGACES
+===================================================== */
+
+function drawShootingStars() {
+
+  if (!started) {
+    return;
+  }
+
+
+  for (
+    let i = 0;
+    i < shootingStars.length;
+    i++
+  ) {
+
+    const star =
+      shootingStars[i];
+
+
+    if (star.delay > 0) {
+
+      star.delay -=
+        .016;
+
+      continue;
+
+    }
+
+
+    star.x +=
+      star.speed;
+
+
+    star.y +=
+      star.speed * .35;
+
+
+    star.alpha -=
+      .012;
+
+
+    const gradient =
+      ctx.createLinearGradient(
+
+        star.x,
+        star.y,
+
+        star.x -
+          star.length,
+
+        star.y -
+          star.length * .35
+
+      );
+
+
+    gradient.addColorStop(
+      0,
+      `rgba(
+        255,
+        250,
+        255,
+        ${star.alpha}
+      )`
+    );
+
+
+    gradient.addColorStop(
+      .3,
+      `rgba(
+        255,
+        145,
+        215,
+        ${star.alpha * .7}
+      )`
+    );
+
+
+    gradient.addColorStop(
+      1,
+      "rgba(255,40,170,0)"
+    );
+
+
+    ctx.strokeStyle =
+      gradient;
+
+
+    ctx.lineWidth =
+      1.2;
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+      star.x,
+      star.y
+    );
+
+
+    ctx.lineTo(
+
+      star.x -
+        star.length,
+
+      star.y -
+        star.length * .35
+
+    );
+
+
+    ctx.stroke();
+
+
+    if (
+      star.alpha <= 0 ||
+      star.x > width + 150 ||
+      star.y > height + 100
+    ) {
+
+      shootingStars[i] =
+        createShootingStar(false);
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   ANIMACIÓN
+===================================================== */
+
+function animate(timestamp) {
+
+  const time =
+    timestamp * .001;
+
+
+  pointerX +=
+    (
+      targetX -
+      pointerX
+    ) * .035;
+
+
+  pointerY +=
+    (
+      targetY -
+      pointerY
+    ) * .035;
+
+
+  drawBackground(
+    time
+  );
+
+
+  drawStars();
+
+
+  drawGalaxy(
+    time
+  );
+
+
+  drawForeground(
+    time
+  );
+
+
+  drawShootingStars();
+
+
+  requestAnimationFrame(
+    animate
+  );
+
+}
+
+
+/* =====================================================
+   FRASES
+===================================================== */
+
+function hideMessage() {
+
+  message.classList.remove(
+    "visible"
+  );
+
+}
+
+
+function showMessage(
+  text
+) {
+
+  hideMessage();
+
+
+  setTimeout(
+    () => {
+
+      message.innerHTML =
+        text;
+
+
+      message.classList.add(
+        "visible"
+      );
+
+    },
+    850
+  );
+
+}
+
+
+function startMessages() {
+
+  phraseIndex = 0;
+
+
+  showMessage(
+    phrases[phraseIndex]
+  );
+
+
+  phraseTimer =
+    setInterval(
+      () => {
+
         phraseIndex++;
 
-        if (phraseIndex >= phrases.length) {
-            phraseIndex = phrases.length - 1;
-            return;
+
+        if (
+          phraseIndex >=
+          phrases.length
+        ) {
+
+          clearInterval(
+            phraseTimer
+          );
+
+
+          showFinal();
+
+          return;
+
         }
 
-        showPhrase(phrases[phraseIndex]);
 
-    }, 5000);
-}
+        showMessage(
+          phrases[phraseIndex]
+        );
 
-// ======================================================
-// 🎵 MÚSICA
-// ======================================================
-
-let music = document.getElementById("musica");
-
-if (!music) {
-    music = document.createElement("audio");
-    music.id = "musica";
-
-    music.src = "assets/timeless.mp3";
-
-    music.loop = true;
-    music.preload = "auto";
-
-    document.body.appendChild(music);
-} else {
-    music.src = "assets/timeless.mp3";
-}
-
-music.volume = 0.55;
-
-// ------------------------------------------------------
-// 📱 iPhone necesita interacción del usuario
-// ------------------------------------------------------
-
-function startExperience() {
-    startPhrases();
-
-    music.play().catch(() => {
-        // Safari/iPhone puede bloquear el audio
-        // hasta detectar otra interacción.
-    });
-
-    document.removeEventListener(
-        "click",
-        startExperience
+      },
+      5850
     );
 
-    document.removeEventListener(
-        "touchstart",
-        startExperience
-    );
 }
 
-document.addEventListener(
-    "click",
-    startExperience,
-    { once: false }
-);
 
-document.addEventListener(
-    "touchstart",
-    startExperience,
-    { once: false, passive: true }
-);
+/* =====================================================
+   FINAL
+===================================================== */
 
-// ------------------------------------------------------
-// Si existe botón "Entrar"
-// ------------------------------------------------------
+function showFinal() {
 
-const enterButton =
-    document.getElementById("entrar") ||
-    document.getElementById("enter") ||
-    document.querySelector(".entrar") ||
-    document.querySelector(".enter");
+  setTimeout(
+    () => {
 
-if (enterButton) {
-    enterButton.addEventListener("click", () => {
-        startExperience();
-    });
+      message.classList.remove(
+        "visible"
+      );
+
+
+      setTimeout(
+        () => {
+
+          message.classList.add(
+            "final"
+          );
+
+
+          message.innerHTML =
+
+            `Contigo, todo tiene más sentido.
+            <br>
+            Gracias por formar parte de mi universo.
+            <span class="love">
+              Te amo muchote. ♡
+            </span>`;
+
+
+          message.classList.add(
+            "visible"
+          );
+
+        },
+        850
+      );
+
+    },
+    300
+  );
+
 }
+
+
+/* =====================================================
+   MÚSICA
+===================================================== */
+
+async function startMusic() {
+
+  try {
+
+    music.volume =
+      .55;
+
+
+    await music.play();
+
+
+    musicButton.textContent =
+      "♫";
+
+  }
+
+  catch (error) {
+
+    /*
+      Safari puede necesitar
+      otra interacción.
+      El botón de música queda
+      disponible.
+    */
+
+    musicButton.textContent =
+      "♫";
+
+  }
+
+}
+
+
+/* =====================================================
+   ENTRAR
+===================================================== */
+
+function enterUniverse(
+  event
+) {
+
+  event.preventDefault();
+
+
+  if (started) {
+    return;
+  }
+
+
+  started = true;
+
+
+  universeStart =
+    performance.now() *
+    .001;
+
+
+  /*
+    La música se inicia
+    directamente desde el toque.
+  */
+
+  startMusic();
+
+
+  /*
+    La pantalla inicial
+    desaparece.
+  */
+
+  welcome.classList.add(
+    "open"
+  );
+
+
+  /*
+    Dejamos que el universo
+    se forme antes de mostrar
+    la primera frase.
+  */
+
+  setTimeout(
+    () => {
+
+      startMessages();
+
+    },
+    6500
+  );
+
+}
+
+
+enterButton.addEventListener(
+  "click",
+  enterUniverse
+);
+
+
+/* =====================================================
+   MÚSICA MANUAL
+===================================================== */
+
+musicButton.addEventListener(
+  "click",
+  async () => {
+
+    if (
+      music.paused
+    ) {
+
+      try {
+
+        await music.play();
+
+        musicButton.textContent =
+          "♫";
+
+      }
+
+      catch (error) {}
+
+    }
+
+    else {
+
+      music.pause();
+
+      musicButton.textContent =
+        "Ⅱ";
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   MOVIMIENTO DEL CELULAR
+===================================================== */
+
+function updatePointer(
+  x,
+  y
+) {
+
+  targetX =
+    (
+      x -
+      width / 2
+    ) /
+    width *
+    2;
+
+
+  targetY =
+    (
+      y -
+      height / 2
+    ) /
+    height *
+    2;
+
+}
+
+
+window.addEventListener(
+  "pointermove",
+  event => {
+
+    if (
+      event.pointerType !==
+      "touch"
+    ) {
+
+      updatePointer(
+        event.clientX,
+        event.clientY
+      );
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+window.addEventListener(
+  "touchmove",
+  event => {
+
+    if (
+      event.touches.length
+    ) {
+
+      updatePointer(
+
+        event.touches[0].clientX,
+
+        event.touches[0].clientY
+
+      );
+
+    }
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+resize();
+
+requestAnimationFrame(
+  animate
+);
