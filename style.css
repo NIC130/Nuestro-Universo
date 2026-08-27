@@ -4,331 +4,238 @@
   padding: 0;
 }
 
-
 html,
 body {
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
-
-  background: #020004;
-
+  background: #020006;
 }
-
 
 body {
-
   position: fixed;
-
   inset: 0;
-
   color: white;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  -webkit-user-select: none;
-
-  user-select: none;
-
-  -webkit-touch-callout: none;
-
+  font-family: Georgia, "Times New Roman", serif;
   -webkit-tap-highlight-color: transparent;
-
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 
 /* ==========================================
-   CANVAS
+   UNIVERSO
 ========================================== */
 
-#universe {
-
+#space {
   position: fixed;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   display: block;
-
-  background: #020004;
-
 }
 
 
 /* ==========================================
-   PANTALLA DE BIENVENIDA
+   TEXTURA CINEMATOGRÁFICA
 ========================================== */
 
-#welcome {
-
+.grain {
   position: fixed;
-
   inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: .055;
 
-  z-index: 50;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 38%,
+      rgba(0,0,0,.22) 65%,
+      rgba(0,0,0,.82) 100%
+    );
+}
+
+
+/* ==========================================
+   INTRO
+========================================== */
+
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
+
+  text-align: center;
 
   overflow: hidden;
 
   background:
-
     radial-gradient(
       ellipse at 50% 48%,
-      rgba(142, 20, 102, .45),
-      transparent 38%
+      rgba(137, 18, 105, .38),
+      transparent 40%
     ),
-
-    radial-gradient(
-      circle at 15% 20%,
-      rgba(255, 90, 200, .09),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at 85% 80%,
-      rgba(180, 60, 255, .08),
-      transparent 35%
-    ),
-
-    #030006;
+    linear-gradient(
+      145deg,
+      #020004,
+      #11000f 50%,
+      #030005
+    );
 
   transition:
-
-    opacity 1.5s ease,
-
-    transform 1.5s ease,
-
-    filter 1.5s ease;
-
+    opacity 1.8s cubic-bezier(.65,0,.25,1),
+    transform 1.8s cubic-bezier(.65,0,.25,1),
+    filter 1.8s ease;
 }
 
-
-#welcome.open {
-
+#intro.hide {
   opacity: 0;
-
-  transform:
-    scale(1.13);
-
-  filter:
-    blur(10px);
-
+  transform: scale(1.16);
+  filter: blur(12px);
   pointer-events: none;
-
 }
 
 
 /* ==========================================
-   BRILLO
+   NEBULOSA INTRO
 ========================================== */
 
-.welcome-glow {
-
+.intro-nebula {
   position: absolute;
 
-  width: 320px;
-  height: 320px;
+  width: 80vw;
+  height: 80vw;
+
+  max-width: 650px;
+  max-height: 650px;
 
   border-radius: 50%;
 
   background:
-    rgba(255, 50, 180, .12);
+    radial-gradient(
+      circle,
+      rgba(255, 65, 185, .17),
+      rgba(177, 35, 150, .08) 30%,
+      transparent 68%
+    );
 
-  filter:
-    blur(75px);
-
-  animation:
-    breathing 4s ease-in-out infinite;
-
-}
-
-
-@keyframes breathing {
-
-  0%,
-  100% {
-
-    transform:
-      scale(.85);
-
-    opacity:
-      .45;
-
-  }
-
-  50% {
-
-    transform:
-      scale(1.15);
-
-    opacity:
-      1;
-
-  }
-
-}
-
-
-/* ==========================================
-   CONTENIDO
-========================================== */
-
-.welcome-content {
-
-  position: relative;
-
-  z-index: 2;
-
-  width: 90%;
-
-  max-width: 600px;
-
-  text-align: center;
+  filter: blur(45px);
 
   animation:
-    welcomeIn 1.8s ease-out both;
-
+    introPulse 6s ease-in-out infinite alternate;
 }
 
-
-@keyframes welcomeIn {
+@keyframes introPulse {
 
   from {
-
-    opacity: 0;
-
-    transform:
-      translateY(25px)
-      scale(.97);
-
-    filter:
-      blur(8px);
-
+    transform: scale(.8) rotate(0deg);
+    opacity: .55;
   }
 
   to {
-
+    transform: scale(1.15) rotate(12deg);
     opacity: 1;
+  }
+}
 
+
+/* ==========================================
+   CONTENIDO INTRO
+========================================== */
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+
+  width: 90%;
+  max-width: 600px;
+
+  animation:
+    introAppear 2s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes introAppear {
+
+  from {
+    opacity: 0;
+    transform:
+      translateY(28px)
+      scale(.96);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
     transform:
       translateY(0)
       scale(1);
-
-    filter:
-      blur(0);
-
+    filter: blur(0);
   }
-
 }
 
+.eyebrow {
+  margin-bottom: 22px;
 
-/* ==========================================
-   TEXTO PEQUEÑO
-========================================== */
-
-.mini-title {
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: Arial, sans-serif;
 
   font-size:
-    clamp(9px, 2.6vw, 14px);
+    clamp(9px, 2.5vw, 13px);
 
-  letter-spacing:
-    .36em;
+  letter-spacing: .38em;
 
-  margin-right:
-    -.36em;
-
-  margin-bottom:
-    20px;
-
-  color:
-    rgba(255, 210, 242, .78);
-
+  color: rgba(255, 218, 244, .72);
 }
 
-
-/* ==========================================
-   TÍTULO
-========================================== */
-
-.welcome-content h1 {
-
+.intro-content h1 {
   font-size:
-    clamp(48px, 14vw, 82px);
+    clamp(50px, 15vw, 88px);
 
-  line-height:
-    .9;
+  line-height: .86;
 
-  font-weight:
-    400;
+  font-weight: 400;
 
-  font-style:
-    italic;
-
-  color:
-    #fff;
+  font-style: italic;
 
   text-shadow:
-
-    0 0 12px
-    rgba(255, 160, 225, .9),
-
-    0 0 35px
-    rgba(255, 50, 180, .65),
-
-    0 0 80px
-    rgba(255, 50, 180, .25);
-
+    0 0 12px rgba(255,170,230,.9),
+    0 0 35px rgba(255,50,180,.6),
+    0 0 90px rgba(255,30,170,.28);
 }
 
+.intro-content h1 span {
+  display: block;
 
-.welcome-content h1 span {
+  margin-top: 8px;
 
-  font-size:
-    .82em;
-
+  font-size: .78em;
 }
 
+.intro-text {
+  margin-top: 30px;
 
-/* ==========================================
-   SUBTÍTULO
-========================================== */
-
-.hint {
-
-  margin-top:
-    28px;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: Arial, sans-serif;
 
   font-size:
-    10px;
+    clamp(10px, 2.8vw, 13px);
 
-  letter-spacing:
-    .28em;
+  letter-spacing: .18em;
 
-  color:
-    rgba(255, 235, 248, .55);
-
+  color: rgba(255,235,248,.55);
 }
 
 
@@ -336,78 +243,129 @@ body {
    BOTÓN
 ========================================== */
 
-#enterButton {
+#enter {
+  position: relative;
 
-  display:
-    block;
+  margin-top: 38px;
 
-  margin:
-    38px auto 0;
+  min-width: 185px;
 
-  min-width:
-    180px;
+  padding: 16px 32px;
 
-  padding:
-    16px 34px;
+  border: 1px solid rgba(255,194,232,.8);
 
-  border:
-    1px solid
-    rgba(255, 190, 230, .85);
-
-  border-radius:
-    999px;
+  border-radius: 999px;
 
   background:
-    rgba(255, 60, 180, .08);
+    linear-gradient(
+      135deg,
+      rgba(255,80,190,.12),
+      rgba(255,255,255,.025)
+    );
 
-  color:
-    white;
+  color: white;
 
-  font-family:
-    Georgia,
-    serif;
+  font-family: Arial, sans-serif;
 
-  font-size:
-    17px;
+  font-size: 11px;
 
-  letter-spacing:
-    .08em;
+  letter-spacing: .28em;
 
   box-shadow:
+    0 0 18px rgba(255,60,180,.28),
+    inset 0 0 18px rgba(255,80,190,.06);
 
-    0 0 22px
-    rgba(255, 60, 180, .35),
+  cursor: pointer;
 
-    inset 0 0 18px
-    rgba(255, 60, 180, .06);
-
-  cursor:
-    pointer;
-
-  touch-action:
-    manipulation;
+  touch-action: manipulation;
 
   transition:
-    transform .2s ease,
-    background .2s ease,
-    box-shadow .2s ease;
+    transform .25s ease,
+    box-shadow .25s ease,
+    background .25s ease;
+}
 
+#enter b {
+  margin-left: 7px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#enter::before {
+  content: "";
+
+  position: absolute;
+  inset: -2px;
+
+  border-radius: inherit;
+
+  border: 1px solid rgba(255,100,205,.25);
+
+  filter: blur(4px);
+
+  animation:
+    buttonGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes buttonGlow {
+
+  0%,100% {
+    opacity: .2;
+  }
+
+  50% {
+    opacity: .9;
+  }
+}
+
+#enter:active {
+  transform: scale(.93);
+
+  background:
+    rgba(255,70,190,.22);
+
+  box-shadow:
+    0 0 45px rgba(255,60,190,.75);
 }
 
 
-#enterButton:active {
+/* ==========================================
+   TÍTULO SUPERIOR
+========================================== */
 
-  transform:
-    scale(.92);
+#topTitle {
+  position: fixed;
 
-  background:
-    rgba(255, 60, 180, .22);
+  top:
+    calc(24px + env(safe-area-inset-top));
 
-  box-shadow:
+  left: 50%;
 
-    0 0 45px
-    rgba(255, 80, 190, .85);
+  transform: translateX(-50%);
 
+  z-index: 15;
+
+  opacity: 0;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 9px;
+
+  letter-spacing: .34em;
+
+  color: rgba(255,220,244,.65);
+
+  text-shadow:
+    0 0 12px rgba(255,90,190,.6);
+
+  transition:
+    opacity 1.5s ease;
+
+  pointer-events: none;
+}
+
+#topTitle.show {
+  opacity: 1;
 }
 
 
@@ -416,11 +374,9 @@ body {
 ========================================== */
 
 #message {
-
   position: fixed;
 
   left: 50%;
-
   top: 50%;
 
   z-index: 20;
@@ -429,218 +385,135 @@ body {
     min(88vw, 720px);
 
   transform:
-    translate(-50%, -50%);
+    translate(-50%, -50%)
+    scale(.97);
 
-  padding:
-    0 8px;
+  text-align: center;
 
-  text-align:
-    center;
+  opacity: 0;
 
-  pointer-events:
-    none;
+  filter: blur(12px);
 
-  opacity:
-    0;
-
-  filter:
-    blur(9px);
-
-  transition:
-
-    opacity 1.15s ease,
-
-    filter 1.15s ease,
-
-    transform 1.15s ease;
+  pointer-events: none;
 
   font-size:
-    clamp(23px, 6.5vw, 40px);
+    clamp(22px, 6.4vw, 39px);
 
-  line-height:
-    1.28;
+  line-height: 1.3;
 
-  font-style:
-    italic;
+  font-style: italic;
+
+  color: #fff;
 
   text-shadow:
+    0 2px 12px rgba(0,0,0,.95),
+    0 0 14px rgba(255,160,225,.85),
+    0 0 40px rgba(255,55,180,.42);
 
-    0 2px 12px
-    rgba(0,0,0,.9),
-
-    0 0 16px
-    rgba(255,130,215,.7),
-
-    0 0 45px
-    rgba(255,40,175,.35);
-
+  transition:
+    opacity 1.15s cubic-bezier(.2,.7,.2,1),
+    filter 1.15s ease,
+    transform 1.15s cubic-bezier(.2,.7,.2,1);
 }
 
+#message.show {
+  opacity: 1;
 
-#message.visible {
-
-  opacity:
-    1;
-
-  filter:
-    blur(0);
+  filter: blur(0);
 
   transform:
     translate(-50%, -50%)
     scale(1);
-
 }
-
-
-/* ==========================================
-   FINAL
-========================================== */
 
 #message.final {
-
   font-size:
-    clamp(23px, 6.4vw, 40px);
-
+    clamp(22px, 6.2vw, 38px);
 }
-
 
 #message .love {
+  display: block;
 
-  display:
-    block;
+  margin-top: 24px;
 
-  margin-top:
-    22px;
+  font-size: .95em;
 
-  font-size:
-    .95em;
-
-  color:
-    #ffd5f1;
+  color: #ffd9f2;
 
   text-shadow:
-
-    0 0 12px
-    #ff8dce,
-
-    0 0 30px
-    #ff3cab,
-
-    0 0 60px
-    rgba(255,40,175,.5);
-
+    0 0 15px #ff9bd5,
+    0 0 35px #ff42ae,
+    0 0 70px rgba(255,30,170,.45);
 }
 
 
 /* ==========================================
-   BOTÓN MÚSICA
+   MÚSICA
 ========================================== */
 
-#musicButton {
-
+#musicControl {
   position: fixed;
 
-  right:
-    18px;
+  right: 18px;
 
   bottom:
-    calc(
-      18px +
-      env(safe-area-inset-bottom)
-    );
+    calc(18px + env(safe-area-inset-bottom));
 
-  z-index:
-    60;
+  z-index: 40;
 
-  width:
-    44px;
+  width: 44px;
+  height: 44px;
 
-  height:
-    44px;
+  border-radius: 50%;
 
   border:
-    1px solid
-    rgba(255,190,230,.45);
-
-  border-radius:
-    50%;
+    1px solid rgba(255,190,230,.4);
 
   background:
-    rgba(20,0,20,.45);
+    rgba(12,0,14,.45);
 
   color:
-    rgba(255,255,255,.85);
+    rgba(255,235,250,.8);
 
-  font-size:
-    17px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  backdrop-filter:
-    blur(8px);
+  font-size: 17px;
 
-  -webkit-backdrop-filter:
-    blur(8px);
+  opacity: .7;
 
-  opacity:
-    .75;
-
+  cursor: pointer;
 }
 
 
 /* ==========================================
-   IPHONE
+   RESPONSIVE
 ========================================== */
-
-@supports (-webkit-touch-callout: none) {
-
-  body {
-
-    min-height:
-      -webkit-fill-available;
-
-  }
-
-}
-
 
 @media (max-width: 480px) {
 
-  .mini-title {
-
-    letter-spacing:
-      .25em;
-
-    margin-right:
-      -.25em;
-
+  .eyebrow {
+    letter-spacing: .28em;
   }
 
-  .welcome-content h1 {
-
-    font-size:
-      clamp(45px, 14vw, 68px);
-
+  .intro-content h1 {
+    font-size: clamp(48px, 15vw, 72px);
   }
 
   #message {
-
-    width:
-      88vw;
-
-    font-size:
-      clamp(22px, 6.7vw, 32px);
-
+    width: 88vw;
   }
 
 }
 
-
 @media (max-height: 650px) {
 
-  .welcome-content {
+  .intro-content {
+    transform: scale(.84);
+  }
 
-    transform:
-      scale(.88);
-
+  #message {
+    top: 48%;
   }
 
 }
