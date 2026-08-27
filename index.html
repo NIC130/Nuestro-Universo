@@ -1,82 +1,4146 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
+    <meta charset="UTF-8">
 
-  <meta name="theme-color" content="#020006">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
 
-  <title>Nuestro Universo ♡</title>
+    <meta
+        name="theme-color"
+        content="#02010b"
+    >
 
-  <link rel="stylesheet" href="style.css">
+    <title>Nuestro Universo ♡</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: #010108;
+            color: white;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        button {
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* =====================================================
+           CANVAS
+        ===================================================== */
+
+        #space {
+            position: fixed;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            z-index: 0;
+        }
+
+
+        /* =====================================================
+           GRANO
+        ===================================================== */
+
+        .grain {
+            position: fixed;
+            inset: -50%;
+
+            width: 200%;
+            height: 200%;
+
+            z-index: 20;
+            pointer-events: none;
+
+            opacity: .035;
+
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+
+            animation:
+                grainMove .25s steps(2) infinite;
+        }
+
+        @keyframes grainMove {
+
+            0% {
+                transform: translate(0,0);
+            }
+
+            25% {
+                transform: translate(-2%,1%);
+            }
+
+            50% {
+                transform: translate(1%,-2%);
+            }
+
+            75% {
+                transform: translate(2%,1%);
+            }
+
+            100% {
+                transform: translate(0,0);
+            }
+        }
+
+
+        /* =====================================================
+           VIÑETA
+        ===================================================== */
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+
+            z-index: 15;
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    transparent 38%,
+                    rgba(0,0,8,.16) 62%,
+                    rgba(0,0,8,.65) 100%
+                );
+        }
+
+
+        /* =====================================================
+           PORTADA
+        ===================================================== */
+
+        #intro {
+            position: fixed;
+            inset: 0;
+
+            z-index: 50;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 52%,
+                    rgba(230,70,220,.17),
+                    transparent 27%
+                ),
+
+                radial-gradient(
+                    circle at 20% 25%,
+                    rgba(50,100,255,.13),
+                    transparent 32%
+                ),
+
+                radial-gradient(
+                    circle at 82% 78%,
+                    rgba(255,60,190,.10),
+                    transparent 30%
+                ),
+
+                #02010b;
+
+            transition:
+                opacity 1.5s ease,
+                visibility 1.5s ease,
+                transform 1.8s
+                cubic-bezier(.16,1,.3,1);
+        }
+
+        #intro.hide {
+            opacity: 0;
+            visibility: hidden;
+
+            transform:
+                scale(1.16);
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           ESTRELLAS PORTADA
+        ===================================================== */
+
+        .intro-stars {
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+            opacity: .85;
+
+            background-image:
+
+                radial-gradient(
+                    circle,
+                    rgba(255,255,255,.95)
+                    0 1px,
+                    transparent 1.6px
+                ),
+
+                radial-gradient(
+                    circle,
+                    rgba(160,170,255,.85)
+                    0 1px,
+                    transparent 1.6px
+                ),
+
+                radial-gradient(
+                    circle,
+                    rgba(255,120,220,.75)
+                    0 1px,
+                    transparent 1.6px
+                );
+
+            background-size:
+                90px 90px,
+                145px 145px,
+                210px 210px;
+
+            background-position:
+                10px 20px,
+                60px 80px,
+                30px 50px;
+
+            animation:
+                starDrift 24s linear infinite;
+        }
+
+        @keyframes starDrift {
+
+            from {
+                transform:
+                    translate3d(0,0,0);
+            }
+
+            to {
+                transform:
+                    translate3d(-80px,60px,0);
+            }
+        }
+
+
+        /* =====================================================
+           BRILLO CENTRAL
+        ===================================================== */
+
+        .intro-glow {
+            position: absolute;
+
+            width:
+                min(80vw,800px);
+
+            height:
+                min(80vw,800px);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,80,215,.16),
+                    rgba(100,80,255,.08) 35%,
+                    transparent 70%
+                );
+
+            filter: blur(35px);
+
+            animation:
+                introPulse 5s
+                ease-in-out
+                infinite;
+        }
+
+        @keyframes introPulse {
+
+            0%,
+            100% {
+                transform: scale(.92);
+                opacity: .65;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           ÓRBITAS
+        ===================================================== */
+
+        .orbit {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            border:
+                1px solid
+                rgba(225,120,255,.22);
+
+            border-radius: 50%;
+
+            pointer-events: none;
+        }
+
+        .orbit.one {
+
+            width:
+                min(78vw,850px);
+
+            height:
+                min(31vw,340px);
+
+            transform:
+                translate(-50%,-50%)
+                rotate(-13deg);
+
+            box-shadow:
+                0 0 25px
+                rgba(180,70,255,.10);
+
+            animation:
+                orbitOne 18s linear infinite;
+        }
+
+        .orbit.two {
+
+            width:
+                min(65vw,720px);
+
+            height:
+                min(25vw,280px);
+
+            transform:
+                translate(-50%,-50%)
+                rotate(21deg);
+
+            opacity: .55;
+
+            animation:
+                orbitTwo 25s linear infinite;
+        }
+
+        @keyframes orbitOne {
+
+            from {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(-13deg);
+            }
+
+            to {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(347deg);
+            }
+        }
+
+        @keyframes orbitTwo {
+
+            from {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(21deg);
+            }
+
+            to {
+                transform:
+                    translate(-50%,-50%)
+                    rotate(-339deg);
+            }
+        }
+
+
+        /* =====================================================
+           CONTENIDO PORTADA
+        ===================================================== */
+
+        .intro-content {
+            position: relative;
+
+            z-index: 5;
+
+            width:
+                min(90vw,850px);
+
+            text-align: center;
+
+            padding: 30px;
+
+            animation:
+                introIn 1.8s
+                cubic-bezier(.16,1,.3,1)
+                both;
+        }
+
+        @keyframes introIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(35px)
+                    scale(.94);
+
+                filter:
+                    blur(12px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+                filter:
+                    blur(0);
+            }
+        }
+
+
+        /* =====================================================
+           ESTRELLA SUPERIOR
+        ===================================================== */
+
+        .intro-symbol {
+
+            color: #e2d7ff;
+
+            font-size: 18px;
+
+            text-shadow:
+                0 0 8px #a978ff,
+                0 0 25px #d04cff,
+                0 0 50px
+                rgba(255,70,210,.7);
+
+            animation:
+                symbolPulse 3s
+                ease-in-out
+                infinite;
+        }
+
+        @keyframes symbolPulse {
+
+            0%,
+            100% {
+                transform: scale(.9);
+                opacity: .6;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           EYEBROW
+        ===================================================== */
+
+        .eyebrow {
+
+            margin-top: 18px;
+            margin-bottom: 18px;
+
+            font-size:
+                clamp(9px,1.6vw,12px);
+
+            letter-spacing: .42em;
+
+            color:
+                rgba(240,220,255,.78);
+
+            text-shadow:
+                0 0 15px
+                rgba(190,100,255,.5);
+        }
+
+
+        /* =====================================================
+           TÍTULO
+        ===================================================== */
+
+        .intro-title {
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-weight: 400;
+
+            font-size:
+                clamp(55px,10vw,105px);
+
+            line-height: .88;
+
+            letter-spacing: -.045em;
+
+            color: white;
+
+            text-shadow:
+                0 0 10px
+                rgba(255,255,255,.7),
+
+                0 0 35px
+                rgba(190,110,255,.55),
+
+                0 0 75px
+                rgba(255,80,215,.25);
+        }
+
+        .intro-title span {
+
+            display: block;
+
+            margin-top: 8px;
+
+            font-style: italic;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #91a9ff,
+                    #b58aff 28%,
+                    #e06eff 55%,
+                    #ff87d8 78%,
+                    #ffd4ef
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+
+            filter:
+                drop-shadow(
+                    0 0 14px
+                    rgba(255,100,220,.42)
+                );
+        }
+
+
+        /* =====================================================
+           CORAZÓN PORTADA
+        ===================================================== */
+
+        .intro-heart {
+
+            margin-top: 22px;
+
+            font-family: Georgia, serif;
+
+            font-size: 38px;
+
+            color: #ffb6e8;
+
+            text-shadow:
+                0 0 6px white,
+                0 0 16px #ff76d2,
+                0 0 35px #ed45bd,
+                0 0 65px
+                rgba(255,50,190,.7);
+
+            animation:
+                heartPulse 2.8s
+                ease-in-out
+                infinite;
+        }
+
+        @keyframes heartPulse {
+
+            0%,
+            100% {
+                transform: scale(.92);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+
+        /* =====================================================
+           LÍNEAS
+        ===================================================== */
+
+        .intro-line {
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 12px;
+
+            width:
+                min(360px,70vw);
+
+            margin:
+                12px auto 20px;
+        }
+
+        .intro-line span {
+
+            flex: 1;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(255,135,220,.65)
+                );
+
+            box-shadow:
+                0 0 10px
+                rgba(255,100,220,.3);
+        }
+
+        .intro-line span:last-child {
+
+            background:
+                linear-gradient(
+                    to left,
+                    transparent,
+                    rgba(255,135,220,.65)
+                );
+        }
+
+        .intro-line i {
+
+            font-style: normal;
+
+            color: #ffd7f2;
+
+            font-size: 9px;
+
+            text-shadow:
+                0 0 12px #ff72d0;
+        }
+
+
+        /* =====================================================
+           TEXTO PORTADA
+        ===================================================== */
+
+        #intro .intro-text {
+
+            font-size:
+                clamp(13px,2vw,17px);
+
+            line-height: 1.8;
+
+            letter-spacing: .16em;
+
+            font-weight: 300;
+
+            color:
+                rgba(240,232,255,.68);
+
+            text-shadow:
+                0 0 18px
+                rgba(150,100,255,.25);
+        }
+
+
+        /* =====================================================
+           BOTÓN
+        ===================================================== */
+
+        #enter {
+
+            position: relative;
+
+            margin-top: 38px;
+
+            width: 220px;
+            height: 60px;
+
+            border:
+                1px solid
+                rgba(255,150,230,.65);
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(80,50,180,.20),
+                    rgba(255,70,200,.10)
+                );
+
+            color: white;
+
+            backdrop-filter:
+                blur(15px);
+
+            -webkit-backdrop-filter:
+                blur(15px);
+
+            box-shadow:
+
+                inset 0 0 20px
+                rgba(255,120,220,.08),
+
+                0 0 10px
+                rgba(255,100,220,.25),
+
+                0 0 35px
+                rgba(170,70,255,.20);
+
+            cursor: pointer;
+
+            transition:
+                transform .4s ease,
+                box-shadow .4s ease,
+                background .4s ease;
+        }
+
+        #enter::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: -4px;
+
+            border-radius: inherit;
+
+            border:
+                1px solid
+                rgba(255,130,225,.18);
+
+            filter: blur(3px);
+
+            pointer-events: none;
+        }
+
+        #enter:hover {
+
+            transform:
+                translateY(-4px)
+                scale(1.025);
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(100,70,230,.28),
+                    rgba(255,70,200,.18)
+                );
+
+            box-shadow:
+
+                0 0 15px
+                rgba(255,130,230,.45),
+
+                0 0 55px
+                rgba(190,80,255,.30),
+
+                inset 0 0 25px
+                rgba(255,150,230,.10);
+        }
+
+        #enter:active {
+            transform: scale(.96);
+        }
+
+        #enter span {
+
+            font-size: 12px;
+
+            letter-spacing: .38em;
+
+            font-weight: 600;
+        }
+
+        #enter b {
+
+            margin-left: 15px;
+
+            color: #ffb5e8;
+
+            text-shadow:
+                0 0 8px #ff69ce,
+                0 0 18px #ff69ce;
+        }
+
+
+        /* =====================================================
+           INDICADOR
+        ===================================================== */
+
+        .intro-scroll {
+
+            margin-top: 32px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 8px;
+
+            opacity: .45;
+        }
+
+        .intro-scroll span {
+
+            width: 1px;
+
+            height: 28px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    transparent,
+                    #ffc4ed
+                );
+
+            box-shadow:
+                0 0 8px #ff82d4;
+
+            animation:
+                scrollPulse 2s
+                ease-in-out
+                infinite;
+        }
+
+        .intro-scroll small {
+
+            font-size: 7px;
+
+            letter-spacing: .3em;
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                transform: scaleY(.6);
+                opacity: .4;
+            }
+
+            50% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================================
+           TÍTULO SUPERIOR
+        ===================================================== */
+
+        #topTitle {
+
+            position: fixed;
+
+            top: 28px;
+            left: 50%;
+
+            transform:
+                translate(-50%,-15px);
+
+            z-index: 30;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            white-space: nowrap;
+
+            font-size:
+                clamp(9px,1.7vw,12px);
+
+            letter-spacing: .34em;
+
+            color:
+                rgba(245,235,255,.72);
+
+            text-shadow:
+                0 0 18px
+                rgba(190,100,255,.35);
+
+            transition:
+
+                opacity 1.5s ease,
+
+                transform 1.5s
+                cubic-bezier(.16,1,.3,1);
+        }
+
+        #topTitle.show {
+
+            opacity: 1;
+
+            transform:
+                translate(-50%,0);
+        }
+
+
+        /* =====================================================
+           FRASES
+        ===================================================== */
+
+        #message {
+
+            position: fixed;
+
+            left: 50%;
+            top: 50%;
+
+            z-index: 35;
+
+            width:
+                min(84vw,800px);
+
+            text-align: center;
+
+            transform:
+                translate(-50%,-50%)
+                scale(.88);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            filter: blur(12px);
+
+            transition:
+
+                opacity 1.2s
+                cubic-bezier(.16,1,.3,1),
+
+                transform 1.4s
+                cubic-bezier(.16,1,.3,1),
+
+                filter 1.2s ease;
+        }
+
+        #message.show {
+
+            opacity: 1;
+
+            transform:
+                translate(-50%,-50%)
+                scale(1);
+
+            filter: blur(0);
+        }
+
+        #message::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            width: 70%;
+            height: 180%;
+
+            transform:
+                translate(-50%,-50%);
+
+            background:
+                radial-gradient(
+                    ellipse,
+                    rgba(255,90,215,.12),
+                    rgba(90,80,230,.06) 38%,
+                    transparent 72%
+                );
+
+            filter: blur(35px);
+
+            z-index: -1;
+        }
+
+        #message .text {
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size:
+                clamp(22px,4vw,43px);
+
+            line-height: 1.35;
+
+            font-weight: 400;
+
+            color:
+                rgba(255,248,253,.97);
+
+            text-shadow:
+
+                0 0 8px
+                rgba(255,255,255,.65),
+
+                0 0 25px
+                rgba(255,100,210,.38),
+
+                0 0 60px
+                rgba(125,90,255,.25);
+        }
+
+
+        /* =====================================================
+           MÚSICA
+        ===================================================== */
+
+        #musicControl {
+
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 40;
+
+            width: 44px;
+            height: 44px;
+
+            border:
+                1px solid
+                rgba(255,180,235,.28);
+
+            border-radius: 50%;
+
+            background:
+                rgba(5,5,20,.40);
+
+            color:
+                rgba(255,225,248,.9);
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            backdrop-filter:
+                blur(12px);
+
+            -webkit-backdrop-filter:
+                blur(12px);
+
+            box-shadow:
+                0 0 25px
+                rgba(130,80,230,.15);
+        }
+
+        #musicControl.playing {
+
+            color: #ffc4ea;
+
+            box-shadow:
+                0 0 30px
+                rgba(255,100,215,.28);
+        }
+
+
+        /* =====================================================
+           CELULAR
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .intro-title {
+
+                font-size:
+                    clamp(
+                        52px,
+                        15vw,
+                        78px
+                    );
+            }
+
+            #intro .intro-text {
+
+                font-size: 12px;
+
+                letter-spacing: .10em;
+            }
+
+            #enter {
+
+                width: 195px;
+
+                height: 56px;
+            }
+
+            #message {
+
+                width: 86vw;
+            }
+
+            #message .text {
+
+                font-size:
+                    clamp(
+                        21px,
+                        6.3vw,
+                        31px
+                    );
+            }
+
+            #topTitle {
+
+                top: 21px;
+
+                letter-spacing: .22em;
+            }
+
+            #musicControl {
+
+                right: 16px;
+                bottom: 16px;
+
+                width: 42px;
+                height: 42px;
+            }
+
+            .orbit.one {
+
+                width: 125vw;
+                height: 55vw;
+            }
+
+            .orbit.two {
+
+                width: 105vw;
+                height: 45vw;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-  <canvas id="space"></canvas>
 
-  <div class="grain"></div>
-  <div class="vignette"></div>
+    <!-- =====================================================
+         UNIVERSO
+    ===================================================== -->
 
-  <!-- PANTALLA INICIAL -->
-  <section id="intro">
+    <canvas id="space"></canvas>
 
-    <div class="intro-nebula"></div>
+    <div class="grain"></div>
 
-    <div class="intro-content">
+    <div class="vignette"></div>
 
-      <p class="eyebrow">
+
+    <!-- =====================================================
+         PORTADA
+    ===================================================== -->
+
+    <section id="intro">
+
+        <div class="intro-stars"></div>
+
+        <div class="intro-glow"></div>
+
+        <div class="orbit one"></div>
+
+        <div class="orbit two"></div>
+
+
+        <div class="intro-content">
+
+            <div class="intro-symbol">
+                ✦
+            </div>
+
+
+            <p class="eyebrow">
+                PARA MI NOVIECITA LINDA
+            </p>
+
+
+            <h1 class="intro-title">
+
+                Nuestro
+
+                <span>
+                    Universo
+                </span>
+
+            </h1>
+
+
+            <div class="intro-heart">
+                ♡
+            </div>
+
+
+            <div class="intro-line">
+
+                <span></span>
+
+                <i>✦</i>
+
+                <span></span>
+
+            </div>
+
+
+            <p class="intro-text">
+
+                Un lugar infinito,<br>
+                donde tú eres mi destino.
+
+            </p>
+
+
+            <button
+                id="enter"
+                type="button"
+            >
+
+                <span>
+                    ENTRAR
+                </span>
+
+                <b>
+                    ✦
+                </b>
+
+            </button>
+
+
+            <div class="intro-scroll">
+
+                <span></span>
+
+                <small>
+                    DESCUBRE
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         TÍTULO
+    ===================================================== -->
+
+    <div id="topTitle">
         PARA MI NOVIECITA LINDA
-      </p>
-
-      <h1>
-        Felices
-        <span>3 meses</span>
-      </h1>
-
-      <p class="intro-text">
-        preparé un pequeño universo para ti...
-      </p>
-
-      <button id="enter" type="button">
-        <span>ENTRAR</span>
-        <b>♡</b>
-      </button>
-
     </div>
 
-  </section>
+
+    <!-- =====================================================
+         FRASES
+    ===================================================== -->
+
+    <div id="message"></div>
 
 
-  <!-- TÍTULO DURANTE EL UNIVERSO -->
-  <div id="topTitle">
-    PARA MI NOVIECITA LINDA
-  </div>
+    <!-- =====================================================
+         MÚSICA
+    ===================================================== -->
+
+    <button
+        id="musicControl"
+        type="button"
+    >
+        ♫
+    </button>
 
 
-  <!-- FRASES -->
-  <div id="message"></div>
+    <audio
+        id="music"
+        src="assets/timeless.mp3"
+        preload="auto"
+        loop
+        playsinline
+    ></audio>
 
 
-  <!-- MÚSICA -->
-  <button id="musicControl" type="button">
-    ♫
-  </button>
+    <script>
 
-  <audio
-    id="music"
-    src="assets/timeless.mp3"
-    preload="auto"
-    loop
-    playsinline
-  ></audio>
+        "use strict";
 
 
-  <script src="script.js"></script>
+        /* =====================================================
+           ELEMENTOS
+        ===================================================== */
+
+        const canvas =
+            document.getElementById("space");
+
+        const ctx =
+            canvas.getContext("2d");
+
+        const intro =
+            document.getElementById("intro");
+
+        const enter =
+            document.getElementById("enter");
+
+        const message =
+            document.getElementById("message");
+
+        const title =
+            document.getElementById("topTitle");
+
+        const music =
+            document.getElementById("music");
+
+        const musicControl =
+            document.getElementById("musicControl");
+
+
+        /* =====================================================
+           VARIABLES
+        ===================================================== */
+
+        let W = 0;
+        let H = 0;
+        let DPR = 1;
+
+        let started = false;
+
+        let startTime = 0;
+
+        let cameraX = 0;
+        let cameraY = 0;
+
+        let targetX = 0;
+        let targetY = 0;
+
+        let stars = [];
+        let galaxyStars = [];
+        let dust = [];
+
+        let shootingStars = [];
+
+        let phraseStar = null;
+
+        let heartParticles = [];
+
+        let formingHeart = false;
+
+        let heartStart = 0;
+
+        let phraseIndex = 0;
+
+        let phraseRunning = false;
+
+
+        /* =====================================================
+           FRASES
+        ===================================================== */
+
+        const phrases = [
+
+            "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
+
+            "Me encanta absolutamente todo de ti.",
+
+            "Contigo todo siempre es más lindo.",
+
+            "Eres lo más bonito de este mundo.",
+
+            "Te elegiría una y mil veces."
+
+        ];
+
+
+        /* =====================================================
+           UTILIDADES
+        ===================================================== */
+
+        function random(min, max) {
+
+            return Math.random() *
+                (max - min) +
+                min;
+        }
+
+
+        function clamp(value, min, max) {
+
+            return Math.max(
+                min,
+                Math.min(max, value)
+            );
+        }
+
+
+        function easeOutCubic(t) {
+
+            return 1 -
+                Math.pow(
+                    1 - t,
+                    3
+                );
+        }
+
+
+        function easeInOut(t) {
+
+            return t < .5
+
+                ? 2 * t * t
+
+                : 1 -
+                    Math.pow(
+                        -2 * t + 2,
+                        2
+                    ) / 2;
+        }
+
+
+        /* =====================================================
+           RESIZE
+        ===================================================== */
+
+        function resize() {
+
+            W =
+                window.innerWidth;
+
+            H =
+                window.innerHeight;
+
+            DPR =
+                Math.min(
+                    window.devicePixelRatio || 1,
+                    2
+                );
+
+            canvas.width =
+                W * DPR;
+
+            canvas.height =
+                H * DPR;
+
+            canvas.style.width =
+                W + "px";
+
+            canvas.style.height =
+                H + "px";
+
+            ctx.setTransform(
+                DPR,
+                0,
+                0,
+                DPR,
+                0,
+                0
+            );
+
+            createUniverse();
+        }
+
+
+        window.addEventListener(
+            "resize",
+            resize
+        );
+
+
+        /* =====================================================
+           CREAR UNIVERSO
+        ===================================================== */
+
+        function createUniverse() {
+
+            stars = [];
+            galaxyStars = [];
+            dust = [];
+            shootingStars = [];
+
+
+            const backgroundAmount =
+                W < 600
+                    ? 450
+                    : 850;
+
+
+            for (
+                let i = 0;
+                i < backgroundAmount;
+                i++
+            ) {
+
+                stars.push({
+
+                    x:
+                        Math.random() * W,
+
+                    y:
+                        Math.random() * H,
+
+                    size:
+                        random(.15,1.2),
+
+                    alpha:
+                        random(.15,.8),
+
+                    depth:
+                        random(.05,.45),
+
+                    phase:
+                        random(
+                            0,
+                            Math.PI * 2
+                        ),
+
+                    speed:
+                        random(
+                            .003,
+                            .018
+                        )
+
+                });
+
+            }
+
+
+            /* =================================================
+               GALAXIA
+            ================================================= */
+
+            const amount =
+                W < 600
+                    ? 3600
+                    : 6200;
+
+
+            const arms = 4;
+
+
+            for (
+                let i = 0;
+                i < amount;
+                i++
+            ) {
+
+                const n =
+                    Math.pow(
+                        Math.random(),
+                        .67
+                    );
+
+
+                const radius =
+                    n *
+                    Math.min(
+                        W,
+                        H
+                    ) *
+                    .88;
+
+
+                const arm =
+                    Math.floor(
+                        Math.random() *
+                        arms
+                    );
+
+
+                const base =
+                    arm *
+                    (
+                        Math.PI * 2 /
+                        arms
+                    );
+
+
+                const spread =
+                    random(
+                        -.11,
+                        .11
+                    ) *
+                    (
+                        .3 +
+                        n
+                    );
+
+
+                galaxyStars.push({
+
+                    radius,
+
+                    angle:
+                        base +
+                        spread,
+
+                    depth:
+                        random(
+                            .15,
+                            1
+                        ),
+
+                    size:
+                        random(
+                            .25,
+                            1.5
+                        ),
+
+                    brightness:
+                        random(
+                            .35,
+                            1
+                        ),
+
+                    speed:
+                        random(
+                            .00002,
+                            .00018
+                        ),
+
+                    phase:
+                        random(
+                            0,
+                            Math.PI * 2
+                        )
+
+                });
+
+            }
+
+
+            /* =================================================
+               POLVO
+            ================================================= */
+
+            const dustAmount =
+                W < 600
+                    ? 900
+                    : 1500;
+
+
+            for (
+                let i = 0;
+                i < dustAmount;
+                i++
+            ) {
+
+                const n =
+                    Math.pow(
+                        Math.random(),
+                        .72
+                    );
+
+
+                const radius =
+                    n *
+                    Math.min(
+                        W,
+                        H
+                    ) *
+                    .84;
+
+
+                const arm =
+                    Math.floor(
+                        Math.random() *
+                        arms
+                    );
+
+
+                dust.push({
+
+                    radius,
+
+                    angle:
+                        arm *
+                        (
+                            Math.PI * 2 /
+                            arms
+                        ) +
+                        random(
+                            -.18,
+                            .18
+                        ),
+
+                    alpha:
+                        random(
+                            .015,
+                            .11
+                        ),
+
+                    size:
+                        random(
+                            .4,
+                            2.8
+                        ),
+
+                    depth:
+                        random(
+                            .1,
+                            .9
+                        ),
+
+                    speed:
+                        random(
+                            .00002,
+                            .00012
+                        )
+
+                });
+
+            }
+
+
+            /* =================================================
+               ESTRELLAS FUGACES
+            ================================================= */
+
+            for (
+                let i = 0;
+                i < 7;
+                i++
+            ) {
+
+                shootingStars.push(
+                    createShootingStar(true)
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           ESTRELLA FUGAZ
+        ===================================================== */
+
+        function createShootingStar(
+            initial = false
+        ) {
+
+            return {
+
+                x:
+                    initial
+                        ? random(-W,W)
+                        : random(-100,W),
+
+                y:
+                    initial
+                        ? random(0,H*.65)
+                        : random(-100,H*.55),
+
+                speed:
+                    random(5,12),
+
+                length:
+                    random(80,200),
+
+                alpha:
+                    initial
+                        ? random(0,.8)
+                        : 1,
+
+                delay:
+                    initial
+                        ? random(0,8)
+                        : random(.4,4),
+
+                hue:
+                    Math.random()
+
+            };
+
+        }
+
+
+        /* =====================================================
+           FONDO
+        ===================================================== */
+
+        function drawBackground(time) {
+
+            const cx =
+                W * .5 +
+                cameraX * 15;
+
+
+            const cy =
+                H * .48 +
+                cameraY * 8;
+
+
+            const bg =
+                ctx.createRadialGradient(
+
+                    cx,
+                    cy,
+                    0,
+
+                    cx,
+                    cy,
+                    Math.max(W,H)
+
+                );
+
+
+            bg.addColorStop(
+                0,
+                "#191047"
+            );
+
+
+            bg.addColorStop(
+                .18,
+                "#120b37"
+            );
+
+
+            bg.addColorStop(
+                .38,
+                "#0a0825"
+            );
+
+
+            bg.addColorStop(
+                .65,
+                "#050619"
+            );
+
+
+            bg.addColorStop(
+                1,
+                "#000106"
+            );
+
+
+            ctx.fillStyle =
+                bg;
+
+
+            ctx.fillRect(
+                0,
+                0,
+                W,
+                H
+            );
+
+
+            drawNebula(
+                W*.18,
+                H*.35,
+                Math.min(W,H)*.55,
+                "rgba(55,75,220,.07)"
+            );
+
+
+            drawNebula(
+                W*.82,
+                H*.55,
+                Math.min(W,H)*.55,
+                "rgba(230,40,190,.065)"
+            );
+
+
+            drawNebula(
+                W*.5,
+                H*.15,
+                Math.min(W,H)*.35,
+                "rgba(50,90,255,.045)"
+            );
+
+        }
+
+
+        /* =====================================================
+           NEBULOSA
+        ===================================================== */
+
+        function drawNebula(
+            x,
+            y,
+            radius,
+            color
+        ) {
+
+            const gradient =
+                ctx.createRadialGradient(
+
+                    x,
+                    y,
+                    0,
+
+                    x,
+                    y,
+                    radius
+
+                );
+
+
+            gradient.addColorStop(
+                0,
+                color
+            );
+
+
+            gradient.addColorStop(
+                1,
+                "rgba(0,0,0,0)"
+            );
+
+
+            ctx.fillStyle =
+                gradient;
+
+
+            ctx.fillRect(
+                0,
+                0,
+                W,
+                H
+            );
+
+        }
+
+
+        /* =====================================================
+           ESTRELLAS DE FONDO
+        ===================================================== */
+
+        function drawStars(time) {
+
+            for (
+                const star of stars
+            ) {
+
+                star.phase +=
+                    star.speed;
+
+
+                const pulse =
+                    .55 +
+                    Math.sin(
+                        star.phase
+                    ) * .35;
+
+
+                const x =
+                    star.x +
+                    cameraX *
+                    20 *
+                    star.depth;
+
+
+                const y =
+                    star.y +
+                    cameraY *
+                    12 *
+                    star.depth;
+
+
+                let color;
+
+
+                const type =
+                    (
+                        star.x +
+                        star.y
+                    ) % 3;
+
+
+                if (
+                    type < 1
+                ) {
+
+                    color =
+                        `rgba(
+                            130,
+                            175,
+                            255,
+                            ${star.alpha * pulse}
+                        )`;
+
+                }
+
+                else if (
+                    type < 2
+                ) {
+
+                    color =
+                        `rgba(
+                            220,
+                            205,
+                            255,
+                            ${star.alpha * pulse}
+                        )`;
+
+                }
+
+                else {
+
+                    color =
+                        `rgba(
+                            255,
+                            205,
+                            240,
+                            ${star.alpha * pulse}
+                        )`;
+
+                }
+
+
+                ctx.beginPath();
+
+                ctx.fillStyle =
+                    color;
+
+                ctx.arc(
+                    x,
+                    y,
+                    star.size,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+            }
+
+        }
+
+
+        /* =====================================================
+           GALAXIA
+        ===================================================== */
+
+        function drawGalaxy(time) {
+
+            if (!started) {
+                return;
+            }
+
+
+            const elapsed =
+                time -
+                startTime;
+
+
+            const formation =
+                easeOutCubic(
+                    clamp(
+                        elapsed / 5,
+                        0,
+                        1
+                    )
+                );
+
+
+            const rotation =
+                time * .012;
+
+
+            const cx =
+                W*.5 +
+                cameraX*12;
+
+
+            const cy =
+                H*.48 +
+                cameraY*8;
+
+
+            const tilt =
+                W < 600
+                    ? .34
+                    : .29;
+
+
+            /* =================================================
+               POLVO
+            ================================================= */
+
+            for (
+                const p of dust
+            ) {
+
+                p.angle +=
+                    p.speed;
+
+
+                const radius =
+                    p.radius *
+                    formation;
+
+
+                const angle =
+                    p.angle +
+                    rotation +
+                    radius*.0022;
+
+
+                const x =
+                    cx +
+                    Math.cos(angle) *
+                    radius;
+
+
+                const y =
+                    cy +
+                    Math.sin(angle) *
+                    radius *
+                    tilt;
+
+
+                ctx.beginPath();
+
+
+                if (
+                    p.depth > .55
+                ) {
+
+                    ctx.fillStyle =
+                        `rgba(
+                            205,
+                            65,
+                            215,
+                            ${p.alpha*formation}
+                        )`;
+
+                }
+
+                else {
+
+                    ctx.fillStyle =
+                        `rgba(
+                            65,
+                            100,
+                            220,
+                            ${p.alpha*formation}
+                        )`;
+
+                }
+
+
+                ctx.arc(
+                    x,
+                    y,
+                    p.size *
+                    (.5+p.depth),
+                    0,
+                    Math.PI*2
+                );
+
+
+                ctx.fill();
+
+            }
+
+
+            /* =================================================
+               ESTRELLAS GALAXIA
+            ================================================= */
+
+            for (
+                const star of galaxyStars
+            ) {
+
+                star.phase +=
+                    star.speed;
+
+
+                const radius =
+                    star.radius *
+                    formation;
+
+
+                const angle =
+                    star.angle +
+                    rotation +
+                    radius*.0023;
+
+
+                const x =
+                    cx +
+                    Math.cos(angle) *
+                    radius;
+
+
+                const y =
+                    cy +
+                    Math.sin(angle) *
+                    radius *
+                    tilt;
+
+
+                const depth =
+                    star.depth;
+
+
+                const size =
+                    star.size *
+                    (
+                        .45 +
+                        depth*1.6
+                    );
+
+
+                const alpha =
+                    star.brightness *
+                    formation;
+
+
+                let r;
+                let g;
+                let b;
+
+
+                if (
+                    depth < .32
+                ) {
+
+                    r=100;
+                    g=130;
+                    b=255;
+
+                }
+
+                else if (
+                    depth < .60
+                ) {
+
+                    r=175;
+                    g=105;
+                    b=245;
+
+                }
+
+                else if (
+                    depth < .82
+                ) {
+
+                    r=245;
+                    g=105;
+                    b=220;
+
+                }
+
+                else {
+
+                    r=255;
+                    g=205;
+                    b=245;
+
+                }
+
+
+                ctx.beginPath();
+
+
+                ctx.fillStyle =
+                    `rgba(
+                        ${r},
+                        ${g},
+                        ${b},
+                        ${alpha}
+                    )`;
+
+
+                if (
+                    depth>.84 &&
+                    star.brightness>.7
+                ) {
+
+                    ctx.shadowBlur =
+                        4+
+                        depth*5;
+
+                    ctx.shadowColor =
+                        "#ff70d0";
+
+                }
+
+
+                ctx.arc(
+                    x,
+                    y,
+                    size,
+                    0,
+                    Math.PI*2
+                );
+
+
+                ctx.fill();
+
+
+                ctx.shadowBlur=0;
+
+            }
+
+
+            /* =================================================
+               NÚCLEO
+            ================================================= */
+
+            const core =
+                ctx.createRadialGradient(
+
+                    cx,
+                    cy,
+                    0,
+
+                    cx,
+                    cy,
+                    Math.min(W,H)*.34
+
+                );
+
+
+            core.addColorStop(
+                0,
+                `rgba(
+                    255,
+                    250,
+                    255,
+                    ${.42*formation}
+                )`
+            );
+
+
+            core.addColorStop(
+                .05,
+                `rgba(
+                    255,
+                    210,
+                    245,
+                    ${.30*formation}
+                )`
+            );
+
+
+            core.addColorStop(
+                .13,
+                `rgba(
+                    255,
+                    100,
+                    215,
+                    ${.16*formation}
+                )`
+            );
+
+
+            core.addColorStop(
+                .28,
+                `rgba(
+                    150,
+                    55,
+                    220,
+                    ${.07*formation}
+                )`
+            );
+
+
+            core.addColorStop(
+                1,
+                "rgba(0,0,0,0)"
+            );
+
+
+            ctx.fillStyle =
+                core;
+
+
+            ctx.fillRect(
+                0,
+                0,
+                W,
+                H
+            );
+
+        }
+
+
+        /* =====================================================
+           ESTRELLAS FUGACES
+        ===================================================== */
+
+        function drawShootingStars() {
+
+            if (!started) {
+                return;
+            }
+
+
+            for (
+                let i=0;
+                i<shootingStars.length;
+                i++
+            ) {
+
+                const s =
+                    shootingStars[i];
+
+
+                if (
+                    s.delay>0
+                ) {
+
+                    s.delay-=.016;
+
+                    continue;
+
+                }
+
+
+                s.x +=
+                    s.speed;
+
+
+                s.y +=
+                    s.speed*.32;
+
+
+                s.alpha -=
+                    .008;
+
+
+                let color;
+
+
+                if (
+                    s.hue<.33
+                ) {
+
+                    color =
+                        `rgba(
+                            100,
+                            170,
+                            255,
+                            ${s.alpha}
+                        )`;
+
+                }
+
+                else if (
+                    s.hue<.66
+                ) {
+
+                    color =
+                        `rgba(
+                            220,
+                            100,
+                            255,
+                            ${s.alpha}
+                        )`;
+
+                }
+
+                else {
+
+                    color =
+                        `rgba(
+                            255,
+                            110,
+                            215,
+                            ${s.alpha}
+                        )`;
+
+                }
+
+
+                const trail =
+                    ctx.createLinearGradient(
+
+                        s.x,
+                        s.y,
+
+                        s.x-s.length,
+                        s.y-s.length*.32
+
+                    );
+
+
+                trail.addColorStop(
+                    0,
+                    `rgba(
+                        255,
+                        250,
+                        255,
+                        ${s.alpha}
+                    )`
+                );
+
+
+                trail.addColorStop(
+                    .25,
+                    color
+                );
+
+
+                trail.addColorStop(
+                    1,
+                    "rgba(0,0,0,0)"
+                );
+
+
+                ctx.beginPath();
+
+                ctx.strokeStyle =
+                    trail;
+
+                ctx.lineWidth=1.5;
+
+                ctx.moveTo(
+                    s.x,
+                    s.y
+                );
+
+                ctx.lineTo(
+                    s.x-s.length,
+                    s.y-s.length*.32
+                );
+
+                ctx.stroke();
+
+
+                ctx.beginPath();
+
+                ctx.fillStyle =
+                    `rgba(
+                        255,
+                        250,
+                        255,
+                        ${s.alpha}
+                    )`;
+
+                ctx.shadowBlur=18;
+
+                ctx.shadowColor="#ff82d8";
+
+                ctx.arc(
+                    s.x,
+                    s.y,
+                    2,
+                    0,
+                    Math.PI*2
+                );
+
+                ctx.fill();
+
+                ctx.shadowBlur=0;
+
+
+                if (
+                    s.alpha<=0 ||
+                    s.x>W+250 ||
+                    s.y>H+200
+                ) {
+
+                    shootingStars[i] =
+                        createShootingStar(false);
+
+                }
+
+            }
+
+        }
+
+
+        /* =====================================================
+           ESTRELLA DE CADA FRASE
+        ===================================================== */
+
+        function createPhraseStar() {
+
+            return {
+
+                progress:0,
+
+                duration:1900,
+
+                startX:
+                    W*random(.82,.98),
+
+                startY:
+                    H*random(.06,.20),
+
+                endX:
+                    W*random(.40,.60),
+
+                endY:
+                    H*random(.40,.57),
+
+                alpha:0,
+
+                active:true,
+
+                revealed:false
+
+            };
+
+        }
+
+
+        function drawPhraseStar() {
+
+            if (
+                !phraseStar ||
+                !phraseStar.active
+            ) {
+
+                return;
+
+            }
+
+
+            const s =
+                phraseStar;
+
+
+            const p =
+                clamp(
+                    s.progress,
+                    0,
+                    1
+                );
+
+
+            const eased =
+                easeOutCubic(p);
+
+
+            const x =
+                s.startX +
+                (
+                    s.endX -
+                    s.startX
+                ) *
+                eased;
+
+
+            const y =
+                s.startY +
+                (
+                    s.endY -
+                    s.startY
+                ) *
+                eased;
+
+
+            const dx =
+                s.endX -
+                s.startX;
+
+
+            const dy =
+                s.endY -
+                s.startY;
+
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dy
+                ) || 1;
+
+
+            const ux =
+                dx/distance;
+
+
+            const uy =
+                dy/distance;
+
+
+            const length =
+                Math.min(
+                    W,
+                    H
+                )*.25;
+
+
+            const tailX =
+                x -
+                ux*length;
+
+
+            const tailY =
+                y -
+                uy*length;
+
+
+            const trail =
+                ctx.createLinearGradient(
+
+                    tailX,
+                    tailY,
+
+                    x,
+                    y
+
+                );
+
+
+            trail.addColorStop(
+                0,
+                "rgba(70,90,255,0)"
+            );
+
+
+            trail.addColorStop(
+                .35,
+                `rgba(
+                    110,
+                    100,
+                    255,
+                    ${s.alpha*.28}
+                )`
+            );
+
+
+            trail.addColorStop(
+                .62,
+                `rgba(
+                    200,
+                    90,
+                    255,
+                    ${s.alpha*.55}
+                )`
+            );
+
+
+            trail.addColorStop(
+                .84,
+                `rgba(
+                    255,
+                    95,
+                    215,
+                    ${s.alpha*.8}
+                )`
+            );
+
+
+            trail.addColorStop(
+                1,
+                `rgba(
+                    255,
+                    250,
+                    255,
+                    ${s.alpha}
+                )`
+            );
+
+
+            ctx.beginPath();
+
+            ctx.strokeStyle =
+                trail;
+
+            ctx.lineWidth=2.5;
+
+            ctx.moveTo(
+                tailX,
+                tailY
+            );
+
+            ctx.lineTo(
+                x,
+                y
+            );
+
+            ctx.stroke();
+
+
+            ctx.beginPath();
+
+            ctx.fillStyle =
+                `rgba(
+                    255,
+                    245,
+                    255,
+                    ${s.alpha}
+                )`;
+
+            ctx.shadowBlur=32;
+
+            ctx.shadowColor="#ff72d2";
+
+            ctx.arc(
+                x,
+                y,
+                2.3+p*1.7,
+                0,
+                Math.PI*2
+            );
+
+            ctx.fill();
+
+            ctx.shadowBlur=0;
+
+
+            for (
+                let i=0;
+                i<14;
+                i++
+            ) {
+
+                const t =
+                    i/14;
+
+
+                const px =
+                    x-
+                    ux*
+                    length*
+                    t;
+
+
+                const py =
+                    y-
+                    uy*
+                    length*
+                    t;
+
+
+                ctx.beginPath();
+
+
+                ctx.fillStyle =
+                    `rgba(
+                        ${180+i*5},
+                        ${135+i*6},
+                        255,
+                        ${s.alpha*
+                          (1-t)*
+                          .45}
+                    )`;
+
+
+                ctx.arc(
+
+                    px+
+                    Math.sin(i*5.7)*2,
+
+                    py+
+                    Math.cos(i*4.2)*2,
+
+                    .5+
+                    (1-t)*.8,
+
+                    0,
+                    Math.PI*2
+
+                );
+
+
+                ctx.fill();
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOSTRAR FRASE
+        ===================================================== */
+
+        function showPhrase(text) {
+
+            message.innerHTML = `
+
+                <div class="text">
+                    “${text}”
+                </div>
+
+            `;
+
+
+            message.classList.add(
+                "show"
+            );
+
+        }
+
+
+        function hidePhrase() {
+
+            message.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        /* =====================================================
+           SECUENCIA
+        ===================================================== */
+
+        function startPhrases() {
+
+            if (
+                phraseRunning
+            ) {
+
+                return;
+
+            }
+
+
+            phraseRunning=true;
+
+            phraseIndex=0;
+
+
+            setTimeout(
+                launchNextPhrase,
+                1700
+            );
+
+        }
+
+
+        function launchNextPhrase() {
+
+            if (
+                phraseIndex>=phrases.length
+            ) {
+
+                finishPhrases();
+
+                return;
+
+            }
+
+
+            hidePhrase();
+
+
+            phraseStar =
+                createPhraseStar();
+
+
+            const star =
+                phraseStar;
+
+
+            const beginning =
+                performance.now();
+
+
+            function animateStar(now) {
+
+                if (
+                    !phraseStar ||
+                    phraseStar!==star
+                ) {
+
+                    return;
+
+                }
+
+
+                star.progress =
+                    (
+                        now-
+                        beginning
+                    )/
+                    star.duration;
+
+
+                if (
+                    star.progress<.15
+                ) {
+
+                    star.alpha =
+                        star.progress/.15;
+
+                }
+
+                else if (
+                    star.progress<.78
+                ) {
+
+                    star.alpha=1;
+
+                }
+
+                else {
+
+                    star.alpha =
+                        1-
+                        (
+                            star.progress-.78
+                        )/.22;
+
+                }
+
+
+                if (
+                    star.progress>=.60 &&
+                    !star.revealed
+                ) {
+
+                    star.revealed=true;
+
+
+                    showPhrase(
+                        phrases[
+                            phraseIndex
+                        ]
+                    );
+
+                }
+
+
+                if (
+                    star.progress<1
+                ) {
+
+                    requestAnimationFrame(
+                        animateStar
+                    );
+
+                }
+
+                else {
+
+                    star.active=false;
+
+
+                    setTimeout(
+                        () => {
+
+                            hidePhrase();
+
+
+                            phraseIndex++;
+
+
+                            setTimeout(
+                                launchNextPhrase,
+                                950
+                            );
+
+                        },
+                        3900
+                    );
+
+                }
+
+            }
+
+
+            requestAnimationFrame(
+                animateStar
+            );
+
+        }
+
+
+        /* =====================================================
+           CREAR CORAZÓN
+        ===================================================== */
+
+        function createHeartParticles() {
+
+            heartParticles=[];
+
+
+            const amount =
+                W<600
+                    ? 650
+                    : 1000;
+
+
+            const cx =
+                W*.5;
+
+
+            const cy =
+                H*.50;
+
+
+            const scale =
+                Math.min(W,H)*
+                (
+                    W<600
+                        ? .020
+                        : .026
+                );
+
+
+            for (
+                let i=0;
+                i<amount;
+                i++
+            ) {
+
+                const t =
+                    Math.random()*
+                    Math.PI*2;
+
+
+                /*
+                  Ecuación del corazón.
+                */
+
+                const hx =
+                    16*
+                    Math.pow(
+                        Math.sin(t),
+                        3
+                    );
+
+
+                const hy =
+                    -(
+                        13*Math.cos(t) -
+                        5*Math.cos(2*t) -
+                        2*Math.cos(3*t) -
+                        Math.cos(4*t)
+                    );
+
+
+                /*
+                  Relleno interior.
+                */
+
+                const fill =
+                    Math.pow(
+                        Math.random(),
+                        .55
+                    );
+
+
+                const tx =
+                    cx+
+                    hx*
+                    scale*
+                    fill;
+
+
+                const ty =
+                    cy+
+                    hy*
+                    scale*
+                    fill;
+
+
+                heartParticles.push({
+
+                    x:
+                        random(
+                            W*.15,
+                            W*.85
+                        ),
+
+                    y:
+                        random(
+                            H*.15,
+                            H*.85
+                        ),
+
+                    targetX:tx,
+
+                    targetY:ty,
+
+                    size:
+                        random(
+                            .45,
+                            1.8
+                        ),
+
+                    delay:
+                        Math.random()*.75,
+
+                    phase:
+                        Math.random()*
+                        Math.PI*2,
+
+                    hue:
+                        Math.random()
+
+                });
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CORAZÓN + TE AMO MUCHOTE
+        ===================================================== */
+
+        function drawHeart(time) {
+
+            if (!formingHeart) {
+                return;
+            }
+
+
+            const progress =
+                clamp(
+                    (
+                        time-
+                        heartStart
+                    )/5.5,
+                    0,
+                    1
+                );
+
+
+            const eased =
+                easeInOut(progress);
+
+
+            /* =================================================
+               PULSO DEL CORAZÓN
+            ================================================= */
+
+            let heartPulse=1;
+
+
+            if (
+                progress>=1
+            ) {
+
+                heartPulse =
+                    1+
+                    Math.sin(
+                        (
+                            time-
+                            heartStart
+                        )*2.2
+                    )*.035;
+
+            }
+
+
+            /* =================================================
+               ESTRELLAS
+            ================================================= */
+
+            for (
+                const p of heartParticles
+            ) {
+
+                const local =
+                    clamp(
+                        (
+                            eased-
+                            p.delay
+                        )/
+                        (
+                            1-
+                            p.delay
+                        ),
+                        0,
+                        1
+                    );
+
+
+                const e =
+                    easeInOut(local);
+
+
+                let x =
+                    p.x+
+                    (
+                        p.targetX-
+                        p.x
+                    )*e;
+
+
+                let y =
+                    p.y+
+                    (
+                        p.targetY-
+                        p.y
+                    )*e;
+
+
+                /*
+                  Una vez formado,
+                  el corazón respira.
+                */
+
+                if (
+                    progress>=1
+                ) {
+
+                    x =
+                        p.targetX+
+                        Math.sin(
+                            time*1.5+
+                            p.phase
+                        )*1.2;
+
+
+                    y =
+                        p.targetY+
+                        Math.cos(
+                            time*1.3+
+                            p.phase
+                        )*1.2;
+
+                }
+
+
+                p.phase+=.025;
+
+
+                const sparkle =
+                    .72+
+                    Math.sin(
+                        p.phase
+                    )*.28;
+
+
+                let color;
+
+
+                if (
+                    p.hue<.33
+                ) {
+
+                    color =
+                        `rgba(
+                            115,
+                            155,
+                            255,
+                            ${sparkle}
+                        )`;
+
+                }
+
+                else if (
+                    p.hue<.66
+                ) {
+
+                    color =
+                        `rgba(
+                            205,
+                            105,
+                            255,
+                            ${sparkle}
+                        )`;
+
+                }
+
+                else {
+
+                    color =
+                        `rgba(
+                            255,
+                            125,
+                            220,
+                            ${sparkle}
+                        )`;
+
+                }
+
+
+                ctx.save();
+
+
+                ctx.translate(
+                    W*.5,
+                    H*.5
+                );
+
+
+                ctx.scale(
+                    heartPulse,
+                    heartPulse
+                );
+
+
+                ctx.translate(
+                    -W*.5,
+                    -H*.5
+                );
+
+
+                ctx.beginPath();
+
+
+                ctx.fillStyle =
+                    color;
+
+
+                ctx.shadowBlur =
+                    progress>=1
+                        ? 8
+                        : 3;
+
+
+                ctx.shadowColor =
+                    "#ff82d5";
+
+
+                ctx.arc(
+                    x,
+                    y,
+                    p.size,
+                    0,
+                    Math.PI*2
+                );
+
+
+                ctx.fill();
+
+
+                ctx.restore();
+
+
+                ctx.shadowBlur=0;
+
+            }
+
+
+            /* =================================================
+               HALO
+            ================================================= */
+
+            if (
+                progress>.65
+            ) {
+
+                const haloProgress =
+                    clamp(
+                        (
+                            progress-.65
+                        )/.35,
+                        0,
+                        1
+                    );
+
+
+                const pulse =
+                    progress>=1
+
+                        ? (
+                            .5+
+                            Math.sin(
+                                (
+                                    time-
+                                    heartStart
+                                )*2.2
+                            )*.5
+                        )
+
+                        : 0;
+
+
+                const alpha =
+                    haloProgress*
+                    (
+                        progress>=1
+                            ? .08+
+                              pulse*.045
+                            : .08
+                    );
+
+
+                const cx =
+                    W*.5;
+
+
+                const cy =
+                    H*.5;
+
+
+                const radius =
+                    Math.min(W,H)*.34;
+
+
+                const glow =
+                    ctx.createRadialGradient(
+
+                        cx,
+                        cy,
+                        0,
+
+                        cx,
+                        cy,
+                        radius
+
+                    );
+
+
+                glow.addColorStop(
+                    0,
+                    `rgba(
+                        255,
+                        90,
+                        210,
+                        ${alpha}
+                    )`
+                );
+
+
+                glow.addColorStop(
+                    .42,
+                    `rgba(
+                        155,
+                        70,
+                        255,
+                        ${alpha*.55}
+                    )`
+                );
+
+
+                glow.addColorStop(
+                    1,
+                    "rgba(0,0,0,0)"
+                );
+
+
+                ctx.fillStyle =
+                    glow;
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    W,
+                    H
+                );
+
+            }
+
+
+            /* =================================================
+               TE AMO MUCHOTE
+            ================================================= */
+
+            if (
+                progress>=.82
+            ) {
+
+                const textProgress =
+                    clamp(
+                        (
+                            progress-.82
+                        )/.18,
+                        0,
+                        1
+                    );
+
+
+                const textFade =
+                    easeInOut(
+                        textProgress
+                    );
+
+
+                const breathing =
+                    progress>=1
+
+                        ? Math.sin(
+                            (
+                                time-
+                                heartStart
+                            )*1.8
+                        )*1.5
+
+                        : 0;
+
+
+                ctx.save();
+
+
+                ctx.globalAlpha =
+                    textFade;
+
+
+                ctx.textAlign =
+                    "center";
+
+
+                ctx.textBaseline =
+                    "middle";
+
+
+                const textY =
+                    H*.78+
+                    breathing;
+
+
+                /*
+                  Brillo principal.
+                */
+
+                ctx.shadowBlur=24;
+
+                ctx.shadowColor =
+                    "rgba(255,75,205,.85)";
+
+
+                ctx.font =
+                    '500 20px "Segoe UI", sans-serif';
+
+
+                ctx.fillStyle =
+                    "rgba(255,238,250,.97)";
+
+
+                ctx.fillText(
+                    "TE AMO MUCHOTE",
+                    W*.5,
+                    textY
+                );
+
+
+                /*
+                  Segundo brillo.
+                */
+
+                ctx.shadowBlur=8;
+
+                ctx.shadowColor =
+                    "rgba(160,100,255,.8)";
+
+
+                ctx.fillStyle =
+                    "rgba(255,225,245,.92)";
+
+
+                ctx.fillText(
+                    "TE AMO MUCHOTE",
+                    W*.5,
+                    textY
+                );
+
+
+                ctx.restore();
+
+            }
+
+
+            /* =================================================
+               DESTELLO FINAL
+            ================================================= */
+
+            if (
+                progress>=1
+            ) {
+
+                const pulse =
+                    (
+                        Math.sin(
+                            (
+                                time-
+                                heartStart
+                            )*2.2
+                        )+1
+                    )/2;
+
+
+                if (
+                    pulse>.92
+                ) {
+
+                    const flash =
+                        ctx.createRadialGradient(
+
+                            W*.5,
+                            H*.5,
+                            0,
+
+                            W*.5,
+                            H*.5,
+                            Math.min(W,H)*.28
+
+                        );
+
+
+                    flash.addColorStop(
+                        0,
+                        "rgba(255,220,250,.10)"
+                    );
+
+
+                    flash.addColorStop(
+                        .35,
+                        "rgba(255,100,220,.045)"
+                    );
+
+
+                    flash.addColorStop(
+                        1,
+                        "rgba(0,0,0,0)"
+                    );
+
+
+                    ctx.fillStyle =
+                        flash;
+
+
+                    ctx.fillRect(
+                        0,
+                        0,
+                        W,
+                        H
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FINAL DE FRASES
+        ===================================================== */
+
+        function finishPhrases() {
+
+            phraseRunning=false;
+
+            phraseStar=null;
+
+            hidePhrase();
+
+
+            /*
+              Pausa antes del corazón.
+            */
+
+            setTimeout(
+                () => {
+
+                    createHeartParticles();
+
+                    formingHeart=true;
+
+                    heartStart =
+                        performance.now()*
+                        .001;
+
+                },
+                1200
+            );
+
+        }
+
+
+        /* =====================================================
+           ANIMACIÓN PRINCIPAL
+        ===================================================== */
+
+        function animate(timestamp) {
+
+            const time =
+                timestamp*.001;
+
+
+            cameraX +=
+                (
+                    targetX-
+                    cameraX
+                )*.025;
+
+
+            cameraY +=
+                (
+                    targetY-
+                    cameraY
+                )*.025;
+
+
+            drawBackground(
+                time
+            );
+
+
+            drawStars(
+                time
+            );
+
+
+            drawGalaxy(
+                time
+            );
+
+
+            drawShootingStars();
+
+
+            drawPhraseStar();
+
+
+            drawHeart(
+                time
+            );
+
+
+            requestAnimationFrame(
+                animate
+            );
+
+        }
+
+
+        /* =====================================================
+           ENTRAR
+        ===================================================== */
+
+        enter.addEventListener(
+            "click",
+            async () => {
+
+                if (
+                    started
+                ) {
+
+                    return;
+
+                }
+
+
+                started=true;
+
+
+                startTime =
+                    performance.now()*
+                    .001;
+
+
+                /* =============================================
+                   MÚSICA
+                ============================================= */
+
+                music.volume=.55;
+
+
+                try {
+
+                    await music.play();
+
+                }
+
+                catch(error) {
+
+                    console.log(
+                        "El navegador bloqueó el audio."
+                    );
+
+                }
+
+
+                /* =============================================
+                   TRANSICIÓN
+                ============================================= */
+
+                intro.classList.add(
+                    "hide"
+                );
+
+
+                title.classList.add(
+                    "show"
+                );
+
+
+                /* =============================================
+                   INICIO FRASES
+                ============================================= */
+
+                setTimeout(
+                    startPhrases,
+                    6000
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           CONTROL DE MÚSICA
+        ===================================================== */
+
+        musicControl.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    music.paused
+                ) {
+
+                    music.play()
+                        .then(
+                            () => {
+
+                                musicControl
+                                    .classList
+                                    .add(
+                                        "playing"
+                                    );
+
+                                musicControl
+                                    .textContent =
+                                    "❚❚";
+
+                            }
+                        )
+                        .catch(
+                            () => {}
+                        );
+
+                }
+
+                else {
+
+                    music.pause();
+
+
+                    musicControl
+                        .classList
+                        .remove(
+                            "playing"
+                        );
+
+
+                    musicControl
+                        .textContent =
+                        "♫";
+
+                }
+
+            }
+        );
+
+
+        music.addEventListener(
+            "play",
+            () => {
+
+                musicControl
+                    .classList
+                    .add(
+                        "playing"
+                    );
+
+                musicControl
+                    .textContent =
+                    "❚❚";
+
+            }
+        );
+
+
+        music.addEventListener(
+            "pause",
+            () => {
+
+                musicControl
+                    .classList
+                    .remove(
+                        "playing"
+                    );
+
+                musicControl
+                    .textContent =
+                    "♫";
+
+            }
+        );
+
+
+        /* =====================================================
+           PARALLAX — MOUSE
+        ===================================================== */
+
+        window.addEventListener(
+            "pointermove",
+            event => {
+
+                if (
+                    event.pointerType==="touch"
+                ) {
+
+                    return;
+
+                }
+
+
+                targetX =
+                    (
+                        event.clientX-
+                        W/2
+                    )/
+                    (
+                        W/2
+                    );
+
+
+                targetY =
+                    (
+                        event.clientY-
+                        H/2
+                    )/
+                    (
+                        H/2
+                    );
+
+            },
+            {
+                passive:true
+            }
+        );
+
+
+        /* =====================================================
+           PARALLAX — TOUCH
+        ===================================================== */
+
+        window.addEventListener(
+            "touchmove",
+            event => {
+
+                if (
+                    !event.touches.length
+                ) {
+
+                    return;
+
+                }
+
+
+                const touch =
+                    event.touches[0];
+
+
+                targetX =
+                    (
+                        touch.clientX-
+                        W/2
+                    )/
+                    (
+                        W/2
+                    );
+
+
+                targetY =
+                    (
+                        touch.clientY-
+                        H/2
+                    )/
+                    (
+                        H/2
+                    );
+
+            },
+            {
+                passive:true
+            }
+        );
+
+
+        /* =====================================================
+           ORIENTACIÓN CELULAR
+        ===================================================== */
+
+        window.addEventListener(
+            "deviceorientation",
+            event => {
+
+                if (
+                    event.gamma===null ||
+                    event.beta===null
+                ) {
+
+                    return;
+
+                }
+
+
+                targetX =
+                    clamp(
+                        event.gamma/30,
+                        -1,
+                        1
+                    );
+
+
+                targetY =
+                    clamp(
+                        event.beta/45,
+                        -1,
+                        1
+                    );
+
+            },
+            {
+                passive:true
+            }
+        );
+
+
+        /* =====================================================
+           INICIAR
+        ===================================================== */
+
+        resize();
+
+        requestAnimationFrame(
+            animate
+        );
+
+    </script>
 
 </body>
+
 </html>
