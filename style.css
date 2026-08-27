@@ -1,128 +1,268 @@
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#070009;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-body{
-  color:#fff;
-  font-family:Georgia,serif;
-  -webkit-user-select:none;
-  user-select:none;
-  -webkit-touch-callout:none;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #030006;
 }
-#canvas{
-  position:fixed;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  display:block;
+
+body {
+  position: fixed;
+  inset: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: white;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-#intro{
-  position:fixed;
-  z-index:10;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  height:100dvh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  transition:opacity 1.2s ease,transform 1.2s ease;
+
+#universe {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background:
+    radial-gradient(
+      ellipse at 50% 52%,
+      rgba(100, 0, 75, 0.28) 0%,
+      rgba(35, 0, 28, 0.18) 28%,
+      rgba(3, 0, 6, 0) 68%
+    ),
+    #030006;
 }
-#intro.hide{
-  opacity:0;
-  transform:scale(1.08);
-  pointer-events:none;
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 38%,
+      rgba(0, 0, 0, 0.15) 65%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
 }
-.content{
-  width:90%;
+
+.content {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+  text-align: center;
 }
-.kicker{
-  font-family:Arial,sans-serif;
-  font-size:9px;
-  letter-spacing:6px;
-  opacity:.7;
-  margin-bottom:18px;
-}
-h1{
-  margin:0;
-  font-size:clamp(42px,13vw,70px);
-  line-height:.92;
-  font-weight:400;
-  font-style:italic;
+
+.intro {
+  position: absolute;
+  width: min(90vw, 600px);
+
+  opacity: 0;
+  transform: scale(0.94);
+
+  animation:
+    introAppear 2.5s ease-out 3s forwards,
+    introDisappear 1.5s ease-in 8.5s forwards;
+
   text-shadow:
-    0 0 12px #ff8bd0,
-    0 0 35px #ff3ba8,
-    0 0 70px #ff167f;
+    0 0 10px rgba(255, 170, 235, 0.35),
+    0 0 30px rgba(255, 80, 190, 0.18);
 }
-.sub{
-  margin-top:24px;
-  font:11px Arial,sans-serif;
-  letter-spacing:3px;
-  opacity:.55;
+
+.intro-small {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(11px, 3vw, 17px);
+  letter-spacing: 0.42em;
+  margin-left: 0.42em;
+  margin-bottom: 16px;
+  opacity: 0.85;
 }
-#enter{
-  -webkit-appearance:none;
-  appearance:none;
-  position:relative;
-  z-index:30;
-  display:block;
-  margin:38px auto 0;
-  padding:16px 40px;
-  min-width:170px;
-  border:1px solid rgba(255,190,230,.9);
-  border-radius:999px;
-  color:white;
-  background:rgba(255,55,170,.12);
-  font:500 11px Arial,sans-serif;
-  letter-spacing:4px;
-  box-shadow:0 0 25px rgba(255,55,170,.35);
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+
+.intro-title {
+  font-size: clamp(35px, 10vw, 68px);
+  font-weight: normal;
+  letter-spacing: 0.02em;
 }
-#enter:active{
-  transform:scale(.94);
-  background:rgba(255,75,180,.25);
+
+.messages {
+  position: absolute;
+  width: min(88vw, 650px);
+  min-height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-#message{
-  position:fixed;
-  z-index:20;
-  left:50%;
-  bottom:calc(7vh + env(safe-area-inset-bottom));
-  width:88%;
-  transform:translate(-50%,25px);
-  opacity:0;
-  text-align:center;
-  pointer-events:none;
-  transition:opacity 1.7s ease,transform 1.7s ease;
+
+.message {
+  position: absolute;
+  width: 100%;
+  padding: 0 8px;
+
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+
+  font-size: clamp(23px, 6vw, 38px);
+  line-height: 1.24;
+  font-weight: normal;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.85),
+    0 0 12px rgba(255, 120, 210, 0.2);
+
+  animation: messageSequence 30s ease-in-out infinite;
 }
-#message.show{
-  opacity:1;
-  transform:translate(-50%,0);
+
+.message:nth-child(1) {
+  animation-delay: 9s;
 }
-.label{
-  font:9px Arial,sans-serif;
-  letter-spacing:4px;
-  opacity:.6;
+
+.message:nth-child(2) {
+  animation-delay: 14s;
 }
-.text{
-  margin-top:12px;
-  font-size:clamp(25px,7vw,44px);
-  line-height:1.22;
-  font-style:italic;
-  text-shadow:0 0 15px #ff9bd9,0 0 35px #ff3ca9;
+
+.message:nth-child(3) {
+  animation-delay: 19s;
 }
-.heart{
-  margin-top:18px;
-  font-size:30px;
-  animation:pulse 1.4s infinite;
+
+.message:nth-child(4) {
+  animation-delay: 24s;
 }
-@keyframes pulse{
-  50%{transform:scale(1.3)}
+
+.message:nth-child(5) {
+  animation-delay: 29s;
+}
+
+.message:nth-child(6) {
+  animation-delay: 34s;
+}
+
+.final-message {
+  font-size: clamp(24px, 6.3vw, 40px);
+}
+
+#musicButton {
+  position: fixed;
+  right: 22px;
+  bottom: 25px;
+
+  width: 45px;
+  height: 45px;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+
+  background: rgba(20, 0, 18, 0.45);
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 19px;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  opacity: 0.75;
+  pointer-events: auto;
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+#musicButton:active {
+  transform: scale(0.9);
+}
+
+@keyframes introAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes introDisappear {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes messageSequence {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(8px);
+  }
+
+  5% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  22% {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.02);
+    filter: blur(7px);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .messages {
+    width: 88vw;
+  }
+
+  .message {
+    font-size: clamp(21px, 6.1vw, 30px);
+  }
+
+  .intro-small {
+    letter-spacing: 0.28em;
+  }
+
+  #musicButton {
+    right: 16px;
+    bottom: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .message {
+    animation-duration: 1ms;
+  }
 }
