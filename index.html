@@ -1,72 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
 
-  <meta
-    name="theme-color"
-    content="#030006"
-  >
+  <meta name="theme-color" content="#020006">
 
-  <title>Para mi noviecita linda ♡</title>
+  <title>Nuestro Universo ♡</title>
 
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
-  <!-- =====================================
-       UNIVERSO
-  ====================================== -->
+  <canvas id="space"></canvas>
 
-  <canvas id="universe"></canvas>
+  <div class="grain"></div>
+  <div class="vignette"></div>
 
+  <!-- PANTALLA INICIAL -->
+  <section id="intro">
 
-  <!-- =====================================
-       PANTALLA INICIAL
-  ====================================== -->
+    <div class="intro-nebula"></div>
 
-  <section id="welcome">
+    <div class="intro-content">
 
-    <div class="welcome-glow"></div>
-
-    <div class="welcome-content">
-
-      <div class="mini-title">
-        PARA MI NOVIECITA LINDA ✦
-      </div>
-
-
-      <h1>
-
-        felices
-
-        <br>
-
-        <span>3 meses</span>
-
-      </h1>
-
-
-      <p class="hint">
-        toca para descubrirlo
+      <p class="eyebrow">
+        PARA MI NOVIECITA LINDA
       </p>
 
+      <h1>
+        Felices
+        <span>3 meses</span>
+      </h1>
 
-      <button
-        id="enterButton"
-        type="button"
-      >
-        ENTRAR ♡
+      <p class="intro-text">
+        preparé un pequeño universo para ti...
+      </p>
+
+      <button id="enter" type="button">
+        <span>ENTRAR</span>
+        <b>♡</b>
       </button>
 
     </div>
@@ -74,32 +52,20 @@
   </section>
 
 
-  <!-- =====================================
-       FRASES
-  ====================================== -->
-
-  <div
-    id="message"
-    aria-live="polite"
-  ></div>
+  <!-- TÍTULO DURANTE EL UNIVERSO -->
+  <div id="topTitle">
+    PARA MI NOVIECITA LINDA
+  </div>
 
 
-  <!-- =====================================
-       BOTÓN DE MÚSICA
-  ====================================== -->
+  <!-- FRASES -->
+  <div id="message"></div>
 
-  <button
-    id="musicButton"
-    type="button"
-    aria-label="Pausar música"
-  >
+
+  <!-- MÚSICA -->
+  <button id="musicControl" type="button">
     ♫
   </button>
-
-
-  <!-- =====================================
-       MÚSICA
-  ====================================== -->
 
   <audio
     id="music"
@@ -113,5 +79,4 @@
   <script src="script.js"></script>
 
 </body>
-
 </html>
