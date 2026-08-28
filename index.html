@@ -1308,6 +1308,10 @@ let heartStart=0;
 
 let heartParticles=[];
 
+/* Profundidad cinematográfica durante las frases */
+let universeZoom=1;
+let targetZoom=1;
+
 
 /* =====================================================
    FRASES
@@ -1319,13 +1323,25 @@ const phrases=[
 
     "Me encanta absolutamente todo de ti.",
 
+    "Prometo cuidar siempre de ti y tu increíble corazoncito.",
+
+    "Siempre serás tú el amor de mi vida.",
+
+    "Me haces demasiado feliz.",
+
+    "Contigo siempre será diferente.",
+
+    "Tú vales absolutamente todo.",
+
+    "Eres lo más real y sincero que he sentido.",
+
     "Contigo todo siempre es más lindo.",
 
     "Eres lo más bonito de este mundo.",
 
-    "Te elegiría una y mil veces."
+    "Y si existe otro universo, también te elegiría en él."
 
-];
+]
 
 
 /* =====================================================
@@ -2676,29 +2692,45 @@ function drawShootingStars(){
 
 function createPhraseStar(){
 
+    /* Cada frase entra desde una dirección distinta. */
+    const directions=[
+        {x:.98,y:.10},
+        {x:.02,y:.18},
+        {x:.96,y:.52},
+        {x:.06,y:.68},
+        {x:.92,y:.86},
+        {x:.12,y:.08},
+        {x:.88,y:.22},
+        {x:.04,y:.42},
+        {x:.96,y:.74},
+        {x:.18,y:.92},
+        {x:.82,y:.04}
+    ];
+
+    const d=
+        directions[phraseIndex % directions.length];
+
     return{
 
         progress:0,
 
-        duration:1900,
+        duration:2600,
 
-        startX:
-            W*random(.82,.98),
+        startX:W*d.x,
 
-        startY:
-            H*random(.06,.20),
+        startY:H*d.y,
 
-        endX:
-            W*random(.40,.60),
+        endX:W*.5,
 
-        endY:
-            H*random(.40,.57),
+        endY:H*.49,
 
         alpha:0,
 
         active:true,
 
-        revealed:false
+        revealed:false,
+
+        directionIndex:phraseIndex
 
     };
 
@@ -2707,194 +2739,91 @@ function createPhraseStar(){
 
 function drawPhraseStar(){
 
-    if(
-        !phraseStar ||
-        !phraseStar.active
-    ){
+    if(!phraseStar || !phraseStar.active){
+        targetZoom=1;
         return;
     }
 
+    const s=phraseStar;
+    const p=clamp(s.progress,0,1);
 
-    const s=
-        phraseStar;
+    /*
+     * Sensación de entrar en la galaxia:
+     * al acercarse la estrella, el universo
+     * hace un zoom suave; después respira y vuelve.
+     */
+    const depth=
+        Math.sin(Math.PI*p);
 
+    targetZoom=
+        1 + depth*.115;
 
-    const p=
-        clamp(
-            s.progress,
-            0,
-            1
-        );
+    const eased=easeOut(p);
 
+    /* Curva suave, no una línea rígida. */
+    const curve=
+        Math.sin(p*Math.PI)*Math.min(W,H)*.075*
+        (s.directionIndex%2===0 ? 1 : -1);
 
-    const eased=
-        easeOut(p);
-
+    const dx=s.endX-s.startX;
+    const dy=s.endY-s.startY;
+    const distance=Math.hypot(dx,dy)||1;
+    const nx=-dy/distance;
+    const ny=dx/distance;
 
     const x=
-        s.startX+
-        (
-            s.endX-
-            s.startX
-        )*
-        eased;
-
+        s.startX+dx*eased+nx*curve;
 
     const y=
-        s.startY+
-        (
-            s.endY-
-            s.startY
-        )*
-        eased;
+        s.startY+dy*eased+ny*curve;
 
-
-    const dx=
-        s.endX-
-        s.startX;
-
-
-    const dy=
-        s.endY-
-        s.startY;
-
-
-    const distance=
-        Math.hypot(
-            dx,
-            dy
-        )||1;
-
-
-    const ux=
-        dx/distance;
-
-
-    const uy=
-        dy/distance;
-
+    const ux=dx/distance;
+    const uy=dy/distance;
 
     const length=
-        Math.min(W,H)*.25;
+        Math.min(W,H)*(.20+depth*.16);
 
+    const tailX=x-ux*length;
+    const tailY=y-uy*length;
 
-    const tailX=
-        x-
-        ux*length;
-
-
-    const tailY=
-        y-
-        uy*length;
-
-
-    const trail=
-        ctx.createLinearGradient(
-
-            tailX,
-            tailY,
-
-            x,
-            y
-
-        );
-
-
-    trail.addColorStop(
-        0,
-        "rgba(70,90,255,0)"
+    /* Estela */
+    const trail=ctx.createLinearGradient(
+        tailX,tailY,x,y
     );
 
-
-    trail.addColorStop(
-        .35,
-        `rgba(
-            110,
-            100,
-            255,
-            ${s.alpha*.28}
-        )`
-    );
-
-
-    trail.addColorStop(
-        .62,
-        `rgba(
-            200,
-            90,
-            255,
-            ${s.alpha*.55}
-        )`
-    );
-
-
-    trail.addColorStop(
-        .84,
-        `rgba(
-            255,
-            95,
-            215,
-            ${s.alpha*.8}
-        )`
-    );
-
-
-    trail.addColorStop(
-        1,
-        `rgba(
-            255,
-            250,
-            255,
-            ${s.alpha}
-        )`
-    );
-
+    trail.addColorStop(0,"rgba(70,90,255,0)");
+    trail.addColorStop(.28,`rgba(110,100,255,${s.alpha*.22})`);
+    trail.addColorStop(.58,`rgba(200,90,255,${s.alpha*.48})`);
+    trail.addColorStop(.82,`rgba(255,95,215,${s.alpha*.78})`);
+    trail.addColorStop(1,`rgba(255,250,255,${s.alpha})`);
 
     ctx.beginPath();
-
-    ctx.strokeStyle=
-        trail;
-
-    ctx.lineWidth=2.5;
-
-    ctx.moveTo(
-        tailX,
-        tailY
-    );
-
-    ctx.lineTo(
-        x,
-        y
-    );
-
+    ctx.strokeStyle=trail;
+    ctx.lineWidth=2.2+depth*1.2;
+    ctx.moveTo(tailX,tailY);
+    ctx.lineTo(x,y);
     ctx.stroke();
 
-
+    /* Núcleo de la estrella */
     ctx.beginPath();
-
-    ctx.fillStyle=
-        `rgba(
-            255,
-            245,
-            255,
-            ${s.alpha}
-        )`;
-
-    ctx.shadowBlur=32;
-
-    ctx.shadowColor="#ff72d2";
-
-    ctx.arc(
-        x,
-        y,
-        2.3+p*1.7,
-        0,
-        Math.PI*2
-    );
-
+    ctx.fillStyle=`rgba(255,248,255,${s.alpha})`;
+    ctx.arc(x,y,2.4+depth*2.2,0,Math.PI*2);
     ctx.fill();
 
-    ctx.shadowBlur=0;
+    /* Destello justo antes de revelar la frase. */
+    if(p>.48 && p<.72){
+        const flash=
+            Math.sin(((p-.48)/.24)*Math.PI);
+
+        ctx.beginPath();
+        ctx.fillStyle=`rgba(255,210,245,${flash*.18})`;
+        ctx.arc(
+            x,y,
+            8+flash*22,
+            0,Math.PI*2
+        );
+        ctx.fill();
+    }
 
 }
 
@@ -3630,18 +3559,41 @@ function drawHeart(time){
 
 
         ctx.font=
-            '500 20px "Segoe UI", sans-serif';
+            '400 30px Georgia, "Times New Roman", serif';
 
-
-        ctx.shadowBlur=25;
-
+        ctx.shadowBlur=24;
         ctx.shadowColor=
-            "rgba(255,75,205,.9)";
+            "rgba(255,90,215,.82)";
 
+        const loveGradient=
+            ctx.createLinearGradient(
+                W*.28, y-25,
+                W*.72, y+25
+            );
+
+        loveGradient.addColorStop(
+            0,
+            "#91a9ff"
+        );
+        loveGradient.addColorStop(
+            .28,
+            "#b58aff"
+        );
+        loveGradient.addColorStop(
+            .55,
+            "#e06eff"
+        );
+        loveGradient.addColorStop(
+            .78,
+            "#ff87d8"
+        );
+        loveGradient.addColorStop(
+            1,
+            "#ffd4ef"
+        );
 
         ctx.fillStyle=
-            "rgba(255,238,250,.97)";
-
+            loveGradient;
 
         ctx.fillText(
             "TE AMO MUCHOTE",
@@ -3690,18 +3642,41 @@ function drawHeart(time){
 
 
         ctx.font=
-            '400 14px "Segoe UI", sans-serif';
+            '400 18px Georgia, "Times New Roman", serif';
 
-
-        ctx.shadowBlur=17;
-
+        ctx.shadowBlur=18;
         ctx.shadowColor=
-            "rgba(210,100,255,.75)";
+            "rgba(190,110,255,.72)";
 
+        const monthsGradient=
+            ctx.createLinearGradient(
+                W*.34, H*.72+12,
+                W*.66, H*.72+42
+            );
+
+        monthsGradient.addColorStop(
+            0,
+            "#a8b9ff"
+        );
+        monthsGradient.addColorStop(
+            .30,
+            "#c09aff"
+        );
+        monthsGradient.addColorStop(
+            .58,
+            "#ec7eff"
+        );
+        monthsGradient.addColorStop(
+            .82,
+            "#ff9cda"
+        );
+        monthsGradient.addColorStop(
+            1,
+            "#ffe0f2"
+        );
 
         ctx.fillStyle=
-            "rgba(255,220,245,.94)";
-
+            monthsGradient;
 
         ctx.fillText(
             "FELICES 3 MESES",
@@ -3797,6 +3772,11 @@ function launchNextPhrase(){
     const beginning=
         performance.now();
 
+    // Pequeño viaje hacia el centro: las estrellas se sienten
+    // más cercanas y la galaxia da sensación de profundidad.
+    targetX=0;
+    targetY=0;
+
 
     function animatePhrase(now){
 
@@ -3815,18 +3795,31 @@ function launchNextPhrase(){
             )/
             star.duration;
 
+        const dive=
+            Math.sin(
+                Math.min(star.progress,1)*Math.PI
+            );
+
+        cameraX=
+            targetX +
+            (cameraX-targetX)*.94;
+
+        cameraY=
+            targetY +
+            (cameraY-targetY)*.94;
+
 
         if(
-            star.progress<.15
+            star.progress<.14
         ){
 
             star.alpha=
-                star.progress/.15;
+                star.progress/.14;
 
         }
 
         else if(
-            star.progress<.78
+            star.progress<.82
         ){
 
             star.alpha=1;
@@ -3838,18 +3831,21 @@ function launchNextPhrase(){
             star.alpha=
                 1-
                 (
-                    star.progress-.78
-                )/.22;
+                    star.progress-.82
+                )/.18;
 
         }
 
 
         if(
-            star.progress>=.60 &&
+            star.progress>=.58 &&
             !star.revealed
         ){
 
             star.revealed=true;
+
+            cameraX += (-0.035 + Math.random()*0.07);
+            cameraY += (Math.random()-.5)*0.035;
 
 
             showPhrase(
@@ -3885,9 +3881,11 @@ function launchNextPhrase(){
                     phraseIndex++;
 
 
+                    targetZoom=1;
+
                     setTimeout(
                         launchNextPhrase,
-                        950
+                        1050
                     );
 
                 },
@@ -3987,13 +3985,25 @@ function animate(timestamp){
 
     drawBackground();
 
+    /*
+     * Zoom cinematográfico: solo el universo se acerca;
+     * el texto HTML permanece nítido y quieto.
+     */
+    universeZoom +=
+        (targetZoom-universeZoom)*.055;
+
+    ctx.save();
+
+    ctx.translate(W*.5,H*.5);
+    ctx.scale(universeZoom,universeZoom);
+    ctx.translate(-W*.5,-H*.5);
+
     drawStars();
-
     drawGalaxy(time);
-
     drawShootingStars();
-
     drawPhraseStar();
+
+    ctx.restore();
 
     drawHeart(time);
 
