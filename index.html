@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -13,28 +14,29 @@
 
 <title>Nuestro Universo ♡</title>
 
+
 <style>
 
 /* =====================================================
-   RESET
+   BASE
 ===================================================== */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
 }
 
-body {
-    background: #010108;
-    color: white;
+body{
+    background:#010108;
+    color:white;
 
     font-family:
         -apple-system,
@@ -42,12 +44,11 @@ body {
         "Segoe UI",
         sans-serif;
 
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
 }
 
-button {
-    font-family: inherit;
+button{
+    font-family:inherit;
 }
 
 
@@ -55,16 +56,16 @@ button {
    CANVAS
 ===================================================== */
 
-#space {
-    position: fixed;
-    inset: 0;
+#space{
+    position:fixed;
+    inset:0;
 
-    width: 100%;
-    height: 100%;
+    width:100%;
+    height:100%;
 
-    display: block;
+    display:block;
 
-    z-index: 0;
+    z-index:0;
 }
 
 
@@ -72,17 +73,18 @@ button {
    GRANO
 ===================================================== */
 
-.grain {
-    position: fixed;
-    inset: -50%;
+.grain{
+    position:fixed;
+    inset:-50%;
 
-    width: 200%;
-    height: 200%;
+    width:200%;
+    height:200%;
 
-    z-index: 20;
-    pointer-events: none;
+    pointer-events:none;
 
-    opacity: .035;
+    z-index:20;
+
+    opacity:.035;
 
     background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
@@ -91,26 +93,26 @@ button {
         grainMove .25s steps(2) infinite;
 }
 
-@keyframes grainMove {
+@keyframes grainMove{
 
-    0% {
-        transform: translate(0,0);
+    0%{
+        transform:translate(0,0);
     }
 
-    25% {
-        transform: translate(-2%,1%);
+    25%{
+        transform:translate(-2%,1%);
     }
 
-    50% {
-        transform: translate(1%,-2%);
+    50%{
+        transform:translate(1%,-2%);
     }
 
-    75% {
-        transform: translate(2%,1%);
+    75%{
+        transform:translate(2%,1%);
     }
 
-    100% {
-        transform: translate(0,0);
+    100%{
+        transform:translate(0,0);
     }
 
 }
@@ -120,19 +122,20 @@ button {
    VIÑETA
 ===================================================== */
 
-.vignette {
-    position: fixed;
-    inset: 0;
+.vignette{
+    position:fixed;
+    inset:0;
 
-    z-index: 15;
-    pointer-events: none;
+    pointer-events:none;
+
+    z-index:15;
 
     background:
         radial-gradient(
             ellipse at center,
-            transparent 38%,
-            rgba(0,0,8,.16) 62%,
-            rgba(0,0,8,.65) 100%
+            transparent 36%,
+            rgba(0,0,8,.18) 63%,
+            rgba(0,0,8,.68) 100%
         );
 }
 
@@ -141,35 +144,35 @@ button {
    PORTADA
 ===================================================== */
 
-#intro {
-    position: fixed;
-    inset: 0;
+#intro{
+    position:fixed;
+    inset:0;
 
-    z-index: 50;
+    z-index:50;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    overflow: hidden;
+    overflow:hidden;
 
     background:
 
         radial-gradient(
-            circle at 50% 52%,
-            rgba(230,70,220,.17),
-            transparent 27%
+            circle at 50% 50%,
+            rgba(235,70,220,.17),
+            transparent 28%
         ),
 
         radial-gradient(
-            circle at 20% 25%,
-            rgba(50,100,255,.13),
+            circle at 18% 25%,
+            rgba(55,100,255,.14),
             transparent 32%
         ),
 
         radial-gradient(
             circle at 82% 78%,
-            rgba(255,60,190,.10),
+            rgba(255,65,195,.10),
             transparent 30%
         ),
 
@@ -182,13 +185,13 @@ button {
         cubic-bezier(.16,1,.3,1);
 }
 
-#intro.hide {
-    opacity: 0;
-    visibility: hidden;
+#intro.hide{
+    opacity:0;
+    visibility:hidden;
 
-    transform: scale(1.16);
+    transform:scale(1.16);
 
-    pointer-events: none;
+    pointer-events:none;
 }
 
 
@@ -196,12 +199,13 @@ button {
    ESTRELLAS PORTADA
 ===================================================== */
 
-.intro-stars {
-    position: absolute;
-    inset: 0;
+.intro-stars{
+    position:absolute;
+    inset:0;
 
-    pointer-events: none;
-    opacity: .85;
+    pointer-events:none;
+
+    opacity:.85;
 
     background-image:
 
@@ -240,35 +244,30 @@ button {
         starDrift 24s linear infinite;
 }
 
-@keyframes starDrift {
+@keyframes starDrift{
 
-    from {
-        transform:
-            translate3d(0,0,0);
+    from{
+        transform:translate3d(0,0,0);
     }
 
-    to {
-        transform:
-            translate3d(-80px,60px,0);
+    to{
+        transform:translate3d(-80px,60px,0);
     }
 
 }
 
 
 /* =====================================================
-   BRILLO CENTRAL
+   GLOW PORTADA
 ===================================================== */
 
-.intro-glow {
-    position: absolute;
+.intro-glow{
+    position:absolute;
 
-    width:
-        min(80vw,800px);
+    width:min(80vw,800px);
+    height:min(80vw,800px);
 
-    height:
-        min(80vw,800px);
-
-    border-radius: 50%;
+    border-radius:50%;
 
     background:
         radial-gradient(
@@ -278,25 +277,23 @@ button {
             transparent 70%
         );
 
-    filter: blur(35px);
+    filter:blur(35px);
 
     animation:
-        introPulse 5s
-        ease-in-out
-        infinite;
+        introPulse 5s ease-in-out infinite;
 }
 
-@keyframes introPulse {
+@keyframes introPulse{
 
     0%,
-    100% {
-        transform: scale(.92);
-        opacity: .65;
+    100%{
+        transform:scale(.92);
+        opacity:.65;
     }
 
-    50% {
-        transform: scale(1.08);
-        opacity: 1;
+    50%{
+        transform:scale(1.08);
+        opacity:1;
     }
 
 }
@@ -306,28 +303,25 @@ button {
    ÓRBITAS
 ===================================================== */
 
-.orbit {
-    position: absolute;
+.orbit{
+    position:absolute;
 
-    left: 50%;
-    top: 50%;
+    left:50%;
+    top:50%;
 
     border:
         1px solid
-        rgba(225,120,255,.22);
+        rgba(225,120,255,.20);
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    pointer-events: none;
+    pointer-events:none;
 }
 
-.orbit.one {
+.orbit.one{
 
-    width:
-        min(78vw,850px);
-
-    height:
-        min(31vw,340px);
+    width:min(78vw,850px);
+    height:min(31vw,340px);
 
     transform:
         translate(-50%,-50%)
@@ -341,33 +335,30 @@ button {
         orbitOne 18s linear infinite;
 }
 
-.orbit.two {
+.orbit.two{
 
-    width:
-        min(65vw,720px);
-
-    height:
-        min(25vw,280px);
+    width:min(65vw,720px);
+    height:min(25vw,280px);
 
     transform:
         translate(-50%,-50%)
         rotate(21deg);
 
-    opacity: .55;
+    opacity:.55;
 
     animation:
         orbitTwo 25s linear infinite;
 }
 
-@keyframes orbitOne {
+@keyframes orbitOne{
 
-    from {
+    from{
         transform:
             translate(-50%,-50%)
             rotate(-13deg);
     }
 
-    to {
+    to{
         transform:
             translate(-50%,-50%)
             rotate(347deg);
@@ -375,15 +366,15 @@ button {
 
 }
 
-@keyframes orbitTwo {
+@keyframes orbitTwo{
 
-    from {
+    from{
         transform:
             translate(-50%,-50%)
             rotate(21deg);
     }
 
-    to {
+    to{
         transform:
             translate(-50%,-50%)
             rotate(-339deg);
@@ -393,20 +384,20 @@ button {
 
 
 /* =====================================================
-   CONTENIDO PORTADA
+   CONTENIDO
 ===================================================== */
 
-.intro-content {
-    position: relative;
+.intro-content{
 
-    z-index: 5;
+    position:relative;
 
-    width:
-        min(90vw,850px);
+    z-index:5;
 
-    text-align: center;
+    width:min(90vw,850px);
 
-    padding: 30px;
+    text-align:center;
+
+    padding:30px;
 
     animation:
         introIn 1.8s
@@ -414,30 +405,28 @@ button {
         both;
 }
 
-@keyframes introIn {
+@keyframes introIn{
 
-    from {
+    from{
 
-        opacity: 0;
+        opacity:0;
 
         transform:
             translateY(35px)
             scale(.94);
 
-        filter:
-            blur(12px);
+        filter:blur(12px);
     }
 
-    to {
+    to{
 
-        opacity: 1;
+        opacity:1;
 
         transform:
             translateY(0)
             scale(1);
 
-        filter:
-            blur(0);
+        filter:blur(0);
     }
 
 }
@@ -447,35 +436,32 @@ button {
    SÍMBOLO
 ===================================================== */
 
-.intro-symbol {
+.intro-symbol{
 
-    color: #e2d7ff;
+    color:#e2d7ff;
 
-    font-size: 18px;
+    font-size:18px;
 
     text-shadow:
         0 0 8px #a978ff,
         0 0 25px #d04cff,
-        0 0 50px
-        rgba(255,70,210,.7);
+        0 0 50px rgba(255,70,210,.7);
 
     animation:
-        symbolPulse 3s
-        ease-in-out
-        infinite;
+        symbolPulse 3s ease-in-out infinite;
 }
 
-@keyframes symbolPulse {
+@keyframes symbolPulse{
 
     0%,
-    100% {
-        transform: scale(.9);
-        opacity: .6;
+    100%{
+        transform:scale(.9);
+        opacity:.6;
     }
 
-    50% {
-        transform: scale(1.2);
-        opacity: 1;
+    50%{
+        transform:scale(1.2);
+        opacity:1;
     }
 
 }
@@ -485,15 +471,15 @@ button {
    EYEBROW
 ===================================================== */
 
-.eyebrow {
+.eyebrow{
 
-    margin-top: 18px;
-    margin-bottom: 18px;
+    margin-top:18px;
+    margin-bottom:18px;
 
     font-size:
         clamp(9px,1.6vw,12px);
 
-    letter-spacing: .42em;
+    letter-spacing:.42em;
 
     color:
         rgba(240,220,255,.78);
@@ -508,25 +494,26 @@ button {
    TÍTULO
 ===================================================== */
 
-.intro-title {
+.intro-title{
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-weight: 400;
+    font-weight:400;
 
     font-size:
         clamp(55px,10vw,105px);
 
-    line-height: .88;
+    line-height:.88;
 
-    letter-spacing: -.045em;
+    letter-spacing:-.045em;
 
-    color: white;
+    color:white;
 
     text-shadow:
+
         0 0 10px
         rgba(255,255,255,.7),
 
@@ -537,13 +524,13 @@ button {
         rgba(255,80,215,.25);
 }
 
-.intro-title span {
+.intro-title span{
 
-    display: block;
+    display:block;
 
-    margin-top: 8px;
+    margin-top:8px;
 
-    font-style: italic;
+    font-style:italic;
 
     background:
         linear-gradient(
@@ -555,10 +542,10 @@ button {
             #ffd4ef
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:text;
+    background-clip:text;
 
-    color: transparent;
+    color:transparent;
 
     filter:
         drop-shadow(
@@ -572,38 +559,35 @@ button {
    CORAZÓN PORTADA
 ===================================================== */
 
-.intro-heart {
+.intro-heart{
 
-    margin-top: 22px;
+    margin-top:22px;
 
-    font-family: Georgia, serif;
+    font-family:Georgia,serif;
 
-    font-size: 38px;
+    font-size:38px;
 
-    color: #ffb6e8;
+    color:#ffb6e8;
 
     text-shadow:
         0 0 6px white,
         0 0 16px #ff76d2,
         0 0 35px #ed45bd,
-        0 0 65px
-        rgba(255,50,190,.7);
+        0 0 65px rgba(255,50,190,.7);
 
     animation:
-        heartPulse 2.8s
-        ease-in-out
-        infinite;
+        heartPulse 2.8s ease-in-out infinite;
 }
 
-@keyframes heartPulse {
+@keyframes heartPulse{
 
     0%,
-    100% {
-        transform: scale(.92);
+    100%{
+        transform:scale(.92);
     }
 
-    50% {
-        transform: scale(1.08);
+    50%{
+        transform:scale(1.08);
     }
 
 }
@@ -613,27 +597,26 @@ button {
    LÍNEAS
 ===================================================== */
 
-.intro-line {
+.intro-line{
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:center;
+    justify-content:center;
 
-    gap: 12px;
+    gap:12px;
 
-    width:
-        min(360px,70vw);
+    width:min(360px,70vw);
 
     margin:
         12px auto 20px;
 }
 
-.intro-line span {
+.intro-line span{
 
-    flex: 1;
+    flex:1;
 
-    height: 1px;
+    height:1px;
 
     background:
         linear-gradient(
@@ -647,7 +630,7 @@ button {
         rgba(255,100,220,.3);
 }
 
-.intro-line span:last-child {
+.intro-line span:last-child{
 
     background:
         linear-gradient(
@@ -657,13 +640,13 @@ button {
         );
 }
 
-.intro-line i {
+.intro-line i{
 
-    font-style: normal;
+    font-style:normal;
 
-    color: #ffd7f2;
+    color:#ffd7f2;
 
-    font-size: 9px;
+    font-size:9px;
 
     text-shadow:
         0 0 12px #ff72d0;
@@ -671,19 +654,19 @@ button {
 
 
 /* =====================================================
-   TEXTO PORTADA
+   TEXTO
 ===================================================== */
 
-#intro .intro-text {
+#intro .intro-text{
 
     font-size:
         clamp(13px,2vw,17px);
 
-    line-height: 1.8;
+    line-height:1.8;
 
-    letter-spacing: .16em;
+    letter-spacing:.16em;
 
-    font-weight: 300;
+    font-weight:300;
 
     color:
         rgba(240,232,255,.68);
@@ -698,20 +681,20 @@ button {
    BOTÓN
 ===================================================== */
 
-#enter {
+#enter{
 
-    position: relative;
+    position:relative;
 
-    margin-top: 38px;
+    margin-top:38px;
 
-    width: 220px;
-    height: 60px;
+    width:220px;
+    height:60px;
 
     border:
         1px solid
         rgba(255,150,230,.65);
 
-    border-radius: 999px;
+    border-radius:999px;
 
     background:
         linear-gradient(
@@ -720,10 +703,11 @@ button {
             rgba(255,70,200,.10)
         );
 
-    color: white;
+    color:white;
 
-    backdrop-filter:
-        blur(15px);
+    backdrop-filter:blur(15px);
+
+    -webkit-backdrop-filter:blur(15px);
 
     box-shadow:
 
@@ -736,26 +720,18 @@ button {
         0 0 35px
         rgba(170,70,255,.20);
 
-    cursor: pointer;
+    cursor:pointer;
 
     transition:
         transform .4s ease,
-        box-shadow .4s ease,
-        background .4s ease;
+        box-shadow .4s ease;
 }
 
-#enter:hover {
+#enter:hover{
 
     transform:
         translateY(-4px)
         scale(1.025);
-
-    background:
-        linear-gradient(
-            120deg,
-            rgba(100,70,230,.28),
-            rgba(255,70,200,.18)
-        );
 
     box-shadow:
 
@@ -769,24 +745,24 @@ button {
         rgba(255,150,230,.10);
 }
 
-#enter:active {
-    transform: scale(.96);
+#enter:active{
+    transform:scale(.96);
 }
 
-#enter span {
+#enter span{
 
-    font-size: 12px;
+    font-size:12px;
 
-    letter-spacing: .38em;
+    letter-spacing:.38em;
 
-    font-weight: 600;
+    font-weight:600;
 }
 
-#enter b {
+#enter b{
 
-    margin-left: 15px;
+    margin-left:15px;
 
-    color: #ffb5e8;
+    color:#ffb5e8;
 
     text-shadow:
         0 0 8px #ff69ce,
@@ -795,29 +771,29 @@ button {
 
 
 /* =====================================================
-   INDICADOR
+   SCROLL
 ===================================================== */
 
-.intro-scroll {
+.intro-scroll{
 
-    margin-top: 32px;
+    margin-top:32px;
 
-    display: flex;
+    display:flex;
 
-    flex-direction: column;
+    flex-direction:column;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 8px;
+    gap:8px;
 
-    opacity: .45;
+    opacity:.45;
 }
 
-.intro-scroll span {
+.intro-scroll span{
 
-    width: 1px;
+    width:1px;
 
-    height: 28px;
+    height:28px;
 
     background:
         linear-gradient(
@@ -830,29 +806,27 @@ button {
         0 0 8px #ff82d4;
 
     animation:
-        scrollPulse 2s
-        ease-in-out
-        infinite;
+        scrollPulse 2s ease-in-out infinite;
 }
 
-.intro-scroll small {
+.intro-scroll small{
 
-    font-size: 7px;
+    font-size:7px;
 
-    letter-spacing: .3em;
+    letter-spacing:.3em;
 }
 
-@keyframes scrollPulse {
+@keyframes scrollPulse{
 
     0%,
-    100% {
-        transform: scaleY(.6);
-        opacity: .4;
+    100%{
+        transform:scaleY(.6);
+        opacity:.4;
     }
 
-    50% {
-        transform: scaleY(1);
-        opacity: 1;
+    50%{
+        transform:scaleY(1);
+        opacity:1;
     }
 
 }
@@ -862,28 +836,28 @@ button {
    TÍTULO SUPERIOR
 ===================================================== */
 
-#topTitle {
+#topTitle{
 
-    position: fixed;
+    position:fixed;
 
-    top: 28px;
-    left: 50%;
+    top:28px;
+    left:50%;
 
     transform:
         translate(-50%,-15px);
 
-    z-index: 30;
+    z-index:30;
 
-    opacity: 0;
+    opacity:0;
 
-    pointer-events: none;
+    pointer-events:none;
 
-    white-space: nowrap;
+    white-space:nowrap;
 
     font-size:
         clamp(9px,1.7vw,12px);
 
-    letter-spacing: .34em;
+    letter-spacing:.34em;
 
     color:
         rgba(245,235,255,.72);
@@ -893,16 +867,14 @@ button {
         rgba(190,100,255,.35);
 
     transition:
-
         opacity 1.5s ease,
-
         transform 1.5s
         cubic-bezier(.16,1,.3,1);
 }
 
-#topTitle.show {
+#topTitle.show{
 
-    opacity: 1;
+    opacity:1;
 
     transform:
         translate(-50%,0);
@@ -913,63 +885,57 @@ button {
    FRASES
 ===================================================== */
 
-#message {
+#message{
 
-    position: fixed;
+    position:fixed;
 
-    left: 50%;
-    top: 50%;
+    left:50%;
+    top:50%;
 
-    z-index: 35;
+    z-index:35;
 
-    width:
-        min(84vw,800px);
+    width:min(84vw,800px);
 
-    text-align: center;
+    text-align:center;
 
     transform:
         translate(-50%,-50%)
         scale(.88);
 
-    opacity: 0;
+    opacity:0;
 
-    pointer-events: none;
+    pointer-events:none;
 
-    filter: blur(12px);
+    filter:blur(12px);
 
     transition:
-
-        opacity 1.2s
-        cubic-bezier(.16,1,.3,1),
-
-        transform 1.4s
-        cubic-bezier(.16,1,.3,1),
-
+        opacity 1.2s cubic-bezier(.16,1,.3,1),
+        transform 1.4s cubic-bezier(.16,1,.3,1),
         filter 1.2s ease;
 }
 
-#message.show {
+#message.show{
 
-    opacity: 1;
+    opacity:1;
 
     transform:
         translate(-50%,-50%)
         scale(1);
 
-    filter: blur(0);
+    filter:blur(0);
 }
 
-#message::before {
+#message::before{
 
-    content: "";
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    left: 50%;
-    top: 50%;
+    left:50%;
+    top:50%;
 
-    width: 70%;
-    height: 180%;
+    width:70%;
+    height:180%;
 
     transform:
         translate(-50%,-50%);
@@ -982,12 +948,12 @@ button {
             transparent 72%
         );
 
-    filter: blur(35px);
+    filter:blur(35px);
 
-    z-index: -1;
+    z-index:-1;
 }
 
-#message .text {
+#message .text{
 
     font-family:
         Georgia,
@@ -997,9 +963,9 @@ button {
     font-size:
         clamp(22px,4vw,43px);
 
-    line-height: 1.35;
+    line-height:1.35;
 
-    font-weight: 400;
+    font-weight:400;
 
     color:
         rgba(255,248,253,.97);
@@ -1021,23 +987,23 @@ button {
    MÚSICA
 ===================================================== */
 
-#musicControl {
+#musicControl{
 
-    position: fixed;
+    position:fixed;
 
-    right: 22px;
-    bottom: 22px;
+    right:22px;
+    bottom:22px;
 
-    z-index: 40;
+    z-index:40;
 
-    width: 44px;
-    height: 44px;
+    width:44px;
+    height:44px;
 
     border:
         1px solid
         rgba(255,180,235,.28);
 
-    border-radius: 50%;
+    border-radius:50%;
 
     background:
         rgba(5,5,20,.40);
@@ -1045,21 +1011,22 @@ button {
     color:
         rgba(255,225,248,.9);
 
-    font-size: 14px;
+    font-size:14px;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    backdrop-filter:
-        blur(12px);
+    backdrop-filter:blur(12px);
+
+    -webkit-backdrop-filter:blur(12px);
 
     box-shadow:
         0 0 25px
         rgba(130,80,230,.15);
 }
 
-#musicControl.playing {
+#musicControl.playing{
 
-    color: #ffc4ea;
+    color:#ffc4ea;
 
     box-shadow:
         0 0 30px
@@ -1071,9 +1038,9 @@ button {
    CELULAR
 ===================================================== */
 
-@media (max-width: 600px) {
+@media(max-width:600px){
 
-    .intro-title {
+    .intro-title{
 
         font-size:
             clamp(
@@ -1083,26 +1050,26 @@ button {
             );
     }
 
-    #intro .intro-text {
+    #intro .intro-text{
 
-        font-size: 12px;
+        font-size:12px;
 
-        letter-spacing: .10em;
+        letter-spacing:.10em;
     }
 
-    #enter {
+    #enter{
 
-        width: 195px;
+        width:195px;
 
-        height: 56px;
+        height:56px;
     }
 
-    #message {
+    #message{
 
-        width: 86vw;
+        width:86vw;
     }
 
-    #message .text {
+    #message .text{
 
         font-size:
             clamp(
@@ -1112,29 +1079,31 @@ button {
             );
     }
 
-    #topTitle {
+    #topTitle{
 
-        top: 21px;
+        top:21px;
 
-        letter-spacing: .22em;
+        letter-spacing:.22em;
     }
 
-    #musicControl {
+    #musicControl{
 
-        right: 16px;
-        bottom: 16px;
+        right:16px;
+        bottom:16px;
 
-        width: 42px;
-        height: 42px;
+        width:42px;
+        height:42px;
     }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
+
 
 <canvas id="space"></canvas>
 
@@ -1275,12 +1244,12 @@ button {
 
 <script>
 
+/* =====================================================
+   VARIABLES
+===================================================== */
+
 "use strict";
 
-
-/* =====================================================
-   ELEMENTOS
-===================================================== */
 
 const canvas =
     document.getElementById("space");
@@ -1307,48 +1276,44 @@ const musicControl =
     document.getElementById("musicControl");
 
 
-/* =====================================================
-   VARIABLES
-===================================================== */
+let W=0;
+let H=0;
+let DPR=1;
 
-let W = 0;
-let H = 0;
-let DPR = 1;
+let started=false;
 
-let started = false;
+let startTime=0;
 
-let startTime = 0;
+let cameraX=0;
+let cameraY=0;
 
-let cameraX = 0;
-let cameraY = 0;
+let targetX=0;
+let targetY=0;
 
-let targetX = 0;
-let targetY = 0;
+let stars=[];
+let galaxyStars=[];
+let dust=[];
 
-let stars = [];
-let galaxyStars = [];
-let dust = [];
+let shootingStars=[];
 
-let shootingStars = [];
+let phraseStar=null;
 
-let phraseStar = null;
+let phraseIndex=0;
 
-let heartParticles = [];
+let phraseRunning=false;
 
-let formingHeart = false;
+let formingHeart=false;
 
-let heartStart = 0;
+let heartStart=0;
 
-let phraseIndex = 0;
-
-let phraseRunning = false;
+let heartParticles=[];
 
 
 /* =====================================================
    FRASES
 ===================================================== */
 
-const phrases = [
+const phrases=[
 
     "Tu existencia, fue lo más bonito que le pudo pasar a la mía.",
 
@@ -1367,43 +1332,31 @@ const phrases = [
    UTILIDADES
 ===================================================== */
 
-function random(min,max) {
+function random(min,max){
 
-    return Math.random() *
-        (max-min) +
-        min;
+    return Math.random()*
+        (max-min)+min;
 
 }
 
 
-function clamp(value,min,max) {
+function clamp(v,min,max){
 
     return Math.max(
         min,
-        Math.min(max,value)
+        Math.min(max,v)
     );
 
 }
 
 
-function easeOutCubic(t) {
+function easeInOut(t){
 
-    return 1 -
-        Math.pow(
-            1-t,
-            3
-        );
-
-}
-
-
-function easeInOut(t) {
-
-    return t < .5
+    return t<.5
 
         ? 2*t*t
 
-        : 1 -
+        : 1-
           Math.pow(
               -2*t+2,
               2
@@ -1412,36 +1365,44 @@ function easeInOut(t) {
 }
 
 
+function easeOut(t){
+
+    return 1-
+        Math.pow(
+            1-t,
+            3
+        );
+
+}
+
+
 /* =====================================================
    RESIZE
 ===================================================== */
 
-function resize() {
+function resize(){
 
-    W =
-        window.innerWidth;
+    W=window.innerWidth;
 
-    H =
-        window.innerHeight;
+    H=window.innerHeight;
 
-    DPR =
-        Math.min(
-            window.devicePixelRatio || 1,
-            2
-        );
+    DPR=Math.min(
+        window.devicePixelRatio||1,
+        2
+    );
 
 
-    canvas.width =
+    canvas.width=
         W*DPR;
 
-    canvas.height =
+    canvas.height=
         H*DPR;
 
 
-    canvas.style.width =
+    canvas.style.width=
         W+"px";
 
-    canvas.style.height =
+    canvas.style.height=
         H+"px";
 
 
@@ -1470,28 +1431,29 @@ window.addEventListener(
    CREAR UNIVERSO
 ===================================================== */
 
-function createUniverse() {
+function createUniverse(){
 
-    stars = [];
-
-    galaxyStars = [];
-
-    dust = [];
-
-    shootingStars = [];
+    stars=[];
+    galaxyStars=[];
+    dust=[];
+    shootingStars=[];
 
 
-    const backgroundAmount =
-        W < 600
-            ? 450
-            : 850;
+    /* ================================================
+       FONDO
+    ================================================ */
+
+    const backgroundAmount=
+        W<600
+            ? 500
+            : 950;
 
 
-    for (
+    for(
         let i=0;
         i<backgroundAmount;
         i++
-    ) {
+    ){
 
         stars.push({
 
@@ -1502,13 +1464,13 @@ function createUniverse() {
                 Math.random()*H,
 
             size:
-                random(.15,1.2),
+                random(.15,1.15),
 
             alpha:
-                random(.15,.8),
+                random(.15,.78),
 
             depth:
-                random(.05,.45),
+                random(.05,.5),
 
             phase:
                 random(
@@ -1527,99 +1489,116 @@ function createUniverse() {
     }
 
 
-    /* =================================================
-       GALAXIA
-    ================================================= */
+    /* ================================================
+       GALAXIA REALISTA
+    ================================================ */
 
-    const amount =
-        W < 600
-            ? 4200
-            : 7600;
-
-
-    const arms = 4;
+    const amount=
+        W<600
+            ? 6500
+            : 11000;
 
 
-    for (
+    /*
+     * Ya NO usamos 4 brazos.
+     *
+     * Utilizamos una distribución
+     * espiral continua con muchas
+     * irregularidades.
+     */
+
+    const maxRadius=
+        Math.min(W,H)*.88;
+
+
+    for(
         let i=0;
         i<amount;
         i++
-    ) {
+    ){
 
-        const n =
+        const n=
             Math.pow(
                 Math.random(),
-                .67
+                .68
             );
 
 
-        const radius =
-            n *
-            Math.min(
-                W,
-                H
-            ) *
-            .88;
+        const radius=
+            n*maxRadius;
 
 
-        const arm =
-            Math.floor(
-                Math.random()*arms
-            );
+        /*
+         * Rotación espiral.
+         */
+
+        const spiral=
+            radius*
+            .0062;
 
 
-        const base =
-            arm *
+        /*
+         * Variación natural.
+         */
+
+        const irregular=
+            random(
+                -.30,
+                .30
+            )*
             (
-                Math.PI*2 /
-                arms
+                .25+
+                n*.75
+            );
+
+
+        const angle=
+            spiral+
+            irregular+
+            random(
+                0,
+                Math.PI*2
             );
 
 
         /*
-         * Curvatura de los brazos.
-         * Esto hace que no sean simples
-         * líneas rectas.
+         * Estrellas más densas
+         * cerca del centro.
          */
 
-        const spiral =
-            radius*.0028;
-
-
-        const spread =
-            random(
-                -.13,
-                .13
-            ) *
-            (
-                .35+n
-            );
+        const density=
+            1-
+            n;
 
 
         galaxyStars.push({
 
             radius,
 
-            angle:
-                base+
-                spread+
-                spiral,
+            angle,
 
-            arm,
+            originalAngle:
+                angle,
 
-            armPosition:
+            normalizedRadius:
                 n,
+
+            density,
 
             depth:
                 random(
-                    .15,
+                    .05,
                     1
                 ),
 
             size:
                 random(
-                    .25,
+                    .22,
                     1.55
+                )*
+                (
+                    .65+
+                    density*.8
                 ),
 
             brightness:
@@ -1628,13 +1607,30 @@ function createUniverse() {
                     1
                 ),
 
-            speed:
+            phase:
                 random(
-                    .00002,
-                    .00018
+                    0,
+                    Math.PI*2
                 ),
 
-            phase:
+            speed:
+                random(
+                    .000018,
+                    .00016
+                ),
+
+            /*
+             * Cada estrella tiene una
+             * pequeña desviación individual.
+             */
+
+            wobble:
+                random(
+                    .003,
+                    .025
+                ),
+
+            wobblePhase:
                 random(
                     0,
                     Math.PI*2
@@ -1645,41 +1641,42 @@ function createUniverse() {
     }
 
 
-    /* =================================================
-       POLVO
-    ================================================= */
+    /* ================================================
+       POLVO / NUBES
+    ================================================ */
 
-    const dustAmount =
-        W < 600
-            ? 1100
-            : 1800;
+    const dustAmount=
+        W<600
+            ? 1700
+            : 3000;
 
 
-    for (
+    for(
         let i=0;
         i<dustAmount;
         i++
-    ) {
+    ){
 
-        const n =
+        const n=
             Math.pow(
                 Math.random(),
                 .72
             );
 
 
-        const radius =
-            n *
-            Math.min(
-                W,
-                H
-            ) *
-            .84;
+        const radius=
+            n*maxRadius;
 
 
-        const arm =
-            Math.floor(
-                Math.random()*arms
+        const spiral=
+            radius*.006;
+
+
+        const angle=
+            spiral+
+            random(
+                0,
+                Math.PI*2
             );
 
 
@@ -1687,39 +1684,36 @@ function createUniverse() {
 
             radius,
 
-            angle:
-                arm *
-                (
-                    Math.PI*2 /
-                    arms
-                ) +
-                random(
-                    -.18,
-                    .18
-                ),
+            angle,
 
             alpha:
                 random(
-                    .015,
-                    .11
+                    .008,
+                    .075
                 ),
 
             size:
                 random(
-                    .4,
-                    2.8
+                    .3,
+                    3
                 ),
 
             depth:
                 random(
                     .1,
-                    .9
+                    .95
+                ),
+
+            phase:
+                random(
+                    0,
+                    Math.PI*2
                 ),
 
             speed:
                 random(
-                    .00002,
-                    .00012
+                    .000015,
+                    .0001
                 )
 
         });
@@ -1727,15 +1721,15 @@ function createUniverse() {
     }
 
 
-    /* =================================================
+    /* ================================================
        ESTRELLAS FUGACES
-    ================================================= */
+    ================================================ */
 
-    for (
+    for(
         let i=0;
-        i<7;
+        i<8;
         i++
-    ) {
+    ){
 
         shootingStars.push(
             createShootingStar(true)
@@ -1752,9 +1746,9 @@ function createUniverse() {
 
 function createShootingStar(
     initial=false
-) {
+){
 
-    return {
+    return{
 
         x:
             initial
@@ -1770,11 +1764,11 @@ function createShootingStar(
             random(5,12),
 
         length:
-            random(80,200),
+            random(80,210),
 
         alpha:
             initial
-                ? random(0,.8)
+                ? random(0,.75)
                 : 1,
 
         delay:
@@ -1794,19 +1788,19 @@ function createShootingStar(
    FONDO
 ===================================================== */
 
-function drawBackground(time) {
+function drawBackground(){
 
-    const cx =
+    const cx=
         W*.5+
         cameraX*15;
 
 
-    const cy =
+    const cy=
         H*.48+
         cameraY*8;
 
 
-    const bg =
+    const bg=
         ctx.createRadialGradient(
 
             cx,
@@ -1822,23 +1816,27 @@ function drawBackground(time) {
 
     bg.addColorStop(
         0,
-        "#191047"
+        "#181044"
     );
+
 
     bg.addColorStop(
         .18,
-        "#120b37"
+        "#110b35"
     );
+
 
     bg.addColorStop(
         .38,
-        "#0a0825"
+        "#090721"
     );
 
+
     bg.addColorStop(
-        .65,
-        "#050619"
+        .68,
+        "#040516"
     );
+
 
     bg.addColorStop(
         1,
@@ -1846,7 +1844,7 @@ function drawBackground(time) {
     );
 
 
-    ctx.fillStyle =
+    ctx.fillStyle=
         bg;
 
 
@@ -1860,25 +1858,25 @@ function drawBackground(time) {
 
     drawNebula(
         W*.18,
-        H*.35,
-        Math.min(W,H)*.55,
-        "rgba(55,75,220,.07)"
+        H*.32,
+        Math.min(W,H)*.58,
+        "rgba(55,75,220,.075)"
     );
 
 
     drawNebula(
         W*.82,
-        H*.55,
-        Math.min(W,H)*.55,
+        H*.58,
+        Math.min(W,H)*.58,
         "rgba(230,40,190,.065)"
     );
 
 
     drawNebula(
-        W*.5,
-        H*.15,
-        Math.min(W,H)*.35,
-        "rgba(50,90,255,.045)"
+        W*.52,
+        H*.12,
+        Math.min(W,H)*.38,
+        "rgba(60,100,255,.045)"
     );
 
 }
@@ -1889,9 +1887,9 @@ function drawNebula(
     y,
     radius,
     color
-) {
+){
 
-    const gradient =
+    const gradient=
         ctx.createRadialGradient(
 
             x,
@@ -1917,7 +1915,7 @@ function drawNebula(
     );
 
 
-    ctx.fillStyle =
+    ctx.fillStyle=
         gradient;
 
 
@@ -1932,34 +1930,34 @@ function drawNebula(
 
 
 /* =====================================================
-   ESTRELLAS DE FONDO
+   ESTRELLAS FONDO
 ===================================================== */
 
-function drawStars(time) {
+function drawStars(){
 
-    for (
+    for(
         const star of stars
-    ) {
+    ){
 
-        star.phase +=
+        star.phase+=
             star.speed;
 
 
-        const pulse =
+        const pulse=
             .55+
             Math.sin(
                 star.phase
             )*.35;
 
 
-        const x =
+        const x=
             star.x+
             cameraX*
             20*
             star.depth;
 
 
-        const y =
+        const y=
             star.y+
             cameraY*
             12*
@@ -1969,18 +1967,16 @@ function drawStars(time) {
         let color;
 
 
-        const type =
+        const type=
             (
                 star.x+
                 star.y
             )%3;
 
 
-        if (
-            type<1
-        ) {
+        if(type<1){
 
-            color =
+            color=
                 `rgba(
                     130,
                     175,
@@ -1990,11 +1986,9 @@ function drawStars(time) {
 
         }
 
-        else if (
-            type<2
-        ) {
+        else if(type<2){
 
-            color =
+            color=
                 `rgba(
                     220,
                     205,
@@ -2004,9 +1998,9 @@ function drawStars(time) {
 
         }
 
-        else {
+        else{
 
-            color =
+            color=
                 `rgba(
                     255,
                     205,
@@ -2019,7 +2013,7 @@ function drawStars(time) {
 
         ctx.beginPath();
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             color;
 
         ctx.arc(
@@ -2038,126 +2032,159 @@ function drawStars(time) {
 
 
 /* =====================================================
-   GALAXIA
+   GALAXIA REALISTA
 ===================================================== */
 
-function drawGalaxy(time) {
+function drawGalaxy(time){
 
-    if (!started) {
+    if(!started){
         return;
     }
 
 
     /*
-     * Cuando comienza la transformación,
-     * las estrellas dejan de dibujarse
-     * aquí y pasan a drawHeart().
+     * Durante la transformación no
+     * desaparece la galaxia de golpe.
+     *
+     * drawHeart() toma exactamente
+     * estas mismas estrellas.
      */
 
-    if (formingHeart) {
+    if(formingHeart){
         return;
     }
 
 
-    const elapsed =
+    const elapsed=
         time-startTime;
 
 
-    const formation =
-        easeOutCubic(
+    const formation=
+        easeOut(
             clamp(
-                elapsed/5,
+                elapsed/4.8,
                 0,
                 1
             )
         );
 
 
-    const rotation =
-        time*.012;
-
-
-    const cx =
+    const cx=
         W*.5+
         cameraX*12;
 
 
-    const cy =
+    const cy=
         H*.48+
-        cameraY*8;
+        cameraY*7;
 
 
-    const tilt =
+    const tilt=
         W<600
             ? .34
-            : .29;
+            : .30;
 
 
-    /* =================================================
-       POLVO DE LOS BRAZOS
-    ================================================= */
+    const rotation=
+        time*.009;
 
-    for (
+
+    /* ================================================
+       POLVO
+    ================================================ */
+
+    for(
         const p of dust
-    ) {
+    ){
 
-        p.angle +=
+        p.angle+=
             p.speed;
 
 
-        const radius =
+        const localRadius=
             p.radius*
             formation;
 
 
-        const angle =
+        const angle=
             p.angle+
             rotation+
-            radius*.0022;
+            localRadius*.002;
 
 
-        const x =
+        const wobble=
+            Math.sin(
+                p.phase+
+                time*.2
+            )*
+            p.wobble;
+
+
+        const x=
             cx+
-            Math.cos(angle)*
-            radius;
+            Math.cos(
+                angle+wobble
+            )*
+            localRadius;
 
 
-        const y =
+        const y=
             cy+
-            Math.sin(angle)*
-            radius*
+            Math.sin(
+                angle+wobble
+            )*
+            localRadius*
             tilt;
 
 
-        ctx.beginPath();
+        let color;
 
 
-        if (
-            p.depth>.55
-        ) {
+        if(
+            p.depth<.4
+        ){
 
-            ctx.fillStyle =
-                `rgba(
-                    205,
-                    65,
-                    215,
-                    ${p.alpha*formation}
-                )`;
-
-        }
-
-        else {
-
-            ctx.fillStyle =
+            color=
                 `rgba(
                     65,
-                    100,
+                    90,
                     220,
                     ${p.alpha*formation}
                 )`;
 
         }
 
+        else if(
+            p.depth<.75
+        ){
+
+            color=
+                `rgba(
+                    150,
+                    75,
+                    225,
+                    ${p.alpha*formation}
+                )`;
+
+        }
+
+        else{
+
+            color=
+                `rgba(
+                    235,
+                    75,
+                    195,
+                    ${p.alpha*formation}
+                )`;
+
+        }
+
+
+        ctx.beginPath();
+
+        ctx.fillStyle=
+            color;
 
         ctx.arc(
             x,
@@ -2168,63 +2195,116 @@ function drawGalaxy(time) {
             Math.PI*2
         );
 
-
         ctx.fill();
 
     }
 
 
-    /* =================================================
-       ESTRELLAS DE LOS BRAZOS
-    ================================================= */
+    /* ================================================
+       ESTRELLAS
+    ================================================ */
 
-    for (
+    for(
         const star of galaxyStars
-    ) {
+    ){
 
-        star.phase +=
+        star.phase+=
             star.speed;
 
 
-        const radius =
+        const radius=
             star.radius*
             formation;
 
 
-        const angle =
-            star.angle+
-            rotation+
-            radius*.0023;
+        /*
+         * Diferentes partes de la galaxia
+         * giran a velocidades ligeramente
+         * diferentes.
+         */
 
-
-        const x =
-            cx+
-            Math.cos(angle)*
-            radius;
-
-
-        const y =
-            cy+
-            Math.sin(angle)*
-            radius*
-            tilt;
-
-
-        const depth =
-            star.depth;
-
-
-        const size =
-            star.size*
+        const differential=
+            time*
             (
-                .45+
-                depth*1.6
+                .006+
+                star.normalizedRadius*.007
             );
 
 
-        const alpha =
+        const armFlow=
+            star.angle+
+            rotation+
+            differential;
+
+
+        /*
+         * Irregularidad natural.
+         */
+
+        const wobble=
+            Math.sin(
+                star.wobblePhase+
+                time*
+                (
+                    .3+
+                    star.normalizedRadius
+                )
+            )*
+            star.wobble*
+            radius;
+
+
+        const x=
+            cx+
+            Math.cos(
+                armFlow
+            )*
+            radius+
+            Math.cos(
+                armFlow+
+                Math.PI/2
+            )*
+            wobble;
+
+
+        const y=
+            cy+
+            Math.sin(
+                armFlow
+            )*
+            radius*
+            tilt+
+            Math.sin(
+                armFlow+
+                Math.PI/2
+            )*
+            wobble*
+            tilt;
+
+
+        const depth=
+            star.depth;
+
+
+        const size=
+            star.size*
+            (
+                .5+
+                depth*1.5
+            );
+
+
+        const pulse=
+            .75+
+            Math.sin(
+                star.phase
+            )*.25;
+
+
+        const alpha=
             star.brightness*
-            formation;
+            formation*
+            pulse;
 
 
         let r;
@@ -2232,40 +2312,44 @@ function drawGalaxy(time) {
         let b;
 
 
-        if (
-            depth<.32
-        ) {
+        /*
+         * Azul → violeta → magenta
+         */
 
-            r=100;
-            g=130;
+        if(
+            depth<.30
+        ){
+
+            r=95;
+            g=135;
             b=255;
 
         }
 
-        else if (
-            depth<.60
-        ) {
+        else if(
+            depth<.58
+        ){
 
-            r=175;
+            r=155;
             g=105;
-            b=245;
+            b=250;
 
         }
 
-        else if (
+        else if(
             depth<.82
-        ) {
+        ){
 
-            r=245;
+            r=235;
             g=105;
-            b=220;
+            b=225;
 
         }
 
-        else {
+        else{
 
             r=255;
-            g=205;
+            g=210;
             b=245;
 
         }
@@ -2273,8 +2357,7 @@ function drawGalaxy(time) {
 
         ctx.beginPath();
 
-
-        ctx.fillStyle =
+        ctx.fillStyle=
             `rgba(
                 ${r},
                 ${g},
@@ -2283,17 +2366,17 @@ function drawGalaxy(time) {
             )`;
 
 
-        if (
-            depth>.84 &&
-            star.brightness>.7
-        ) {
+        if(
+            depth>.86 &&
+            star.brightness>.75
+        ){
 
-            ctx.shadowBlur =
+            ctx.shadowBlur=
                 4+
                 depth*5;
 
-            ctx.shadowColor =
-                "#ff70d0";
+            ctx.shadowColor=
+                "#ff75d5";
 
         }
 
@@ -2315,11 +2398,15 @@ function drawGalaxy(time) {
     }
 
 
-    /* =================================================
-       NÚCLEO
-    ================================================= */
+    /* ================================================
+       NÚCLEO GALÁCTICO
+    ================================================ */
 
-    const core =
+    const coreRadius=
+        Math.min(W,H)*.34;
+
+
+    const core=
         ctx.createRadialGradient(
 
             cx,
@@ -2328,7 +2415,7 @@ function drawGalaxy(time) {
 
             cx,
             cy,
-            Math.min(W,H)*.34
+            coreRadius
 
         );
 
@@ -2339,39 +2426,39 @@ function drawGalaxy(time) {
             255,
             250,
             255,
-            ${.42*formation}
+            ${.46*formation}
         )`
     );
 
 
     core.addColorStop(
-        .05,
+        .035,
         `rgba(
             255,
-            210,
-            245,
-            ${.30*formation}
+            220,
+            250,
+            ${.34*formation}
         )`
     );
 
 
     core.addColorStop(
-        .13,
+        .12,
         `rgba(
             255,
-            100,
-            215,
-            ${.16*formation}
+            120,
+            225,
+            ${.17*formation}
         )`
     );
 
 
     core.addColorStop(
-        .28,
+        .30,
         `rgba(
             150,
-            55,
-            220,
+            70,
+            230,
             ${.07*formation}
         )`
     );
@@ -2383,7 +2470,7 @@ function drawGalaxy(time) {
     );
 
 
-    ctx.fillStyle =
+    ctx.fillStyle=
         core;
 
 
@@ -2401,26 +2488,26 @@ function drawGalaxy(time) {
    ESTRELLAS FUGACES
 ===================================================== */
 
-function drawShootingStars() {
+function drawShootingStars(){
 
-    if (!started) {
+    if(!started){
         return;
     }
 
 
-    for (
+    for(
         let i=0;
         i<shootingStars.length;
         i++
-    ) {
+    ){
 
-        const s =
+        const s=
             shootingStars[i];
 
 
-        if (
+        if(
             s.delay>0
-        ) {
+        ){
 
             s.delay-=.016;
 
@@ -2429,26 +2516,26 @@ function drawShootingStars() {
         }
 
 
-        s.x +=
+        s.x+=
             s.speed;
 
 
-        s.y +=
+        s.y+=
             s.speed*.32;
 
 
-        s.alpha -=
+        s.alpha-=
             .008;
 
 
         let color;
 
 
-        if (
+        if(
             s.hue<.33
-        ) {
+        ){
 
-            color =
+            color=
                 `rgba(
                     100,
                     170,
@@ -2458,11 +2545,11 @@ function drawShootingStars() {
 
         }
 
-        else if (
+        else if(
             s.hue<.66
-        ) {
+        ){
 
-            color =
+            color=
                 `rgba(
                     220,
                     100,
@@ -2472,9 +2559,9 @@ function drawShootingStars() {
 
         }
 
-        else {
+        else{
 
-            color =
+            color=
                 `rgba(
                     255,
                     110,
@@ -2485,7 +2572,7 @@ function drawShootingStars() {
         }
 
 
-        const trail =
+        const trail=
             ctx.createLinearGradient(
 
                 s.x,
@@ -2522,7 +2609,7 @@ function drawShootingStars() {
 
         ctx.beginPath();
 
-        ctx.strokeStyle =
+        ctx.strokeStyle=
             trail;
 
         ctx.lineWidth=1.5;
@@ -2542,7 +2629,7 @@ function drawShootingStars() {
 
         ctx.beginPath();
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             `rgba(
                 255,
                 250,
@@ -2567,13 +2654,13 @@ function drawShootingStars() {
         ctx.shadowBlur=0;
 
 
-        if (
+        if(
             s.alpha<=0 ||
             s.x>W+250 ||
             s.y>H+200
-        ) {
+        ){
 
-            shootingStars[i] =
+            shootingStars[i]=
                 createShootingStar(false);
 
         }
@@ -2584,12 +2671,12 @@ function drawShootingStars() {
 
 
 /* =====================================================
-   ESTRELLA DE FRASES
+   ESTRELLA DE FRASE
 ===================================================== */
 
-function createPhraseStar() {
+function createPhraseStar(){
 
-    return {
+    return{
 
         progress:0,
 
@@ -2618,23 +2705,21 @@ function createPhraseStar() {
 }
 
 
-function drawPhraseStar() {
+function drawPhraseStar(){
 
-    if (
+    if(
         !phraseStar ||
         !phraseStar.active
-    ) {
-
+    ){
         return;
-
     }
 
 
-    const s =
+    const s=
         phraseStar;
 
 
-    const p =
+    const p=
         clamp(
             s.progress,
             0,
@@ -2642,11 +2727,11 @@ function drawPhraseStar() {
         );
 
 
-    const eased =
-        easeOutCubic(p);
+    const eased=
+        easeOut(p);
 
 
-    const x =
+    const x=
         s.startX+
         (
             s.endX-
@@ -2655,7 +2740,7 @@ function drawPhraseStar() {
         eased;
 
 
-    const y =
+    const y=
         s.startY+
         (
             s.endY-
@@ -2664,49 +2749,46 @@ function drawPhraseStar() {
         eased;
 
 
-    const dx =
+    const dx=
         s.endX-
         s.startX;
 
 
-    const dy =
+    const dy=
         s.endY-
         s.startY;
 
 
-    const distance =
+    const distance=
         Math.hypot(
             dx,
             dy
         )||1;
 
 
-    const ux =
+    const ux=
         dx/distance;
 
 
-    const uy =
+    const uy=
         dy/distance;
 
 
-    const length =
-        Math.min(
-            W,
-            H
-        )*.25;
+    const length=
+        Math.min(W,H)*.25;
 
 
-    const tailX =
+    const tailX=
         x-
         ux*length;
 
 
-    const tailY =
+    const tailY=
         y-
         uy*length;
 
 
-    const trail =
+    const trail=
         ctx.createLinearGradient(
 
             tailX,
@@ -2770,7 +2852,7 @@ function drawPhraseStar() {
 
     ctx.beginPath();
 
-    ctx.strokeStyle =
+    ctx.strokeStyle=
         trail;
 
     ctx.lineWidth=2.5;
@@ -2790,7 +2872,7 @@ function drawPhraseStar() {
 
     ctx.beginPath();
 
-    ctx.fillStyle =
+    ctx.fillStyle=
         `rgba(
             255,
             245,
@@ -2818,243 +2900,211 @@ function drawPhraseStar() {
 
 
 /* =====================================================
-   ❤️ PREPARAR TRANSFORMACIÓN
+   CREAR MAPA DEL CORAZÓN
 ===================================================== */
 
-function createHeartParticles() {
+function heartPoint(
+    t,
+    fill,
+    scale,
+    cx,
+    cy
+){
 
-    heartParticles = [];
+    /*
+     * Fórmula clásica del corazón.
+     */
+
+    const hx=
+        16*
+        Math.pow(
+            Math.sin(t),
+            3
+        );
 
 
-    const cx =
+    const hy=
+        -(
+            13*Math.cos(t)
+            -
+            5*Math.cos(2*t)
+            -
+            2*Math.cos(3*t)
+            -
+            Math.cos(4*t)
+        );
+
+
+    return{
+
+        x:
+            cx+
+            hx*
+            scale*
+            fill,
+
+        y:
+            cy+
+            hy*
+            scale*
+            fill
+
+    };
+
+}
+
+
+/* =====================================================
+   PREPARAR CORAZÓN
+===================================================== */
+
+function createHeartParticles(){
+
+    heartParticles=[];
+
+
+    const cx=
         W*.5;
 
 
-    const cy =
+    const cy=
         H*.46;
 
 
-    /*
-     * Corazón un poco más grande
-     * y mucho más lleno.
-     */
-
-    const scale =
-        Math.min(W,H) *
+    const scale=
+        Math.min(W,H)*
         (
             W<600
-                ? .0215
-                : .028
+                ? .022
+                : .029
         );
 
 
     /*
-     * TODAS las estrellas de la galaxia
-     * se reutilizan.
+     * MUY IMPORTANTE:
+     *
+     * no creamos estrellas nuevas.
+     *
+     * Las mismas galaxyStars son
+     * reutilizadas.
      */
 
-    const source =
-        galaxyStars;
-
-
-    const total =
-        source.length;
-
-
-    /*
-     * Guardamos la posición EXACTA
-     * de cada estrella al comenzar
-     * la transformación.
-     */
-
-    const rotation =
-        heartStart*.012;
-
-
-    for (
+    for(
         let i=0;
-        i<total;
+        i<galaxyStars.length;
         i++
-    ) {
+    ){
 
-        const star =
-            source[i];
+        const star=
+            galaxyStars[i];
 
 
-        const radius =
+        /*
+         * Posición exacta de la estrella
+         * en la galaxia justo antes
+         * de comenzar la transformación.
+         */
+
+        const rotation=
+            heartStart*.009;
+
+
+        const radius=
             star.radius;
 
 
-        const angle =
+        const angle=
             star.angle+
             rotation+
-            radius*.0023;
+            radius*.002;
 
 
-        const galaxyX =
+        const galaxyX=
             cx+
             Math.cos(angle)*
             radius;
 
 
-        const galaxyY =
+        const galaxyY=
             cy+
             Math.sin(angle)*
             radius*
             (
                 W<600
                     ? .34
-                    : .29
+                    : .30
             );
 
 
         /*
-         * Cada estrella conserva
-         * su pertenencia a uno de los
-         * cuatro brazos.
+         * El índice conserva el orden
+         * de distribución de la galaxia.
          */
 
-        const arm =
-            star.arm;
-
-
-        const armProgress =
-            star.armPosition;
+        const normalized=
+            i/
+            galaxyStars.length;
 
 
         /*
-         * En lugar de repartir estrellas
-         * aleatoriamente, cada brazo
-         * alimenta una zona específica
-         * del corazón.
+         * Distribución del corazón.
          *
-         * Esto hace que SE VEA la
-         * transformación de los brazos.
+         * Se usa un relleno muy denso.
          */
 
-        const armAngle =
-            (
-                arm/
-                4
-            ) *
+        const t=
+            normalized*
             Math.PI*2;
 
 
         /*
-         * Parámetro del corazón.
+         * Variación para evitar que
+         * parezca una figura matemática.
          */
 
-        const t =
-            (
-                i/
-                total
-            ) *
-            Math.PI*2;
-
-
-        const hx =
-            16*
-            Math.pow(
-                Math.sin(t),
-                3
-            );
-
-
-        const hy =
-            -(
-                13*Math.cos(t) -
-                5*Math.cos(2*t) -
-                2*Math.cos(3*t) -
-                Math.cos(4*t)
-            );
-
-
-        /*
-         * Mucho relleno interior.
-         *
-         * Los puntos cercanos al centro
-         * son tan importantes como
-         * los del contorno.
-         */
-
-        const fill =
+        const fill=
             Math.pow(
                 Math.random(),
-                .43
+                .42
+            );
+
+
+        const point=
+            heartPoint(
+                t,
+                fill,
+                scale,
+                cx,
+                cy
             );
 
 
         /*
-         * Pequeña variación radial para
-         * evitar una textura demasiado
-         * artificial.
+         * Pequeña irregularidad.
          */
 
-        const variation =
-            1+
+        const jitter=
+            Math.min(W,H)*
+            .0035;
+
+
+        const targetX=
+            point.x+
             random(
-                -.035,
-                .035
+                -jitter,
+                jitter
             );
 
 
-        let targetX =
-            cx+
-            hx*
-            scale*
-            fill*
-            variation;
-
-
-        let targetY =
-            cy+
-            hy*
-            scale*
-            fill*
-            variation;
-
-
-        /*
-         * Los brazos exteriores tienen
-         * un pequeño sesgo dependiendo
-         * de su brazo original.
-         *
-         * Esto conserva la sensación
-         * de que los brazos están
-         * entrando al corazón.
-         */
-
-        const armInfluence =
-            Math.pow(
-                armProgress,
-                .65
+        const targetY=
+            point.y+
+            random(
+                -jitter,
+                jitter
             );
-
-
-        targetX +=
-            Math.cos(
-                armAngle
-            )*
-            armInfluence*
-            Math.min(W,H)*
-            .008;
-
-
-        targetY +=
-            Math.sin(
-                armAngle
-            )*
-            armInfluence*
-            Math.min(W,H)*
-            .006;
 
 
         heartParticles.push({
-
-            /*
-             * ORIGEN:
-             * estrella real de la galaxia.
-             */
 
             x:
                 galaxyX,
@@ -3062,65 +3112,39 @@ function createHeartParticles() {
             y:
                 galaxyY,
 
-
-            /*
-             * DESTINO:
-             * corazón.
-             */
-
             targetX,
 
             targetY,
-
-
-            /*
-             * Propiedades originales.
-             */
 
             size:
                 star.size*
                 (
                     .72+
-                    star.depth*1.05
+                    star.depth*.9
                 ),
-
 
             brightness:
                 star.brightness,
 
-
             depth:
                 star.depth,
-
 
             phase:
                 star.phase,
 
-
-            hue:
-                star.depth,
-
-
-            arm,
-
-
-            armProgress,
-
-            /*
-             * Los brazos exteriores
-             * empiezan ligeramente antes.
-             */
-
             delay:
-                (
-                    1-
-                    armProgress
-                )*
-                .13+
                 random(
                     0,
-                    .12
-                )
+                    .13
+                ),
+
+            radius,
+
+            normalizedRadius:
+                star.normalizedRadius,
+
+            originalAngle:
+                angle
 
         });
 
@@ -3130,92 +3154,64 @@ function createHeartParticles() {
 
 
 /* =====================================================
-   ❤️ DIBUJAR TRANSFORMACIÓN
+   ❤️ TRANSFORMACIÓN GALAXIA → CORAZÓN
 ===================================================== */
 
-function drawHeart(time) {
+function drawHeart(time){
 
-    if (!formingHeart) {
+    if(!formingHeart){
         return;
     }
 
 
-    /*
-     * 0 → 5.8 segundos:
-     * galaxia se transforma.
-     *
-     * 5.8 → adelante:
-     * corazón completo.
-     */
-
-    const transformDuration =
-        5.8;
-
-
-    const elapsed =
+    const elapsed=
         time-
         heartStart;
 
 
-    const heartFormation =
+    /*
+     * TRANSFORMACIÓN LARGA.
+     *
+     * Esto evita el efecto de
+     * "desaparece y aparece".
+     */
+
+    const duration=7.2;
+
+
+    const raw=
         clamp(
-            elapsed/
-            transformDuration,
+            elapsed/duration,
             0,
             1
         );
 
 
+    const progress=
+        easeInOut(raw);
+
+
+    const cx=
+        W*.5;
+
+
+    const cy=
+        H*.46;
+
+
     /*
-     * Curva suave.
+     * Cada estrella sigue teniendo
+     * memoria de dónde estaba.
      */
 
-    const eased =
-        easeInOut(
-            heartFormation
-        );
-
-
-    /*
-     * El corazón ya terminado
-     * respira muy suavemente.
-     */
-
-    let pulse = 1;
-
-
-    if (
-        heartFormation>=1
-    ) {
-
-        pulse =
-            1+
-            Math.sin(
-                elapsed*2.15
-            )*
-            .025;
-
-    }
-
-
-    /* =================================================
-       ESTRELLAS
-    ================================================= */
-
-    for (
+    for(
         const p of heartParticles
-    ) {
+    ){
 
-        /*
-         * Las estrellas de cada brazo
-         * comienzan su movimiento desde
-         * su propia posición.
-         */
-
-        const local =
+        const local=
             clamp(
                 (
-                    eased-
+                    progress-
                     p.delay
                 )/
                 (
@@ -3227,151 +3223,184 @@ function drawHeart(time) {
             );
 
 
-        /*
-         * Movimiento suave pero con
-         * sensación de corriente.
-         */
-
-        const armWave =
-            Math.sin(
-                local*
-                Math.PI
-            );
-
-
-        const e =
-            easeInOut(
-                local
-            );
+        const e=
+            easeInOut(local);
 
 
         /*
-         * Durante la transformación,
-         * cada brazo se curva antes de
-         * entrar al corazón.
+         * =================================================
+         * PRIMERA ETAPA:
+         *
+         * la galaxia se contrae.
+         * =================================================
          */
 
-        const curveStrength =
-            (
-                1-e
-            )*
-            armWave;
+        const contraction=
+            Math.pow(
+                e,
+                1.18
+            );
 
 
-        const dx =
+        /*
+         * =================================================
+         * SEGUNDA ETAPA:
+         *
+         * las trayectorias se curvan.
+         * =================================================
+         */
+
+        const dx=
             p.targetX-
             p.x;
 
 
-        const dy =
+        const dy=
             p.targetY-
             p.y;
 
 
-        /*
-         * Curvatura perpendicular
-         * al movimiento.
-         */
-
-        const distance =
+        const distance=
             Math.hypot(
                 dx,
                 dy
             )||1;
 
 
-        const nx =
+        const nx=
             -dy/distance;
 
 
-        const ny =
+        const ny=
             dx/distance;
 
 
         /*
-         * Cada brazo gira ligeramente
-         * hacia el centro.
+         * La curvatura es más fuerte
+         * en la parte media.
          */
 
-        const curve =
-            curveStrength*
+        const curve=
+            Math.sin(
+                local*Math.PI
+            )*
             Math.min(W,H)*
-            .065;
+            .055*
+            (
+                .3+
+                p.normalizedRadius*.7
+            );
 
 
-        let x =
+        /*
+         * Movimiento principal.
+         */
+
+        let x=
             p.x+
-            dx*e+
+            dx*contraction+
             nx*curve;
 
 
-        let y =
+        let y=
             p.y+
-            dy*e+
+            dy*contraction+
             ny*curve;
 
 
         /*
-         * Cuando ya está formado,
-         * usamos el destino exacto.
+         * Al final nos aseguramos de
+         * aterrizar exactamente en el
+         * corazón.
          */
 
-        if (
-            heartFormation>=1
-        ) {
+        if(
+            local>.94
+        ){
 
-            x =
-                p.targetX;
+            const snap=
+                (
+                    local-.94
+                )/.06;
 
-            y =
-                p.targetY;
+
+            const snapEase=
+                easeOut(
+                    snap
+                );
+
+
+            x=
+                x+
+                (
+                    p.targetX-
+                    x
+                )*
+                snapEase;
+
+
+            y=
+                y+
+                (
+                    p.targetY-
+                    y
+                )*
+                snapEase;
 
         }
 
 
         /*
-         * Pulso del corazón.
+         * =================================================
+         * CORAZÓN TERMINADO
+         * =================================================
          */
 
-        const centerX =
-            W*.5;
+        let pulse=1;
 
 
-        const centerY =
-            H*.46;
+        if(
+            raw>=1
+        ){
+
+            pulse=
+                1+
+                Math.sin(
+                    elapsed*2.15
+                )*
+                .022;
 
 
-        if (
-            heartFormation>=1
-        ) {
-
-            x =
-                centerX+
+            x=
+                cx+
                 (
-                    x-centerX
+                    x-cx
                 )*
                 pulse;
 
 
-            y =
-                centerY+
+            y=
+                cy+
                 (
-                    y-centerY
+                    y-cy
                 )*
                 pulse;
 
         }
 
 
-        p.phase += .018;
+        /*
+         * Brillo vivo.
+         */
+
+        p.phase+=.018;
 
 
-        const sparkle =
-            .72+
+        const sparkle=
+            .78+
             Math.sin(
                 p.phase
-            )*
-            .28;
+            )*.22;
 
 
         let r;
@@ -3380,33 +3409,33 @@ function drawHeart(time) {
 
 
         /*
-         * Conservamos la paleta
-         * de la galaxia.
+         * Conservamos los colores
+         * originales de la galaxia.
          */
 
-        if (
-            p.depth<.32
-        ) {
+        if(
+            p.depth<.30
+        ){
 
             r=95;
-            g=135;
+            g=140;
             b=255;
 
         }
 
-        else if (
-            p.depth<.60
-        ) {
+        else if(
+            p.depth<.58
+        ){
 
-            r=175;
-            g=100;
-            b=245;
+            r=165;
+            g=105;
+            b=250;
 
         }
 
-        else if (
+        else if(
             p.depth<.82
-        ) {
+        ){
 
             r=245;
             g=105;
@@ -3414,49 +3443,41 @@ function drawHeart(time) {
 
         }
 
-        else {
+        else{
 
             r=255;
-            g=205;
+            g=210;
             b=245;
 
         }
 
 
-        /*
-         * Durante la transformación
-         * la estrella se vuelve un poco
-         * más brillante al acercarse
-         * al corazón.
-         */
-
-        const alpha =
+        const alpha=
             (
-                .65+
-                p.brightness*.35
-            )*
-            (
-                .72+
-                e*.28
+                .66+
+                p.brightness*.34
             )*
             sparkle;
 
 
-        const size =
+        /*
+         * Las estrellas se vuelven
+         * un poquito más densas
+         * visualmente al final.
+         */
+
+        const size=
             p.size*
             (
                 1+
-                e*.16
+                e*.18
             );
-
-
-        ctx.save();
 
 
         ctx.beginPath();
 
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             `rgba(
                 ${r},
                 ${g},
@@ -3465,22 +3486,17 @@ function drawHeart(time) {
             )`;
 
 
-        /*
-         * El glow solo aparece en estrellas
-         * que ya existen.
-         */
-
-        ctx.shadowBlur =
+        ctx.shadowBlur=
             2+
-            e*7;
+            e*6;
 
 
-        ctx.shadowColor =
+        ctx.shadowColor=
             `rgba(
                 255,
-                100,
+                105,
                 220,
-                ${.3+e*.45}
+                ${.25+e*.45}
             )`;
 
 
@@ -3496,45 +3512,39 @@ function drawHeart(time) {
         ctx.fill();
 
 
-        ctx.restore();
+        ctx.shadowBlur=0;
 
     }
 
 
     /* =================================================
-       BRILLO DEL CORAZÓN
+       HALO FINAL
     ================================================= */
 
-    if (
-        heartFormation>.55
-    ) {
+    if(
+        raw>.65
+    ){
 
-        const glowProgress =
+        const halo=
             clamp(
                 (
-                    heartFormation-
-                    .55
-                )/.45,
+                    raw-.65
+                )/.35,
                 0,
                 1
             );
 
 
-        const alpha =
-            .035+
-            glowProgress*.055;
-
-
-        const glow =
+        const glow=
             ctx.createRadialGradient(
 
-                W*.5,
-                H*.46,
+                cx,
+                cy,
                 0,
 
-                W*.5,
-                H*.46,
-                Math.min(W,H)*.36
+                cx,
+                cy,
+                Math.min(W,H)*.38
 
             );
 
@@ -3545,7 +3555,7 @@ function drawHeart(time) {
                 255,
                 80,
                 215,
-                ${alpha}
+                ${.035+halo*.045}
             )`
         );
 
@@ -3556,7 +3566,7 @@ function drawHeart(time) {
                 170,
                 70,
                 255,
-                ${alpha*.5}
+                ${.025+halo*.025}
             )`
         );
 
@@ -3567,7 +3577,7 @@ function drawHeart(time) {
         );
 
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             glow;
 
 
@@ -3582,87 +3592,61 @@ function drawHeart(time) {
 
 
     /* =================================================
-       TEXTO FINAL
+       TE AMO MUCHOTE
     ================================================= */
 
-    if (
-        elapsed>=5.1
-    ) {
+    if(
+        elapsed>5.9
+    ){
 
-        const textProgress =
+        const fade=
             clamp(
                 (
                     elapsed-
-                    5.1
+                    5.9
                 )/
-                .9,
+                1.1,
                 0,
                 1
             );
 
 
-        const textFade =
-            easeInOut(
-                textProgress
-            );
-
-
-        const breathing =
-            heartFormation>=1
-
-                ? Math.sin(
-                    elapsed*1.8
-                )*
-                1.2
-
-                : 0;
-
-
         ctx.save();
 
 
-        ctx.globalAlpha =
-            textFade;
+        ctx.globalAlpha=
+            easeInOut(fade);
 
 
-        ctx.textAlign =
+        ctx.textAlign=
             "center";
 
-
-        ctx.textBaseline =
+        ctx.textBaseline=
             "middle";
 
 
-        /*
-         * El texto está debajo
-         * del corazón.
-         */
-
-        const firstY =
-            H*.72+
-            breathing;
+        const y=
+            H*.72;
 
 
-        ctx.font =
+        ctx.font=
             '500 20px "Segoe UI", sans-serif';
 
 
-        ctx.shadowBlur =
-            24;
+        ctx.shadowBlur=25;
+
+        ctx.shadowColor=
+            "rgba(255,75,205,.9)";
 
 
-        ctx.shadowColor =
-            "rgba(255,75,205,.85)";
-
-
-        ctx.fillStyle =
+        ctx.fillStyle=
             "rgba(255,238,250,.97)";
 
 
         ctx.fillText(
             "TE AMO MUCHOTE",
             W*.5,
-            firstY
+            y
         );
 
 
@@ -3675,76 +3659,54 @@ function drawHeart(time) {
        FELICES 3 MESES
     ================================================= */
 
-    if (
-        elapsed>=5.75
-    ) {
+    if(
+        elapsed>6.45
+    ){
 
-        const progress =
+        const fade=
             clamp(
                 (
                     elapsed-
-                    5.75
+                    6.45
                 )/
-                .8,
+                1.0,
                 0,
                 1
             );
 
 
-        const fade =
-            easeInOut(
-                progress
-            );
-
-
-        const breathing =
-            heartFormation>=1
-
-                ? Math.sin(
-                    elapsed*1.8
-                )*
-                1.2
-
-                : 0;
-
-
         ctx.save();
 
 
-        ctx.globalAlpha =
-            fade;
+        ctx.globalAlpha=
+            easeInOut(fade);
 
 
-        ctx.textAlign =
+        ctx.textAlign=
             "center";
 
-
-        ctx.textBaseline =
+        ctx.textBaseline=
             "middle";
 
 
-        ctx.font =
+        ctx.font=
             '400 14px "Segoe UI", sans-serif';
 
 
-        ctx.shadowBlur =
-            17;
+        ctx.shadowBlur=17;
 
-
-        ctx.shadowColor =
+        ctx.shadowColor=
             "rgba(210,100,255,.75)";
 
 
-        ctx.fillStyle =
+        ctx.fillStyle=
             "rgba(255,220,245,.94)";
 
 
         ctx.fillText(
             "FELICES 3 MESES",
             W*.5,
-            H*.72+
-            30+
-            breathing
+            H*.72+30
         );
 
 
@@ -3756,12 +3718,12 @@ function drawHeart(time) {
 
 
 /* =====================================================
-   MOSTRAR FRASE
+   FRASES
 ===================================================== */
 
-function showPhrase(text) {
+function showPhrase(text){
 
-    message.innerHTML = `
+    message.innerHTML=`
 
         <div class="text">
             “${text}”
@@ -3777,7 +3739,7 @@ function showPhrase(text) {
 }
 
 
-function hidePhrase() {
+function hidePhrase(){
 
     message.classList.remove(
         "show"
@@ -3786,18 +3748,12 @@ function hidePhrase() {
 }
 
 
-/* =====================================================
-   SECUENCIA
-===================================================== */
+function startPhrases(){
 
-function startPhrases() {
-
-    if (
+    if(
         phraseRunning
-    ) {
-
+    ){
         return;
-
     }
 
 
@@ -3814,11 +3770,11 @@ function startPhrases() {
 }
 
 
-function launchNextPhrase() {
+function launchNextPhrase(){
 
-    if (
+    if(
         phraseIndex>=phrases.length
-    ) {
+    ){
 
         finishPhrases();
 
@@ -3830,31 +3786,29 @@ function launchNextPhrase() {
     hidePhrase();
 
 
-    phraseStar =
+    phraseStar=
         createPhraseStar();
 
 
-    const star =
+    const star=
         phraseStar;
 
 
-    const beginning =
+    const beginning=
         performance.now();
 
 
-    function animateStar(now) {
+    function animatePhrase(now){
 
-        if (
+        if(
             !phraseStar ||
             phraseStar!==star
-        ) {
-
+        ){
             return;
-
         }
 
 
-        star.progress =
+        star.progress=
             (
                 now-
                 beginning
@@ -3862,26 +3816,26 @@ function launchNextPhrase() {
             star.duration;
 
 
-        if (
+        if(
             star.progress<.15
-        ) {
+        ){
 
-            star.alpha =
+            star.alpha=
                 star.progress/.15;
 
         }
 
-        else if (
+        else if(
             star.progress<.78
-        ) {
+        ){
 
             star.alpha=1;
 
         }
 
-        else {
+        else{
 
-            star.alpha =
+            star.alpha=
                 1-
                 (
                     star.progress-.78
@@ -3890,10 +3844,10 @@ function launchNextPhrase() {
         }
 
 
-        if (
+        if(
             star.progress>=.60 &&
             !star.revealed
-        ) {
+        ){
 
             star.revealed=true;
 
@@ -3907,23 +3861,23 @@ function launchNextPhrase() {
         }
 
 
-        if (
+        if(
             star.progress<1
-        ) {
+        ){
 
             requestAnimationFrame(
-                animateStar
+                animatePhrase
             );
 
         }
 
-        else {
+        else{
 
             star.active=false;
 
 
             setTimeout(
-                () => {
+                ()=>{
 
                     hidePhrase();
 
@@ -3946,17 +3900,17 @@ function launchNextPhrase() {
 
 
     requestAnimationFrame(
-        animateStar
+        animatePhrase
     );
 
 }
 
 
 /* =====================================================
-   FINAL DE FRASES
+   FINAL
 ===================================================== */
 
-function finishPhrases() {
+function finishPhrases(){
 
     phraseRunning=false;
 
@@ -3965,98 +3919,83 @@ function finishPhrases() {
     hidePhrase();
 
 
+    /*
+     * Dejamos que la última frase
+     * desaparezca antes de tocar
+     * la galaxia.
+     */
+
     setTimeout(
-        () => {
+        ()=>{
 
             /*
-             * El momento exacto en que
-             * los brazos comienzan a
-             * transformarse.
+             * IMPORTANTE:
+             * se toma el tiempo exacto
+             * de transformación.
              */
 
-            heartStart =
+            heartStart=
                 performance.now()*
                 .001;
 
 
             /*
-             * Guardamos las estrellas
-             * ACTUALES de la galaxia.
+             * Guardamos las mismas estrellas
+             * que estaban formando la galaxia.
              */
 
             createHeartParticles();
 
 
             /*
-             * Activamos la transformación.
+             * Ahora la galaxia comienza
+             * a convertirse en corazón.
              */
 
             formingHeart=true;
 
         },
-        1200
+        1300
     );
 
 }
 
 
 /* =====================================================
-   ANIMACIÓN PRINCIPAL
+   LOOP PRINCIPAL
 ===================================================== */
 
-function animate(timestamp) {
+function animate(timestamp){
 
-    const time =
+    const time=
         timestamp*.001;
 
 
-    cameraX +=
+    cameraX+=
         (
             targetX-
             cameraX
         )*.025;
 
 
-    cameraY +=
+    cameraY+=
         (
             targetY-
             cameraY
         )*.025;
 
 
-    drawBackground(
-        time
-    );
+    drawBackground();
 
+    drawStars();
 
-    drawStars(
-        time
-    );
-
-
-    /*
-     * Antes del corazón:
-     * galaxia normal.
-     *
-     * Durante el corazón:
-     * las mismas estrellas
-     * forman la nueva figura.
-     */
-
-    drawGalaxy(
-        time
-    );
-
+    drawGalaxy(time);
 
     drawShootingStars();
 
-
     drawPhraseStar();
 
-
-    drawHeart(
-        time
-    );
+    drawHeart(time);
 
 
     requestAnimationFrame(
@@ -4072,21 +4011,19 @@ function animate(timestamp) {
 
 enter.addEventListener(
     "click",
-    async () => {
+    async()=>{
 
-        if (
+        if(
             started
-        ) {
-
+        ){
             return;
-
         }
 
 
         started=true;
 
 
-        startTime =
+        startTime=
             performance.now()*
             .001;
 
@@ -4094,16 +4031,16 @@ enter.addEventListener(
         music.volume=.55;
 
 
-        try {
+        try{
 
             await music.play();
 
         }
 
-        catch(error) {
+        catch(error){
 
             console.log(
-                "El navegador bloqueó el audio."
+                "Audio bloqueado por el navegador."
             );
 
         }
@@ -4119,6 +4056,11 @@ enter.addEventListener(
         );
 
 
+        /*
+         * La galaxia aparece antes
+         * de comenzar las frases.
+         */
+
         setTimeout(
             startPhrases,
             6000
@@ -4129,20 +4071,20 @@ enter.addEventListener(
 
 
 /* =====================================================
-   CONTROL DE MÚSICA
+   MÚSICA
 ===================================================== */
 
 musicControl.addEventListener(
     "click",
-    () => {
+    ()=>{
 
-        if (
+        if(
             music.paused
-        ) {
+        ){
 
             music.play()
                 .then(
-                    () => {
+                    ()=>{
 
                         musicControl
                             .classList
@@ -4151,18 +4093,18 @@ musicControl.addEventListener(
                             );
 
                         musicControl
-                            .textContent =
+                            .textContent=
                             "❚❚";
 
                     }
                 )
                 .catch(
-                    () => {}
+                    ()=>{}
                 );
 
         }
 
-        else {
+        else{
 
             music.pause();
 
@@ -4175,7 +4117,7 @@ musicControl.addEventListener(
 
 
             musicControl
-                .textContent =
+                .textContent=
                 "♫";
 
         }
@@ -4186,7 +4128,7 @@ musicControl.addEventListener(
 
 music.addEventListener(
     "play",
-    () => {
+    ()=>{
 
         musicControl
             .classList
@@ -4195,7 +4137,7 @@ music.addEventListener(
             );
 
         musicControl
-            .textContent =
+            .textContent=
             "❚❚";
 
     }
@@ -4204,7 +4146,7 @@ music.addEventListener(
 
 music.addEventListener(
     "pause",
-    () => {
+    ()=>{
 
         musicControl
             .classList
@@ -4213,7 +4155,7 @@ music.addEventListener(
             );
 
         musicControl
-            .textContent =
+            .textContent=
             "♫";
 
     }
@@ -4226,19 +4168,17 @@ music.addEventListener(
 
 window.addEventListener(
     "pointermove",
-    event => {
+    event=>{
 
-        if (
-            event.pointerType ===
+        if(
+            event.pointerType===
             "touch"
-        ) {
-
+        ){
             return;
-
         }
 
 
-        targetX =
+        targetX=
             (
                 event.clientX-
                 W/2
@@ -4248,7 +4188,7 @@ window.addEventListener(
             );
 
 
-        targetY =
+        targetY=
             (
                 event.clientY-
                 H/2
@@ -4266,22 +4206,20 @@ window.addEventListener(
 
 window.addEventListener(
     "touchmove",
-    event => {
+    event=>{
 
-        if (
+        if(
             !event.touches.length
-        ) {
-
+        ){
             return;
-
         }
 
 
-        const touch =
+        const touch=
             event.touches[0];
 
 
-        targetX =
+        targetX=
             (
                 touch.clientX-
                 W/2
@@ -4291,7 +4229,7 @@ window.addEventListener(
             );
 
 
-        targetY =
+        targetY=
             (
                 touch.clientY-
                 H/2
@@ -4313,19 +4251,17 @@ window.addEventListener(
 
 window.addEventListener(
     "deviceorientation",
-    event => {
+    event=>{
 
-        if (
+        if(
             event.gamma===null ||
             event.beta===null
-        ) {
-
+        ){
             return;
-
         }
 
 
-        targetX =
+        targetX=
             clamp(
                 event.gamma/30,
                 -1,
@@ -4333,7 +4269,7 @@ window.addEventListener(
             );
 
 
-        targetY =
+        targetY=
             clamp(
                 event.beta/45,
                 -1,
@@ -4348,7 +4284,7 @@ window.addEventListener(
 
 
 /* =====================================================
-   INICIAR
+   INICIO
 ===================================================== */
 
 resize();
@@ -4360,4 +4296,5 @@ requestAnimationFrame(
 </script>
 
 </body>
+
 </html>
