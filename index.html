@@ -1342,114 +1342,6 @@ const phrases=[
     "Y si existe otro universo, también te elegiría en él."
 
 ]
-
-
-/* =====================================================
-   UTILIDADES
-===================================================== */
-
-function random(min,max){
-
-    return Math.random()*
-        (max-min)+min;
-
-}
-
-
-function clamp(v,min,max){
-
-    return Math.max(
-        min,
-        Math.min(max,v)
-    );
-
-}
-
-
-function easeInOut(t){
-
-    return t<.5
-
-        ? 2*t*t
-
-        : 1-
-          Math.pow(
-              -2*t+2,
-              2
-          )/2;
-
-}
-
-
-function easeOut(t){
-
-    return 1-
-        Math.pow(
-            1-t,
-            3
-        );
-
-}
-
-
-/* =====================================================
-   RESIZE
-===================================================== */
-
-function resize(){
-
-    W=window.innerWidth;
-
-    H=window.innerHeight;
-
-    DPR=Math.min(
-        window.devicePixelRatio||1,
-        2
-    );
-
-
-    canvas.width=
-        W*DPR;
-
-    canvas.height=
-        H*DPR;
-
-
-    canvas.style.width=
-        W+"px";
-
-    canvas.style.height=
-        H+"px";
-
-
-    ctx.setTransform(
-        DPR,
-        0,
-        0,
-        DPR,
-        0,
-        0
-    );
-
-
-    createUniverse();
-
-}
-
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* =====================================================
-   CREAR UNIVERSO
-===================================================== */
-
-function createUniverse(){
-
-    stars=[];
     galaxyStars=[];
     dust=[];
     shootingStars=[];
@@ -1559,18 +1451,25 @@ function createUniverse(){
 
         const irregular=
             random(
-                -.30,
-                .30
+                -.48,
+                .48
             )*
             (
-                .25+
-                n*.75
+                .18+
+                n*.82
             );
+
+        const organicWave=
+            Math.sin(
+                radius*.017+
+                i*.013
+            )*.075;
 
 
         const angle=
             spiral+
             irregular+
+            organicWave+
             random(
                 0,
                 Math.PI*2
@@ -3062,10 +2961,8 @@ function createHeartParticles(){
                 star.phase,
 
             delay:
-                random(
-                    0,
-                    .13
-                ),
+                .035+
+                star.normalizedRadius*.035,
 
             radius,
 
@@ -3105,7 +3002,7 @@ function drawHeart(time){
      * "desaparece y aparece".
      */
 
-    const duration=7.2;
+    const duration=8.4;
 
 
     const raw=
@@ -3244,20 +3141,13 @@ function drawHeart(time){
          */
 
         if(
-            local>.94
+            local>.82
         ){
 
-            const snap=
-                (
-                    local-.94
-                )/.06;
-
-
-            const snapEase=
-                easeOut(
-                    snap
+            const settle=
+                easeInOut(
+                    (local-.82)/.18
                 );
-
 
             x=
                 x+
@@ -3265,8 +3155,7 @@ function drawHeart(time){
                     p.targetX-
                     x
                 )*
-                snapEase;
-
+                settle*.62;
 
             y=
                 y+
@@ -3274,7 +3163,7 @@ function drawHeart(time){
                     p.targetY-
                     y
                 )*
-                snapEase;
+                settle*.62;
 
         }
 
@@ -3596,7 +3485,7 @@ function drawHeart(time){
             loveGradient;
 
         ctx.fillText(
-            "TE AMO MUCHOTE",
+            "Te Amo Muchote",
             W*.5,
             y
         );
@@ -3679,7 +3568,7 @@ function drawHeart(time){
             monthsGradient;
 
         ctx.fillText(
-            "FELICES 3 MESES",
+            "Felices 3 meses",
             W*.5,
             H*.72+30
         );
