@@ -1342,114 +1342,6 @@ const phrases=[
     "Y si existe otro universo, también te elegiría en él."
 
 ]
-
-
-/* =====================================================
-   UTILIDADES
-===================================================== */
-
-function random(min,max){
-
-    return Math.random()*
-        (max-min)+min;
-
-}
-
-
-function clamp(v,min,max){
-
-    return Math.max(
-        min,
-        Math.min(max,v)
-    );
-
-}
-
-
-function easeInOut(t){
-
-    return t<.5
-
-        ? 2*t*t
-
-        : 1-
-          Math.pow(
-              -2*t+2,
-              2
-          )/2;
-
-}
-
-
-function easeOut(t){
-
-    return 1-
-        Math.pow(
-            1-t,
-            3
-        );
-
-}
-
-
-/* =====================================================
-   RESIZE
-===================================================== */
-
-function resize(){
-
-    W=window.innerWidth;
-
-    H=window.innerHeight;
-
-    DPR=Math.min(
-        window.devicePixelRatio||1,
-        2
-    );
-
-
-    canvas.width=
-        W*DPR;
-
-    canvas.height=
-        H*DPR;
-
-
-    canvas.style.width=
-        W+"px";
-
-    canvas.style.height=
-        H+"px";
-
-
-    ctx.setTransform(
-        DPR,
-        0,
-        0,
-        DPR,
-        0,
-        0
-    );
-
-
-    createUniverse();
-
-}
-
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* =====================================================
-   CREAR UNIVERSO
-===================================================== */
-
-function createUniverse(){
-
-    stars=[];
     galaxyStars=[];
     dust=[];
     shootingStars=[];
@@ -1559,18 +1451,25 @@ function createUniverse(){
 
         const irregular=
             random(
-                -.30,
-                .30
+                -.48,
+                .48
             )*
             (
-                .25+
-                n*.75
+                .18+
+                n*.82
             );
+
+        const organicWave=
+            Math.sin(
+                radius*.017+
+                i*.013
+            )*.075;
 
 
         const angle=
             spiral+
             irregular+
+            organicWave+
             random(
                 0,
                 Math.PI*2
@@ -2891,196 +2790,100 @@ function createHeartParticles(){
 
     heartParticles=[];
 
-
-    const cx=
-        W*.5;
-
-
-    const cy=
-        H*.46;
-
+    const cx=W*.5;
+    const cy=H*.46;
 
     const scale=
         Math.min(W,H)*
-        (
-            W<600
-                ? .022
-                : .029
-        );
+        (W<600?.022:.029);
 
+    for(let i=0;i<galaxyStars.length;i++){
 
-    /*
-     * MUY IMPORTANTE:
-     *
-     * no creamos estrellas nuevas.
-     *
-     * Las mismas galaxyStars son
-     * reutilizadas.
-     */
+        const star=galaxyStars[i];
 
-    for(
-        let i=0;
-        i<galaxyStars.length;
-        i++
-    ){
-
-        const star=
-            galaxyStars[i];
-
-
-        /*
-         * Posición exacta de la estrella
-         * en la galaxia justo antes
-         * de comenzar la transformación.
-         */
-
-        const rotation=
-            heartStart*.009;
-
-
-        const radius=
-            star.radius;
-
+        const radius=star.radius;
 
         const angle=
             star.angle+
-            rotation+
             radius*.002;
-
 
         const galaxyX=
             cx+
-            Math.cos(angle)*
-            radius;
-
+            Math.cos(angle)*radius;
 
         const galaxyY=
             cy+
             Math.sin(angle)*
             radius*
-            (
-                W<600
-                    ? .34
-                    : .30
-            );
-
-
-        /*
-         * El índice conserva el orden
-         * de distribución de la galaxia.
-         */
+            (W<600?.34:.30);
 
         const normalized=
-            i/
-            galaxyStars.length;
-
-
-        /*
-         * Distribución del corazón.
-         *
-         * Se usa un relleno muy denso.
-         */
+            i/(galaxyStars.length-1);
 
         const t=
-            normalized*
-            Math.PI*2;
-
+            normalized*Math.PI*2;
 
         /*
-         * Variación para evitar que
-         * parezca una figura matemática.
+         * Relleno estable: no cambia de lugar
+         * en cada ejecución del corazón.
          */
-
         const fill=
-            Math.pow(
-                Math.random(),
-                .42
+            .45+
+            .55*
+            (
+                .5+
+                .5*Math.sin(
+                    i*12.9898+
+                    star.phase
+                )
             );
-
 
         const point=
             heartPoint(
                 t,
-                fill,
+                Math.pow(fill,.42),
                 scale,
                 cx,
                 cy
             );
 
-
-        /*
-         * Pequeña irregularidad.
-         */
-
-        const jitter=
-            Math.min(W,H)*
-            .0035;
-
-
-        const targetX=
-            point.x+
-            random(
-                -jitter,
-                jitter
-            );
-
-
-        const targetY=
-            point.y+
-            random(
-                -jitter,
-                jitter
-            );
-
-
         heartParticles.push({
 
-            x:
-                galaxyX,
+            x:galaxyX,
+            y:galaxyY,
 
-            y:
-                galaxyY,
-
-            targetX,
-
-            targetY,
+            targetX:point.x,
+            targetY:point.y,
 
             size:
                 star.size*
-                (
-                    .72+
-                    star.depth*.9
-                ),
+                (.72+star.depth*.9),
 
-            brightness:
-                star.brightness,
+            brightness:star.brightness,
+            depth:star.depth,
 
-            depth:
-                star.depth,
-
-            phase:
-                star.phase,
+            phase:star.phase,
 
             delay:
-                random(
-                    0,
-                    .13
-                ),
+                .02+
+                star.normalizedRadius*.04,
 
             radius,
 
             normalizedRadius:
                 star.normalizedRadius,
 
-            originalAngle:
-                angle
+            originalAngle:angle,
 
+            color:
+                star.color || [
+                    235,
+                    240,
+                    255
+                ]
         });
-
     }
-
 }
-
 
 /* =====================================================
    ❤️ TRANSFORMACIÓN GALAXIA → CORAZÓN
@@ -3088,18 +2891,15 @@ function createHeartParticles(){
 
 function drawHeart(time){
 
-    if(!formingHeart){
-        return;
-    }
+    if(!formingHeart) return;
 
-    const elapsed=
-        time-heartStart;
+    const elapsed=time-heartStart;
 
     /*
-     * Corazón de la versión nueva:
-     * las mismas partículas de la galaxia se contraen,
-     * curvan y aterrizan suavemente en una silueta
-     * densa de corazón.
+     * NUEVO CORAZÓN:
+     * las partículas que ya existen en la galaxia
+     * se curvan, se acercan y terminan formando
+     * una silueta llena y luminosa.
      */
     const duration=8.7;
 
@@ -3120,24 +2920,13 @@ function drawHeart(time){
 
         const local=
             clamp(
-                (
-                    progress-
-                    p.delay
-                )/
+                (progress-p.delay)/
                 (1-p.delay),
                 0,
                 1
             );
 
-        const e=
-            easeInOut(local);
-
-        /*
-         * Primero se acerca al centro y luego
-         * empieza a definirse el corazón.
-         */
-        const contraction=
-            Math.pow(e,1.10);
+        const e=easeInOut(local);
 
         const dx=
             p.targetX-p.x;
@@ -3152,9 +2941,8 @@ function drawHeart(time){
         const ny=dx/distance;
 
         /*
-         * Movimiento orbital suave:
-         * evita el efecto de "teletransportarse"
-         * directamente al corazón.
+         * La galaxia hace un movimiento orbital
+         * antes de acomodarse.
          */
         const envelope=
             Math.sin(e*Math.PI);
@@ -3162,37 +2950,36 @@ function drawHeart(time){
         const curve=
             envelope*
             Math.min(W,H)*
-            .032*
-            (
-                .42+
-                p.depth*.58
-            )*
-            p.flow;
+            .034*
+            (.45+p.depth*.55);
 
         const swirl=
             Math.sin(
-                p.angle+
+                p.originalAngle+
                 e*Math.PI*.72
             )*
             Math.min(W,H)*
-            .010*
+            .012*
             (1-e);
+
+        const contraction=
+            Math.pow(e,1.08);
 
         let x=
             p.x+
             dx*contraction+
             nx*curve+
-            Math.cos(p.angle)*swirl;
+            Math.cos(p.originalAngle)*swirl;
 
         let y=
             p.y+
             dy*contraction+
             ny*curve+
-            Math.sin(p.angle)*swirl;
+            Math.sin(p.originalAngle)*swirl;
 
         /*
-         * Aterrizaje final progresivo.
-         * No hay "snap".
+         * Último 20%: aterrizaje suave.
+         * No aparece de golpe.
          */
         if(e>.80){
 
@@ -3202,26 +2989,22 @@ function drawHeart(time){
                 );
 
             x+=
-                (
-                    p.targetX-x
-                )*
-                settle*.58;
+                (p.targetX-x)*
+                settle*.62;
 
             y+=
-                (
-                    p.targetY-y
-                )*
-                settle*.58;
+                (p.targetY-y)*
+                settle*.62;
         }
 
         /*
-         * Pulso mínimo cuando ya está formado.
+         * Pulso muy ligero del corazón terminado.
          */
         if(raw>=1){
 
             const pulse=
                 1+
-                Math.sin(elapsed*2.0)*
+                Math.sin(elapsed*2)*
                 .018;
 
             x=
@@ -3240,10 +3023,7 @@ function drawHeart(time){
             Math.sin(p.phase)*.20;
 
         const alpha=
-            (
-                .62+
-                p.brightness*.38
-            )*
+            (.62+p.brightness*.38)*
             sparkle;
 
         ctx.beginPath();
@@ -3265,14 +3045,13 @@ function drawHeart(time){
                 255,
                 105,
                 220,
-                ${.20+e*.38}
+                ${.20+e*.40}
             )`;
 
         ctx.arc(
             x,
             y,
-            p.size*
-            (1+e*.15),
+            p.size*(1+e*.16),
             0,
             Math.PI*2
         );
@@ -3283,8 +3062,8 @@ function drawHeart(time){
     }
 
     /*
-     * Halo muy suave mientras el corazón termina
-     * de cerrarse.
+     * Halo suave cuando el corazón ya empieza
+     * a definirse.
      */
     if(raw>.58){
 
@@ -3331,17 +3110,13 @@ function drawHeart(time){
         );
 
         ctx.fillStyle=glow;
-
-        ctx.fillRect(
-            0,
-            0,
-            W,
-            H
-        );
+        ctx.fillRect(0,0,W,H);
     }
 
     /*
-     * TEXTO FINAL
+     * ================================
+     * TE AMO MUCHOTE
+     * ================================
      */
     if(elapsed>6.45){
 
@@ -3395,6 +3170,11 @@ function drawHeart(time){
         ctx.restore();
     }
 
+    /*
+     * ================================
+     * FELICES 3 MESES
+     * ================================
+     */
     if(elapsed>7.02){
 
         const fade=
